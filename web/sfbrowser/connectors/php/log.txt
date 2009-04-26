@@ -1,0 +1,9 @@
+6-1-2009 00:16		ip:10.0.0.4		a:chi()		POST:[a:chi,folder:../data/,]		POST:[]		POST:[]		error:		
+26-4-2009 21:30		ip:10.0.0.4		a:mizu(../../../data/Config.xml)		POST:[a:mizu,folder:../data/,file:Config.xml,]		POST:[]		POST:[]		error:		
+26-4-2009 21:30		ip:10.0.0.4		a:chi()		POST:[a:chi,folder:../data/,]		POST:[]		POST:[]		error:		
+26-4-2009 21:31		ip:10.0.0.4		a:mizu(../../../data/HelloEarth.pl)		POST:[a:mizu,folder:../data/,file:HelloEarth.pl,]		POST:[]		POST:[]		error:		
+26-4-2009 21:31		ip:10.0.0.4		a:chi()		POST:[a:chi,folder:../data/,]		POST:[]		POST:[]		error:		
+26-4-2009 21:33		ip:10.0.0.4		a:chi()		POST:[a:chi,folder:../data/,]		POST:[]		POST:[]		error:		
+26-4-2009 21:34		ip:10.0.0.4		a:chi()		POST:[a:chi,folder:../data/,]		POST:[]		POST:[]		error:		
+26-4-2009 21:34		ip:10.0.0.4		a:mizu(../../../data/Config.xml)		POST:[a:mizu,folder:../data/,file:Config.xml,]		POST:[]		POST:[]		error:		
+26-4-2009 21:34		ip:10.0.0.4		a:mizu(../../../data/DumbEmail.eml)		POST:[a:mizu,folder:../data/,file:DumbEmail.eml,]		POST:[]		POST:[]		error:		

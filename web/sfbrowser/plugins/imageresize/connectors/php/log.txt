@@ -1,0 +1,1 @@
+2-1-2009 12:04		ip:		a:bar(../../../../../data/ImageFolder/blue/Lorenz_blue_copy0.jpg)		POST:[a:bar,folder:../data/ImageFolder/blue/,file:Lorenz_blue_copy0.jpg,w:605,h:454,cx:128,cy:51,cw:420,ch:315,]		POST:[]		POST:[]		error:		

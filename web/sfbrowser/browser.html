@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl">
+	<head>
+		<title>SFBrowser</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/sfbrowser.css" />
+	</head>
+	<body>
+		<div id="sfbrowser">
+			<div id="fbbg"></div>
+			<div id="fbwin">
+				<div id="winbrowser">
+					<div class="sfbheader">
+						<h3>SFBrowser</h3>
+						<div id="loadbar">
+							<div></div>
+							<span>Loading</span>
+						</div>
+						<ul id="sfbtopmenu">
+							<li><a class="textbutton newfolder" title="New folder"><span>New folder</span></a></li>
+							<li>
+								<form id="fileio" name="form" action="" method="post" enctype="multipart/form-data">
+									<input id="fileToUpload" type="file" size="1" name="fileToUpload" class="input" />
+								</form>
+								<a class="textbutton upload" title="Upload"><span>Upload</span></a>
+							</li>
+							<li><a class="sfbbutton cancelfb" title="Cancel">&nbsp;<span>Cancel</span></a></li>
+						</ul>
+					</div>
+					<div class="fbcontent">
+						<div id="fbtable">
+							<table id="filesDetails" cellpadding="0" cellspacing="0">
+								<thead>
+									<tr>
+										<th class="file">Name</th>
+										<th class="type">Type</th>
+										<th class="size">Size</th>
+										<th class="date">Date</th>
+										<th class="dim">Dimensions</th>
+										<th class="buttons"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="loading" colspan="6"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div id="fbpreview"></div>
+						<div class="sfbbutton choose">Choose</div>
+						<div class="sfbbutton cancelfb">Cancel</div>
+					</div>
+				</div>
+				<div id="sfbfooter">Copyright (c) 2008 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
+				<div id="resizer">&nbsp;</div>
+			</div>
+			<ul id="sfbcontext"></ul>
+		</div>
+	</body>
+</html>

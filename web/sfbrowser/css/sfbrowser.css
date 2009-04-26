@@ -1,0 +1,417 @@
+body, html {
+	margin: 0px;
+	height: 100%;
+}
+/* black layer */
+#sfbrowser * {
+	font-family: arial, sans, verdana;
+	font-size: 12px !important;
+	line-height: 26px;
+}
+#sfbrowser {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+}
+	#sfbrowser a {
+		text-decoration: none;
+	}
+#sfbrowser div#fbbg {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	opacity: .5;
+	filter: alpha(opacity=50);
+	color: #fff;
+	display: none;
+}
+/* window */
+#sfbrowser div#fbwin {
+	position: absolute;
+	width: 600px;
+	border: 2px outset #888;
+	background: #D5D5D5 url(sfbg.jpg) 0px 0px repeat-x;
+	overflow: hidden;
+	display: none;
+}
+	/* header */
+	#sfbrowser .sfbheader {
+		position: relative;
+		padding: 3px 10px 3px 10px;
+		background: #ccc url(butbg.png) 0px 24px;
+	}
+		#sfbrowser h3 {
+			margin: 0px;
+			line-height: 20px;
+			background: url(logo.png) 0px 3px no-repeat;
+			padding-left: 19px;
+			cursor: move;
+		}
+		#sfbrowser #loadbar {
+			display: none;
+			position: absolute;
+			top: 9px;
+			left: 130px;
+			width: 300px;
+			height: 16px;
+			border: 1px inset #888;
+		}
+			#sfbrowser #loadbar div {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 300px;
+				height: 16px;
+				background: transparent url(progress.png) 0px 0px;
+			}
+			#sfbrowser #loadbar span {
+				position: absolute;
+				width: 300px;
+				height: 16px;
+				line-height: 14px;
+				text-align: center;
+				font-weight: bold;
+			}
+
+		/* top menu */
+		#sfbrowser #sfbtopmenu {
+			position: absolute;
+			top: 0px;
+			right: 8px;
+			text-align: right;
+			list-style: none;
+			margin: 0px;
+			padding: 0px;
+		}
+		#sfbrowser #fbwin #sfbtopmenu li {
+			position: relative;
+			display: inline;
+		}
+
+			/* form */
+			#sfbrowser form#fileio {
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				margin-top: 2px;
+				opacity: 0;
+				filter: alpha(opacity=0);
+				cursor: hand;
+				cursor: pointer;
+				overflow: hidden;
+				z-index: 100;
+			}
+			#sfbrowser form#fileio input {
+				display: block;
+				font-size: 5px;
+				cursor: pointer;
+				cursor: hand;
+			}
+		
+	/* anchor buttons */
+	#sfbrowser a.sfbbutton, #sfbrowser a.textbutton {
+		background: transparent no-repeat 0px 0px;
+		cursor: hand;
+		cursor: pointer;
+		padding: 0px 0px 0px 16px;
+		border: 0px;
+		float: none !important;
+	}
+	#sfbrowser a.sfbbutton:hover, #sfbrowser a.textbutton:hover {
+		background-position: 1px 1px;
+	}
+	#sfbrowser a.textbutton span {
+		margin: 0px 5px 1px 4px;
+		font-size: 11px;
+		line-height: 18px;
+		text-decoration: none;
+		color: #000;
+	}
+	#sfbrowser a.sfbbutton span {
+		display: none;
+	}
+	#sfbrowser a.cancelfb {		background-image: url("close.gif");}
+	#sfbrowser a.upload {		background-image: url("upload.gif");}
+	#sfbrowser a.filedelete {	background-image: url("delete.gif");}
+	#sfbrowser a.preview {		background-image: url("preview.gif");}
+	#sfbrowser a.choose {		background-image: url("file_select.gif");}
+	#sfbrowser a.rename {		background-image: url("rename.gif");}
+	#sfbrowser a.newfolder {	background-image: url("folder_new.gif");}
+	#sfbrowser a.duplicate {	background-image: url("files.gif");}
+
+	/* table anchor buttons */
+	#sfbrowser #fbwin table a.sfbbutton {
+		padding-bottom:2px;
+	}
+
+	/* big buttons */
+	#sfbrowser div.sfbbutton {
+		position: absolute;
+		right: 10px;
+		width: 100px;
+		border-width: 1px;
+		border-style: outset;
+		padding: 5px 2px 5px 2px;
+		background: #eee url(butbg.png);
+		color: #444;
+		font-weight: bold;
+		text-align: center;
+		font-size: 12px;
+		line-height: 12px;
+		cursor: hand;
+		cursor: pointer;
+	}
+	#sfbrowser div.sfbbutton:hover {
+		border-style: inset;
+		padding: 6px 1px 4px 3px;
+		background-position: 0px -2px;
+		color: #000;
+	}
+	#sfbrowser div.choose {
+		bottom: 60px;
+	}
+	#sfbrowser div.cancelfb {
+		bottom: 30px;
+	}
+
+	/* content */
+	#sfbrowser .fbcontent {
+		padding: 0px 10px 0px 10px;
+	}
+
+	/* sfbrowser table */
+	#sfbrowser div#fbtable {
+		height: 226px;
+		/*height: 60%;*/
+		overflow: auto;/* auto hidden */
+		/*overflow-y: hidden;*/
+		/*overflow-x: hidden;*/
+		border: 2px solid #888;
+		border-color: #888 #fff #fff #888;
+		background-color: #fff;
+
+	}
+	#sfbrowser table {
+		/*height: 226px;
+		height: 100%;*/
+		width: 100%;
+		border: 0px;
+		overflow: hidden;
+	}
+		/*#sfbrowser tbody, #sfbrowser thead {
+			width: 340px;
+		}
+		#sfbrowser thead {
+		}
+			#sfbrowser thead tr	{
+			}*/
+				#sfbrowser thead th {
+					height: 12px !important; 
+					font-family: verdana;
+					text-align: left;
+					border-width: 1px;
+					border-style: solid;
+					border-color: #fff #888 #888 #fff;
+					background: #ddd url(butbg.png) 0px 4px;
+					color: #444;
+					font-size: 10px;
+					line-height: 10px;
+					font-weight: normal;
+					padding: 0px 0px 0px 2px;
+					cursor: hand;
+					cursor: pointer;
+				}
+				#sfbrowser thead th:hover {
+					border-color: #eee #666 #666 #eee;
+					background-position: 0px 2px;
+					color: #000;
+				}
+				#sfbrowser thead th span {
+					padding: 0px 5px 0px 10px;
+					background: url(ascdesc.gif) -9px 0px no-repeat;
+				}
+		#sfbrowser table>tbody {
+			/*height: 198px;
+			height: 2%;*/
+			
+			height: 198px;
+			overflow: auto; 
+			overflow-x: hidden;			
+		}
+			#sfbrowser table tbody tr {
+				height: 26px !important;
+				cursor: hand;
+				cursor: pointer;
+				white-space: nowrap;
+			}
+			/*#sfbrowser table thead tr th {
+				overflow: hidden;
+			}
+			#sfbrowser table thead tr th.type {
+				width: 24px;
+				overflow: hidden;
+			}
+			#sfbrowser table thead tr th.size {
+				width: 24px;
+				overflow: hidden;
+			}
+			#sfbrowser table thead tr th.buttons {
+				width: 54px;
+				overflow: hidden;
+			}*/
+			#sfbrowser table tbody tr.over {
+				background-color: #def;
+			}
+			#sfbrowser table tbody tr.selected {
+				background-color: #adf;
+			}
+				#sfbrowser table tbody tr td {
+					vertical-align: top;/*baseline;*/
+					border-right: 1px solid #def;
+				}
+				/*#sfbrowser table tbody tr td div {
+					width: 90%;
+					overflow: hidden;
+				}*/
+				#sfbrowser td.loading {
+					height: 194px;
+					background: url(loadingb.gif) center center no-repeat;
+				}
+				#sfbrowser tr td:last-child {
+					padding-right: 20px;
+					text-align:right;
+				}
+				#sfbrowser td.icon {
+					padding-left: 20px;
+					background-repeat: no-repeat;
+					background-position: 1px 4px;
+				}
+					#sfbrowser td input {
+						border: 1px solid #64A5D3;
+						margin: 4px -22px 0px 0px;
+						padding: 0px;
+						line-height: 14px;
+						width: 90%;
+					}
+
+/* preview */
+#sfbrowser div#fbpreview {
+	position: relative;
+	width: 192px;
+	height: 144px;
+	overflow: hidden;
+	margin: 10px 0px 10px 0px;
+	padding: 0px;
+	border: 2px inset #888;
+	border-color: #888 #fff #fff #888;
+	background: #eee url(fbpreview.gif);
+	text-align: center;
+}
+#sfbrowser div#fbpreview.auto {
+	overflow: auto;
+}
+	#sfbrowser div#fbpreview img {
+		width: 192px;
+		height: 144px;
+		margin: 0px;
+		padding: 0px;
+		cursor: hand;
+		cursor: pointer;
+	}
+	#sfbrowser div#fbpreview.auto img {
+		width: auto;
+		height: auto;
+	}
+	#sfbrowser div#fbpreview pre {
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		font-family: "Courier New", Courier, monospace, verdana, arial;
+		background-color: #fff;
+		text-align: left;
+		font-size: 11px;
+		line-height: 13px;
+		overflow: auto;
+	}
+	#sfbrowser div#fbpreview pre div {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		text-align: center;
+		background-color: #ffa;
+		font-size: 11px;
+		line-height: 13px;
+	}
+
+/* footer */
+#sfbrowser div#sfbfooter {
+	position: absolute;
+	bottom: -6px;
+	left: 10px;
+	font-size: 7px !important; 
+	line-height: 7px !important; 
+	color: #aaa;
+}
+	#sfbrowser div#sfbfooter * {
+		font-size: 7px !important; 
+	}
+#sfbrowser div#sfbfooter a {
+	text-decoration: none;
+	font-size: 7px; 
+	color: #aaa;
+}
+
+/* context menu */
+#sfbrowser ul#sfbcontext {
+	display: none;
+	list-style: none;
+	position: fixed;
+	top: 200px;
+	left: 200px;
+	margin: 0px;
+	padding: 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #fff #888 #888 #fff;
+	background-color: #eee;
+}
+#sfbrowser ul#sfbcontext li {
+	margin: 0px;
+	padding: 0px 4px 0px 2px;
+	background: url(butbg.png);
+	height: 20px;
+}
+#sfbrowser ul#sfbcontext li:hover {
+	background-position: 0px 20px;
+	padding: 0px 3px 0px 3px;
+}
+#sfbrowser ul#sfbcontext li a {
+}
+#sfbrowser ul#sfbcontext li:hover a span {
+	padding: 1px 2px 0px 4px;
+}
+#sfbrowser ul#sfbcontext li a, ul#sfbcontext li a span {
+	display: block;
+	line-height: 20px;
+}
+#sfbrowser ul#sfbcontext li a span {
+	padding: 0px 3px 1px 3px;
+}
+
+/* resizer */
+div#resizer {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 16px;
+	height: 16px;
+	background: transparent url(resizer.gif) 3px 3px no-repeat;
+	cursor: move;
+}
