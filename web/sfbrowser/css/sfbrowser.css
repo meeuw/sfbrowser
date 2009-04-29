@@ -212,7 +212,7 @@ body, html {
 			#sfbrowser thead tr	{
 			}*/
 				#sfbrowser thead th {
-					height: 12px !important; 
+					height: 26px !important;
 					font-family: verdana;
 					text-align: left;
 					border-width: 1px;

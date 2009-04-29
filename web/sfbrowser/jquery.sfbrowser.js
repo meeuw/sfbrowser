@@ -53,10 +53,9 @@
 *	- Spanish translation: Juan Razeto
 *
 * todo:
-*	- remove array prototype
-*	- fix: Opera sucks
-*	- revise: keyboard shortcuts
-*	- revise: 'fixed' property: not very nescesary
+*	- add: highlight current selection on open
+*	- revise: keyboard shortcuts (select on first char)
+*	- revise: 'fixed' property: not very nescesary (since fixed should be default true on inline)
 *	- add: style option: new or custom css files
 *	- code: check what timeout code in upload code really does
 *	- add: image preview: no-scaling on smaller images
@@ -65,7 +64,7 @@
 *   - new: make preview an option
 *   - new: general filetype filter
 *   - new: folder information such as number of files (possibly add to filetree)
-*   - IE: fix IE and Safari scrolling (table header moves probably due to absolute positioning of parents)
+*   - IE: fix IE and Safari scrolling (table header moves probably due to absolute positioning of parents), or simply don't do xhtml (make two tables)
 *	- IE: fix multiple file selection
 *	- FF: multiple file selection: disable table cell highlighting (border)
 *   - new: add mime instead of extension (for mac)
@@ -76,6 +75,9 @@
 *   - maybe: copy used functions (copy, unique and indexof) from array.js
 *	- maybe: thumbnail view
 *	- fix: since resizing is possible abbreviating long filenames does not cut it (...)
+*	x remove array prototype
+*		- commented all but .unique and .copy for later implementation (trial run)
+*	- fix: Opera sucks (or let Opera fix itself)
 *
 * in this update:
 *	- added: audio and video preview
@@ -181,7 +183,6 @@
 			iBrH = $(window).height();
 			aSort = [];
 			bHasImgs = oSettings.allow.length===0||oSettings.img.copy().concat(oSettings.allow).unique().length<(oSettings.allow.length+oSettings.img.length);
-			trace("aPath "+" "+aPath);
 			aPath = [];
 			sFolder = oSettings.base+oSettings.folder;
 			bOverlay = oSettings.inline=="body";
@@ -311,10 +312,37 @@
 			oSettings.keys = [];
 			$(window).keydown(function(e){
 				oSettings.keys[e.keyCode] = true;
-				//trace("key: "+e.keyCode+" ")
-					switch (e.keyCode) {
-						case 13: chooseFile(); break;
-					}
+				// selection by char a:65 z:90
+				if (e.keyCode>=65&&e.keyCode<=90) {
+					var sChar = ("abcdefghijklmnopqrstuvwxyz").substr(e.keyCode-65,1);
+// $$ use tableBody for traversing
+//					mTbB.find("tr").each(function(i,el){
+////						getPath().contents[obj.file]
+//						trace("ai "+i+" "+el);
+//					});
+					var iSel = 1;
+					var aSelected = mTbB.find("tr.selected");
+					var aMaySel = new Array();
+					if (aSelected.length!=0) iSel = 0;
+					$.each(getPath().contents,function(i,o){
+						if (o.file.substr(0,1).toLowerCase()==sChar) {
+							aMaySel.push(o);
+							if (iSel==1) {
+								o.tr.addClass("selected").siblings().removeClass("selected");
+								location.hash = o.file; // $$ causes shift in FF
+								iSel = 2;
+							}
+						}
+						if (o.tr.get(0)==aSelected[0]) {
+							iSel = 1;
+						}
+					});
+					if (iSel==1&&aMaySel.length>0) aMaySel[0].tr.addClass("selected").siblings().removeClass("selected");
+				}
+				// single key functions
+				switch (e.keyCode) {
+					case 13: chooseFile(); break;
+				}
 				// CTRL functions
 				if (oSettings.keys[17]) {
 					var bReturn = false;
@@ -513,7 +541,7 @@
 		}
 		// preview image
 		$("#fbpreview").html("");
-		if (oSettings.img.indexOf(oFile.mime)!=-1) {
+		if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
 			var sFuri = oSettings.sfbpath+aPath.join("")+sFile; // todo: cleanup img path
 			$("<img src=\""+sFuri+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
 		} else if (oSettings.ascii.indexOf(oFile.mime)!=-1) {// preview ascii
