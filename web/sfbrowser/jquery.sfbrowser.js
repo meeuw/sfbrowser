@@ -1,7 +1,7 @@
 /*
 * jQuery SFBrowser
 *
-* Version: 3.0.1
+* Version: 3.0.2
 *
 * Copyright (c) 2008 Ron Valstar http://www.sjeiti.com/
 *
@@ -28,7 +28,7 @@
 *   - file duplication
 *   - file download
 *   - file/folder context menu
-*   - file preview (image and text/ascii)
+*   - file preview (image, audio, video and text/ascii)
 *	- folder creation
 *   - multiple files selection (not in IE for now)
 *	- inline or overlay window
@@ -54,29 +54,33 @@
 *
 * todo:
 *	- add: highlight current selection on open
-*	- revise: keyboard shortcuts (select on first char)
-*	- revise: 'fixed' property: not very nescesary (since fixed should be default true on inline)
-*	- add: style option: new or custom css files
-*	- code: check what timeout code in upload code really does
-*	- add: image preview: no-scaling on smaller images
-*	- add: make text selection in table into multiple file selection
-*	- add: make "j-n-Y H:i" for files variable
-*   - new: make preview an option
-*   - new: general filetype filter
-*   - new: folder information such as number of files (possibly add to filetree)
-*   - IE: fix IE and Safari scrolling (table header moves probably due to absolute positioning of parents), or simply don't do xhtml (make two tables)
-*	- IE: fix multiple file selection
-*	- FF: multiple file selection: disable table cell highlighting (border)
-*   - new: add mime instead of extension (for mac)
-*	- add: show zip and rar file contents in preview
-*	- add: drag and drop files to folders
-*   - new: create ascii file
-*   - new: edit ascii file (plugin (fck?))
-*   - maybe: copy used functions (copy, unique and indexof) from array.js
-*	- maybe: thumbnail view
-*	- fix: since resizing is possible abbreviating long filenames does not cut it (...)
 *	x remove array prototype
 *		- commented all but .unique and .copy for later implementation (trial run)
+*		- maybe: copy used functions (copy, unique and indexof) from array.js
+*	o table
+*		- possibly replace table for http://code.google.com/p/flexigrid/, or do it yourself and fix the scrolling, structure follows function
+*		- FF: multiple file selection: disable table cell highlighting (border)
+*		- IE: fix multiple file selection
+*		- IE: fix IE and Safari scrolling (table header moves probably due to absolute positioning of parents), or simply don't do xhtml (make two tables)
+*		- add: drag and drop files to folders
+*		- maybe: thumbnail view
+*		- fix: since resizing is possible abbreviating long filenames does not cut it (...)
+*	- correct error handling (opposed to the current silent json break php fail)
+*	- revise: keyboard shortcuts (select on first char)
+*	- revise: 'fixed' property: not very nescesary (since fixed should be default true on inline)
+*	- add: make "j-n-Y H:i" for files variable
+*   - new: general filetype filter
+*	- add: style option: new or custom css files
+*	- code: check what timeout code in upload code really does
+*	- add: make text selection in table into multiple file selection
+*	o preview
+*		- new: make preview an option
+*		- add: image preview: no-scaling on smaller images
+*		- add: show zip and rar file contents in preview
+*   - new: folder information such as number of files (possibly add to filetree)
+*   - new: add mime instead of extension (for mac)
+*   - new: create ascii file
+*   - new: edit ascii file (plugin)
 *	- fix: Opera sucks (or let Opera fix itself)
 *
 * in this update:
@@ -112,7 +116,7 @@
 	// default settings
 	$.sfbrowser = {
 		 id: "SFBrowser"
-		,version: "3.0.1"
+		,version: "3.0.2"
 		,defaults: {
 			 title:		""						// the title
 			,select:	function(a){trace(a)}	// calback function on choose
@@ -328,16 +332,13 @@
 						if (o.file.substr(0,1).toLowerCase()==sChar) {
 							aMaySel.push(o);
 							if (iSel==1) {
-								o.tr.addClass("selected").siblings().removeClass("selected");
-								location.hash = o.file; // $$ causes shift in FF
+								o.tr.mouseup(clickTr).mouseup();
 								iSel = 2;
 							}
 						}
-						if (o.tr.get(0)==aSelected[0]) {
-							iSel = 1;
-						}
+						if (o.tr.get(0)==aSelected[0]) iSel = 1;
 					});
-					if (iSel==1&&aMaySel.length>0) aMaySel[0].tr.addClass("selected").siblings().removeClass("selected");
+					if (iSel==1&&aMaySel.length>0) aMaySel[0].mouseup(clickTr).mouseup();
 				}
 				// single key functions
 				switch (e.keyCode) {
@@ -499,6 +500,7 @@
 	}
 	// clickTr: left- or rightclick table row
 	function clickTr(e) {
+		trace("clickTr "+" "+e);
 		var mTr = $(this);
 		mTr.unbind("mouseup");
 		var oFile = file(mTr);
@@ -539,6 +541,10 @@
 			if (oSettings.keys[17]&&!bRight) mTr.toggleClass("selected");
 			else mTr.addClass("selected");
 		}
+		// selection must be in fov
+//		$$
+		trace("mTbB.scrollTop "+" "+mTbB.scrollTop());
+		trace("fbtable.scrollTop "+" "+fbtable.scrollTop());
 		// preview image
 		$("#fbpreview").html("");
 		if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
