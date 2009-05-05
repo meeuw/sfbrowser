@@ -153,9 +153,13 @@
 			,lang:		{}						// language object
 			,plugins:	[]						// plugins
 			,debug:		false					// debug (allows trace to console)
+			,swfupload:	!true					// tmp test
 		}
 		,addLang: function(oLang) {
 			for (var sId in oLang) $.sfbrowser.defaults.lang[sId] = oLang[sId];
+		}
+		,s: function(s) {
+			trace(s);
 		}
 	};
 	// init
@@ -401,6 +405,25 @@
 			openSFB();
 			if (oSettings.cookie&&!bCookie) setSfbCookie();
 			trace("SFBrowser open ("+oSettings.plugins+")",true);
+			//
+			// swf uploader (do after so we can read width)
+			if (oSettings.swfupload) {
+				mSfb.find("#fileio").remove();
+				var mAup = mSfb.find("#sfbtopmenu a.upload");
+				mAup.append("<div id=\"swfUploader\"></div>");
+				swfobject.embedSWF(
+					 oSettings.sfbpath+"uploader.swf"
+					,"swfUploader"
+					,(mAup.width()+10)+"px" // +10 accounts for padding
+					,mAup.height()+"px"
+					,"9.0.0"
+					,""
+					,{ //flashvars
+						 file:		123
+						,gui:		"playpause,scrubbar"
+					},{menu:"false",wmode:"transparent"}
+				);
+			}
 		}
 	});
 	
