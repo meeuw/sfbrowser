@@ -45,6 +45,7 @@ $.sfbrowser.defaults.lang =	{
 	,fileDeleted:			"File deleted"
 	,fileNotdeleted:		"File could not be deleted"
 	,fileNotselected:		"No file selected"
+	,fileExistsOverwrite:	"The file already exists, overwrite?"
 	,fileExistsrenamed:		"The file already exists, it has been uploaded and appended by a number."
 	,fileRenamed:			"Rename succesfull"
 

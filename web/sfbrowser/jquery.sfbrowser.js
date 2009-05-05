@@ -35,6 +35,7 @@
 *	- window dragging and resizing
 *	- cookie for size, position and path
 *	- keyboard shortcuts
+*	- key file selection
 *
 * how it works
 *   - sfbrowser returns a list of file objects.
@@ -53,25 +54,20 @@
 *	- Spanish translation: Juan Razeto
 *
 * todo:
-*	- oSettings.file to work with multiple files
-*	x remove array prototype
-*		- commented all but .unique and .copy for later implementation (trial run)
-*		- maybe: copy used functions (copy, unique and indexof) from array.js
+*	- correct error handling (opposed to the current silent json break php fail)
 *	o table
-*		- possibly replace table for http://code.google.com/p/flexigrid/, or do it yourself and fix the scrolling, structure follows function
+*		- possibly replace table for http://code.google.com/p/flexigrid/, or do it myself and fix the scrolling, structure follows function
 *		- FF: multiple file selection: disable table cell highlighting (border)
 *		- IE: fix multiple file selection
 *		- IE: fix IE and Safari scrolling (table header moves probably due to absolute positioning of parents), or simply don't do xhtml (make two tables)
 *		- add: drag and drop files to folders
 *		- maybe: thumbnail view
 *		- fix: since resizing is possible abbreviating long filenames does not cut it (...)
-*	- correct error handling (opposed to the current silent json break php fail)
+*	- oSettings.file to work with multiple files
 *	- revise: keyboard shortcuts (select on first char)
 *	- revise: 'fixed' property: not very nescesary (since fixed should be default true on inline)
-*	- add: make "j-n-Y H:i" for files variable
 *   - new: general filetype filter
 *	- add: style option: new or custom css files
-*	- code: check what timeout code in upload code really does
 *	- add: make text selection in table into multiple file selection
 *	o preview
 *		- new: make preview an option
@@ -79,13 +75,20 @@
 *		- add: show zip and rar file contents in preview
 *   - new: folder information such as number of files (possibly add to filetree)
 *   - new: add mime instead of extension (for mac)
-*   - new: create ascii file
+*   - new: create ascii file (plugin)
 *   - new: edit ascii file (plugin)
 *	- fix: Opera sucks (or let Opera fix itself)
+*	- code: check what timeout code in upload code really does
+*	- do something like http://www.uploadify.com/ to make multiple file uploads
 *
 * in this update:
 *		- added: audio and video preview
-*		- added: highlight current selection on open
+*		- added: key-selection
+*		- added: highlight current selection (file) on open
+*		- added: "j-n-Y H:i" filetime now in config
+*		- removed: array prototype functions / added single function
+*		- fixed: overwrite file uploade shows duplicate file
+*		- alert when uploading same file
 *
 */
 ;(function($) {
@@ -190,7 +193,7 @@
 			iBrW = $(window).width();
 			iBrH = $(window).height();
 			aSort = [];
-			bHasImgs = oSettings.allow.length===0||oSettings.img.copy().concat(oSettings.allow).unique().length<(oSettings.allow.length+oSettings.img.length);
+			bHasImgs = oSettings.allow.length===0||unique(copy(oSettings.img).concat(oSettings.allow)).length<(oSettings.allow.length+oSettings.img.length);
 			aPath = [];
 			sFolder = oSettings.base+oSettings.folder;
 			bOverlay = oSettings.inline=="body";
@@ -650,7 +653,7 @@
 				return false;
 			}
 		}
-		aSelect = aSelect.unique();
+		aSelect = unique(aSelect);
 		// return clones, not the objects
 		for (var i=0;i<aSelect.length;i++) {
 			var oFile = aSelect[i];
@@ -820,15 +823,25 @@
 	}
 	// fileUpload
 	function fileUpload() {
-		trace("sfb fileUpload");
-		
+		var sFile = mSfb.find("#fileToUpload").val();
+		trace("sfb fileUpload "+sFile);
+		if (sFile=="") return false;
+		//
+		// check for existing same files
+		var sFileName = sFile.split("\\").pop();
+		var oExists = getPath().contents[sFileName];
+		if (oExists&&!confirm(oSettings.lang.fileExistsOverwrite)) return false;
+		//
+		// upload bar
 		$("#loadbar").ajaxStart(function(){
+			trace("");
 			$(this).show();
 			loading();
 		}).ajaxComplete(function(){
 			$(this).hide();
 		});
-
+		//
+		// ajax upload
 		ajaxFileUpload({ // fu
 			url:			oSettings.conn,
 			secureuri:		false,
@@ -840,7 +853,7 @@
 						trace("sfb error: "+lang(data.error));
 						alert(lang(data.error));
 					} else {
-						trace(lang(data.msg));
+						if (oExists) oExists.tr.remove();
 						listAdd(data.data).trigger('click');
 						sortFbTable(); // todo: fix scrolltop below because because of
 						$("#sfbrowser #fbtable").scrollTop(0);	// IE and Safari
@@ -1160,3 +1173,10 @@ jQuery.fn.height = function() {
         return window.innerHeight;
     else return height_.apply(this,arguments);
 };
+
+// functional equivalents for these prototypes
+//Array.prototype.unique=function(){var a=[],i;this.sort();for(i=0;i<this.length;i++){if(this[i]!==this[i+1]){a[a.length]=this[i];}}return a;}
+function unique(b) { var a=[],i; b.sort(); for(i=0;i<b.length;i++) if(b[i]!==b[i+1]) a[a.length]=b[i]; return a; }
+//if(typeof Array.prototype.copy==='undefined'){Array.prototype.copy=function(a){var a=[],i=this.length;while(i--){a[i]=(typeof this[i].copy!=='undefined')?this[i].copy():this[i];}return a;};}
+function copy(b) { var a=[],i = b.length; while (i--) a[i] = b[i].constructor===Array?copy(b[i]):b[i]; return a; }
+

@@ -38,7 +38,7 @@ function fileInfo($sFile) {
 	$sFileName = array_pop(split("\/",$sFile));
 	if ($aRtr["type"]=="file") {
 		$aRtr["time"] = filemtime($sFile);
-		$aRtr["date"] = date("j-n-Y H:i",$aRtr["time"]);
+		$aRtr["date"] = date(FILETIME,$aRtr["time"]);
 		$aRtr["size"] = filesize($sFile);
 		$aRtr["mime"] = array_pop(split("\.",$sFile));//mime_content_type($sFile);
 		//
@@ -62,7 +62,7 @@ function fileInfo($sFile) {
 	} else if ($aRtr["type"]=="dir"&&$sFileName!="."&&$sFileName!=".."&&!preg_match("/^\./",$sFileName)) {
 		$aRtr["mime"] = "folder";
 		$aRtr["time"] = filemtime($sFile);
-		$aRtr["date"] = date("j-n-Y H:i",$aRtr["time"]);
+		$aRtr["date"] = date(FILETIME,$aRtr["time"]);
 		$aRtr["size"] = filesize($sFile);
 		$sNfo  = "file:\"".		$sFileName."\",";
 		$sNfo .= "mime:\"".		"folder\",";

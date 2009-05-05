@@ -16,7 +16,6 @@ if (SFB_PLUGINS!="") $aPlugins = split(",",SFB_PLUGINS);
 // add javascript to header
 echo "\n\t\t<!-- SFBrowser init -->\n";
 echo "\t\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"".SFB_PATH."css/sfbrowser.css\" />\n";
-echo "\t\t<script type=\"text/javascript\" src=\"".SFB_PATH."array.js\"></script>\n";
 echo "\t\t<script type=\"text/javascript\" src=\"".SFB_PATH."SWFObject.js\"></script>\n";
 echo "\t\t<script type=\"text/javascript\" src=\"".SFB_PATH."jquery.tinysort.min.js\"></script>\n";
 echo "\t\t<script type=\"text/javascript\" src=\"".SFB_PATH."jquery.sfbrowser".(SFB_DEBUG?"":".min").".js\"></script>\n";

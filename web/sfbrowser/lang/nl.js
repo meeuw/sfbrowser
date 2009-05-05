@@ -45,6 +45,7 @@ $.sfbrowser.defaults.lang =	{
 	,fileDeleted:			"Bestand verwijderd"
 	,fileNotdeleted:		"Bestand kon niet worden verwijderd"
 	,fileNotselected:		"Er is geen bestand geselecteerd"
+	,fileExistsOverwrite:	"Het bestand bestaat al, overschrijven?"
 	,fileExistsrenamed:		"Het bestand bestaat al, het is hernoemd met een nr."
 	,fileRenamed:			"Bestand hernoemd"
 
