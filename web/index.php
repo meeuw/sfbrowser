@@ -14,7 +14,7 @@
 			<!--
 			function addFiles(aFiles) {
 				if ($('#addfiles>ul').length==0) $('#addfiles').html('<ul/>');
-				for (var i=0;i<aFiles.length;i++) $("#addfiles>ul").append("<li onclick=\"$(this).remove()\">"+aFiles[i].file+" is "+aFiles[i].size+"</li>");
+				for (var i=0;i<aFiles.length;i++) $("#addfiles>ul").append("<li><a onclick=\"$.sfb({select:addFiles,plugins:[],file:'"+aFiles[i].file+"'});\">"+aFiles[i].file+"</a> is "+aFiles[i].size+" <a onclick=\"$(this).parent().remove()\">[x]</a></li>");
 			}
 			function addImages(aFiles) {
 				$.each(aFiles,function(i,o){

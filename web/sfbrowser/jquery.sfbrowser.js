@@ -53,7 +53,7 @@
 *	- Spanish translation: Juan Razeto
 *
 * todo:
-*	- add: highlight current selection on open
+*	- oSettings.file to work with multiple files
 *	x remove array prototype
 *		- commented all but .unique and .copy for later implementation (trial run)
 *		- maybe: copy used functions (copy, unique and indexof) from array.js
@@ -84,7 +84,8 @@
 *	- fix: Opera sucks (or let Opera fix itself)
 *
 * in this update:
-*	- added: audio and video preview
+*		- added: audio and video preview
+*		- added: highlight current selection on open
 *
 */
 ;(function($) {
@@ -117,9 +118,12 @@
 	$.sfbrowser = {
 		 id: "SFBrowser"
 		,version: "3.0.2"
+//		,tree: oTree // $$temp
+//		,path: aPath // $$temp
 		,defaults: {
 			 title:		""						// the title
 			,select:	function(a){trace(a)}	// calback function on choose
+			,file:		""						// selected file
 			,folder:	""						// subfolder (relative to base), all returned files are relative to base
 			,dirs:		true					// allow visibility and creation/deletion of subdirectories
 			,upload:	true					// allow upload of files
@@ -138,7 +142,7 @@
 			,movie:		["mp3","mp4","m4v","m4a","3gp","mov","flv","f4v"]
 			// set from init, explicitly setting these from js can lead to unexpected results.
 			,sfbpath:	"sfbrowser/"			// path of sfbrowser (relative to the page it is run from)
-			,base:		"data/"					// upload folder (relative to sfbpath)
+			,base:		"../data/"				// upload folder (relative to sfbpath)
 			,deny:		[]						// not allowed file extensions
 			,icons:		[]						// list of existing file icons
 			,preview:	600						// amount of bytes for ascii preview
@@ -389,6 +393,7 @@
 			$.each( oSettings.plugins, function(i,sPlugin) { $.sfbrowser[sPlugin](oThis) });
 			//
 			//////////////////////////// start
+			//
 			openDir(sFolder);
 			openSFB();
 			if (oSettings.cookie&&!bCookie) setSfbCookie();
@@ -434,13 +439,42 @@
 		var oCTree = getPath();
 		oCTree.filled = true;
 		//
+		//
+		//
+		//
+		if (oSettings.file!="") { // find selected file // #@@##@!$#@! bloody figure out why file not has ../ and base has!!!!!!!!!
+			// make path class to ease the following:
+			// find size of oSettings.sfbpath to pre-pop from oSettings.base (../) and substract that from oSettings.file
+			var iSfbLn = 0;
+			var aSfbP = oSettings.sfbpath.split("/");
+			$.each(aSfbP,function(i,s){if(s!="")iSfbLn++});
+			var sPth = "";
+			$.each(aPath,function(i,sPath){sPth+=sPath+"///"});
+			sPth = sPth.replace(/(\/+)/g,"/");
+			aSPth = sPth.split("/");
+			sRpth = "";
+			$.each(aSPth,function(i,sPath){if(i>=iSfbLn)sRpth+=sPath+"/"});
+			sRpth = sRpth.replace(/(\/+)/g,"/");
+			var sSelFileName = oSettings.file.replace(sRpth,"");
+			var aSeF = oSettings.file.split("/");
+			var iDff = aSeF.length-aPath.length-1;
+		}
+		//
 		$.each( contents, function(i,oFile) {
 			// todo: logical operators could be better
 			var bDir = (oFile.mime=="folder"||oFile.mime=="folderup");
 			if ((oSettings.allow.indexOf(oFile.mime)!=-1||oSettings.allow.length===0)&&oSettings.deny.indexOf(oFile.mime)==-1||bDir) {
-				if ((bDir&&oSettings.dirs)||!bDir) listAdd(oFile);
+				if ((bDir&&oSettings.dirs)||!bDir) {
+					var mTr = listAdd(oFile);
+					// find selected file
+					if (oSettings.file!=""&&sSelFileName==oFile.file) {
+						mTr.mouseup(clickTr).mouseup();
+						oSettings.file = "";
+					}
+				}
 			}
 		});
+		//
 		if (aPath.length>1&&!oCTree.contents[".."]) listAdd({file:"..",mime:"folderup",rsize:0,size:"-",time:0,date:""});
 		$("#sfbrowser thead>tr>th:eq(0)").trigger("click");
 		//
@@ -448,6 +482,8 @@
 		$.each( oSettings.plugins, function(i,sPlugin) {
 			if ($.sfbrowser[sPlugin].fillList) $.sfbrowser[sPlugin].fillList(contents);
 		});
+		//
+		if (oSettings.file!=""&&iDff>0) openDir(aSeF[aPath.length]);
 	}
 	// add item to list
 	function listAdd(obj) {
@@ -543,8 +579,8 @@
 		}
 		// selection must be in fov
 //		$$
-		trace("mTbB.scrollTop "+" "+mTbB.scrollTop());
-		trace("fbtable.scrollTop "+" "+fbtable.scrollTop());
+//		trace("mTbB.scrollTop "+" "+mTbB.scrollTop());
+//		trace("fbtable.scrollTop "+" "+fbtable.scrollTop());
 		// preview image
 		$("#fbpreview").html("");
 		if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
