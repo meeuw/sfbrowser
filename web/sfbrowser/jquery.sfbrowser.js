@@ -154,7 +154,7 @@
 			,plugins:	[]						// plugins
 			,debug:		false					// debug (allows trace to console)
 			//////////////////////////
-			,swfupload:	true					// tmp test
+			,swfupload:	!true					// tmp test
 			,swfuploadmulti: false				// tmp test
 		}
 		// add language on the fly
