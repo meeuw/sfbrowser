@@ -52,6 +52,7 @@ function pathWithin($path,$inpath) {
 
 function validateInput($sConnBse,$aGPF) {
 	$sErr = "";
+	$sAction = "";
 	// check input
 	if (isset($_POST["a"])||isset($_GET["a"])) {
 		$sAction = isset($_POST["a"])?$_POST["a"]:$_GET["a"];
@@ -78,23 +79,22 @@ function validateInput($sConnBse,$aGPF) {
 	}
 	// log
 	if (SFB_DEBUG) {
-		$sP = "POST:[";
-		$sG = "POST:[";
-		$sF = "POST:[";
-		foreach($_POST as $key => $value)	$sP .= $key.":".$value.",";
-		foreach($_GET as $key => $value)	$sG .= $key.":".$value.",";
-		foreach($_FILES as $key => $value)	$sF .= $key.":".$value.",";
+		$sP = "POST: [";
+		$sG = "GET:  [";
+		$sF = "FILE: [";
+		foreach($_POST as  $k=>$v)	$sP .= $k.":".$v.",";
+		foreach($_GET as   $k=>$v)	$sG .= $k.":".$v.",";
+		foreach($_FILES as $k=>$v)	$sF .= $k.":".$v.",";
 		$sP .= "]";
 		$sG .= "]";
 		$sF .= "]";
 		$sLog  = date("j-n-Y H:i")."\t\t";
 		$sLog .= "ip:".$_SERVER["REMOTE_ADDR"]."\t\t";
 		$sLog .= "a:".$sAction."(".$sSFile.")\t\t";
-		$sLog .= $sP."\t\t".$sG."\t\t".$sF."\t\t";
-		$sLog .= "error:".$sErr."\t\t";
+		$sLog .= "error:".$sErr;
+		$sLog .= "\n\t\t".$sP."\n\t\t".$sG."\n\t\t".$sF;
 		trace($sLog);
 	}
-	//
 	return array("action"=>$sAction,"file"=>$sSFile,"error"=>$sErr);
 }
 

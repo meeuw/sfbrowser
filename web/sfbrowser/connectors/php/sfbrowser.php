@@ -21,6 +21,7 @@ $aVldt = validateInput($sConnBse,array(
 	 "chi"=>	array(0,2,0)
 	,"kung"=>	array(0,3,0)
 	,"fu"=>		array(0,5,1)
+	,"sfu"=>	array(5,2,1)
 	,"ka"=>		array(0,3,0)
 	,"sui"=>	array(2,0,0)
 	,"mizu"=>	array(0,3,0)
@@ -30,7 +31,7 @@ $aVldt = validateInput($sConnBse,array(
 $sAction = $aVldt["action"];
 $sSFile = $aVldt["file"];
 $sErr .= $aVldt["error"];
-//
+if ($sErr!="") die("{error: \"".$sErr."\", msg: \"".$sMsg."\", data: {".$sData."}}");
 //
 function fileInfo($sFile) {
 	$aRtr = array();
@@ -111,9 +112,10 @@ switch ($sAction) {
 		}
 	break;
 
+	case "sfu": // swf file upload
+		if ($sAction=="sfu") foreach($_GET as $k=>$v) $_POST[$k] = $v;
 	case "fu": // file upload
-		//if (count($_POST)!=4||!isset($_POST["folder"])||!isset($_POST["resize"])||!isset($_POST["allow"])) exit("ku fu");
-		$sElName = "fileToUpload";
+		$sElName = $sAction=="fu"?"fsileToUpload":"Filedata";
 		if (!empty($_FILES[$sElName]["error"])) {
 			switch($_FILES[$sElName]["error"]) {
 				case "1": $sErr = "uploadErr1"; break;
@@ -125,7 +127,7 @@ switch ($sAction) {
 				case "8": $sErr = "uploadErr8"; break;
 				default:  $sErr = "uploadErr";
 			}
-		} else if (empty($_FILES["fileToUpload"]["tmp_name"])||$_FILES["fileToUpload"]["tmp_name"]=="none") {
+		} else if (empty($_FILES[$sElName]["tmp_name"])||$_FILES[$sElName]["tmp_name"]=="none") {
 			$sErr = "No file was uploaded..";
 		} else {
 			$sFolder = $_POST["folder"];
@@ -136,7 +138,7 @@ switch ($sAction) {
 			$sAllow = $_POST["allow"];
 			$sResize = $_POST["resize"];
 
-			$oFile = $_FILES["fileToUpload"];
+			$oFile = $_FILES[$sElName];
 			$sFile = $oFile["name"];
 			$sMime = array_pop(split("\.",$sFile));//mime_content_type($sDir.$file); //$oFile["type"]; //
 			//
@@ -149,7 +151,7 @@ switch ($sAction) {
 				$sFileTo = $sPath.$sFile;
 			}
 			$sFileTo = $sConnBse.$sFileTo;
-
+//dump($sFileTo);
 			move_uploaded_file( $oFile["tmp_name"], $sFileTo );
 			$oFNfo = fileInfo($sFileTo);
 
@@ -178,7 +180,7 @@ switch ($sAction) {
 				$sErr = "uploadNotallowed#".$sFileExt;
 				@unlink($sFileTo);
 			} else {
-				if ($sResize!="null"&&($sMime=="jpeg"||$sMime=="jpg")) {
+				if ($sResize&&$sResize!="null"&&$sResize!="undefined"&&($sMime=="jpeg"||$sMime=="jpg")) {
 					$aResize = explode(",",$sResize);
 					$iToW = $aResize[0];
 					$iToH = $aResize[1];

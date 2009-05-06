@@ -56,7 +56,7 @@ body, html {
 		#sfbrowser #loadbar {
 			display: none;
 			position: absolute;
-			top: 9px;
+			top: 4px;
 			left: 130px;
 			width: 300px;
 			height: 16px;
@@ -144,6 +144,7 @@ body, html {
 	#sfbrowser a.rename {		background-image: url("rename.gif");}
 	#sfbrowser a.newfolder {	background-image: url("folder_new.gif");}
 	#sfbrowser a.duplicate {	background-image: url("files.gif");}
+	#sfbrowser a.cancel {		background-image: url("close.gif");}
 
 	/* table anchor buttons */
 	#sfbrowser #fbwin table a.sfbbutton {
@@ -422,4 +423,10 @@ div#resizer {
 	position: absolute;
 	left: 0px;
 	top: 0px;
+}
+.progress {
+	width: 1px;
+	height: 16px;
+	margin-top: 2px;
+	background-color: red;
 }

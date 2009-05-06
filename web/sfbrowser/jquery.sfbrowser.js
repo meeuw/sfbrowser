@@ -153,13 +153,38 @@
 			,lang:		{}						// language object
 			,plugins:	[]						// plugins
 			,debug:		false					// debug (allows trace to console)
-			,swfupload:	!true					// tmp test
+			//////////////////////////
+			,swfupload:	true					// tmp test
+			,swfuploadmulti: false				// tmp test
 		}
+		// add language on the fly
 		,addLang: function(oLang) {
 			for (var sId in oLang) $.sfbrowser.defaults.lang[sId] = oLang[sId];
 		}
-		,s: function(s) {
-			trace(s);
+		// swf upload functions (ExternalInterface) 429
+		,swfInit: function() {trace("swfInit");}
+		,ufileSelected: function(s) {
+			trace("ufileSelect "+s);
+		}
+		,ufileOpen: function(s) {
+			var mTr = listAdd({file:s,mime:"upload",rsize:5000,size:"5kB",time:1241612509,date:"6-5-200914:21",width:0,height:0}).trigger('click');
+			for (var i=0;i<3;i++) mTr.find("td:eq(2)").remove();
+			mTr.find("td:eq(1)").attr("colspan",4).html("<div class=\"progress\"><div>");
+			mTr.find("td:eq(2)").html("<a class=\"sfbbutton cancel\" title=\"Cancel upload\"><span>Cancel upload</span></a>");
+		}
+		,ufileProgress: function(f,s) {
+			var oExists = getPath().contents[s];
+			var mPrg = oExists.tr.find(".progress");
+			mPrg.text(Math.round(f*100)+"%");
+			mPrg.width(Math.round(f*mPrg.parent().width()));
+		}
+		,ufileCompleteD: function(o) {
+			trace("getPath().contents[o.data.file]: "+getPath().contents[o.data.file]);
+			getPath().contents[o.data.file].tr.remove();
+			listAdd(o.data).trigger('click');
+		}
+		,getPath: function() {
+			$("#swfUploader").get(0).setPath(aPath.join(""));
 		}
 	};
 	// init
@@ -418,9 +443,14 @@
 					,mAup.height()+"px"
 					,"9.0.0"
 					,""
-					,{ //flashvars
-						 file:		123
-						,gui:		"playpause,scrubbar"
+					,{ // flashvars
+						 multi:		oSettings.swfuploadmulti
+						,uploadUri:	"../"+oSettings.conn
+						,action:	"sfu"
+						,folder:	aPath.join("")
+						,allow:		oSettings.allow.join("|")
+						,deny:		oSettings.deny.join("|")
+						,resize:	oSettings.resize
 					},{menu:"false",wmode:"transparent"}
 				);
 			}
@@ -1202,4 +1232,3 @@ jQuery.fn.height = function() {
 function unique(b) { var a=[],i; b.sort(); for(i=0;i<b.length;i++) if(b[i]!==b[i+1]) a[a.length]=b[i]; return a; }
 //if(typeof Array.prototype.copy==='undefined'){Array.prototype.copy=function(a){var a=[],i=this.length;while(i--){a[i]=(typeof this[i].copy!=='undefined')?this[i].copy():this[i];}return a;};}
 function copy(b) { var a=[],i = b.length; while (i--) a[i] = b[i].constructor===Array?copy(b[i]):b[i]; return a; }
-
