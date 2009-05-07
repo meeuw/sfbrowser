@@ -1,7 +1,7 @@
 /*
 * jQuery SFBrowser
 *
-* Version: 3.0.2
+* Version: 3.0.3
 *
 * Copyright (c) 2008 Ron Valstar http://www.sjeiti.com/
 *
@@ -88,7 +88,12 @@
 *		- removed: array prototype functions / added single function
 *		- fixed: overwrite file uploade shows duplicate file
 *		- alert when uploading same file
-*		- implemented an optional as3 inline upload
+*		- implemented as3 swf upload enabeling:
+*			- queued multiple uploads
+*			- upload progress
+*			- upload canceling
+*			- selection filtering
+*			- size filtering
 *
 */
 ;(function($) {
@@ -120,7 +125,7 @@
 	// default settings
 	$.sfbrowser = {
 		 id: "SFBrowser"
-		,version: "3.0.2"
+		,version: "3.0.3"
 //		,tree: oTree // $$temp
 //		,path: aPath // $$temp
 		,defaults: {
@@ -130,6 +135,7 @@
 			,folder:	""						// subfolder (relative to base), all returned files are relative to base
 			,dirs:		true					// allow visibility and creation/deletion of subdirectories
 			,upload:	true					// allow upload of files
+			,swfupload:	false					// use swf uploader instead of form hack
 			,allow:		[]						// allowed file extensions
 			,resize:	null					// resize images after upload: array(width,height) or null
 			,inline:	"body"					// a JQuery selector for inline browser
@@ -153,9 +159,7 @@
 			,lang:		{}						// language object
 			,plugins:	[]						// plugins
 			,debug:		false					// debug (allows trace to console)
-			//////////////////////////
-			,swfupload:	!true					// tmp test
-			,swfuploadmulti: false				// tmp test
+			,maxsize:	2097152					// upload_max_filesize in bytes
 		}
 		// add language on the fly
 		,addLang: function(oLang) {
@@ -166,26 +170,28 @@
 		,ufileSelected: function(s) {
 			trace("ufileSelect "+s);
 		}
+		,ufileTooBig: function(s) {
+			alert(oSettings.lang.fileTooBig.replace("#1",s).replace("#2",format_size(oSettings.maxsize,0)));
+		}
 		,ufileOpen: function(s) {
-			var mTr = listAdd({file:s,mime:"upload",rsize:5000,size:"5kB",time:1241612509,date:"6-5-200914:21",width:0,height:0}).trigger('click');
-			for (var i=0;i<3;i++) mTr.find("td:eq(2)").remove();
-			mTr.find("td:eq(1)").attr("colspan",4).html("<div class=\"progress\"><div>");
-			mTr.find("td:eq(2)").html("<a class=\"sfbbutton cancel\" title=\"Cancel upload\"><span>Cancel upload</span></a>");
+			var mTr = listAdd({file:s,mime:"upload",rsize:0,size:"",time:0,date:"",width:0,height:0}).addClass("uploading");
 		}
 		,ufileProgress: function(f,s) {
 			var oExists = getPath().contents[s];
 			var mPrg = oExists.tr.find(".progress");
-			mPrg.text(Math.round(f*100)+"%");
-			mPrg.width(Math.round(f*.8*mPrg.parent().width()));
+			var sPerc = Math.round(f*100)+"%";
+			mPrg.find("span").text(sPerc);
+			mPrg.find("div").css({width:sPerc});
 		}
 		,ufileCompleteD: function(o) {
-			trace("getPath().contents[o.data.file]: "+getPath().contents[o.data.file]);
 			getPath().contents[o.data.file].tr.remove();
 			listAdd(o.data).trigger('click');
 		}
 		,getPath: function() {
 			$("#swfUploader").get(0).setPath(aPath.join(""));
 		}
+		//,tree: oTree // $$temp for debug
+		//,path: aPath // $$temp for debug
 	};
 	// init
 	$(function() {
@@ -444,7 +450,7 @@
 					,"9.0.0"
 					,""
 					,{ // flashvars
-						 multi:		oSettings.swfuploadmulti
+						 maxsize:	oSettings.maxsize
 						,uploadUri:	"../"+oSettings.conn
 						,action:	"sfu"
 						,folder:	aPath.join("")
@@ -470,6 +476,8 @@
 	// close
 	function closeSFB() {
 		trace("sfb close");
+		// $$ remove all pending uploads
+		// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 		$("#sfbrowser #fbbg").fadeOut();
 		mWin.slideUp("normal",function(){mSfb.remove();});
 	}
@@ -545,21 +553,26 @@
 	function listAdd(obj) {
 		getPath().contents[obj.file] = obj;
 		//
+		var bUpload = obj.mime=="upload";
 		var bFolder = obj.mime=="folder";
 		var bUFolder = obj.mime=="folderup";
 		var sMime = bFolder||bUFolder?oSettings.lang.folder:obj.mime;
 		var sTr = "<tr id=\""+obj.file+"\" class=\""+(bFolder||bUFolder?"folder":"file")+"\">";
-//		sTr += "<td abbr=\""+obj.file+"\" title=\""+obj.file+"\" class=\"icon\" style=\"background-image:url("+oSettings.sfbpath+"icons/"+(oSettings.icons.indexOf(obj.mime)!=-1?obj.mime:"default")+".gif);\">"+(obj.file.length>20?obj.file.substr(0,15)+"(...)":obj.file)+"</td>";
 		sTr += "<td abbr=\""+obj.file+"\" title=\""+obj.file+"\" class=\"icon\" style=\"background-image:url("+oSettings.sfbpath+"icons/"+(oSettings.icons.indexOf(obj.mime)!=-1?obj.mime:"default")+".gif);\">"+obj.file+"</td>";
-		sTr += "<td abbr=\""+obj.mime+"\">"+sMime+"</td>";
-		sTr += "<td abbr=\""+obj.rsize+"\">"+obj.size+"</td>";
-		sTr += "<td abbr=\""+obj.time+"\" title=\""+obj.date+"\">"+obj.date.split(" ")[0]+"</td>";
-		var bVImg = (obj.width*obj.height)>0;
-		sTr += (bHasImgs?("<td"+(bVImg?(" abbr=\""+(obj.width*obj.height)+"\""):"")+">"+(bVImg?(obj.width+"x"+obj.height+"px"):"")+"</td>"):"");
-		sTr += "<td>";
-		if (!(bFolder||bUFolder)) sTr += "	<a onclick=\"\" class=\"sfbbutton preview\" title=\""+oSettings.lang.view+"\">&nbsp;<span>"+oSettings.lang.view+"</span></a>";
-		if (!bUFolder) sTr += "	<a onclick=\"\" class=\"sfbbutton filedelete\" title=\""+oSettings.lang.del+"\">&nbsp;<span>"+oSettings.lang.del+"</span></a>";
-		sTr += "</td>";
+		if (bUpload) {
+			sTr += "<td abbr=\"upload progress\" colspan=\"4\"><div class=\"progress\"><div></div><span>0%</span><div></td>";
+			sTr += "<td><a class=\"sfbbutton cancel\" title=\""+oSettings.lang.fileUploadCancel+"\"><span>"+oSettings.lang.fileUploadCancel+"</span></a></td>";
+		} else {
+			sTr += "<td abbr=\""+obj.mime+"\">"+sMime+"</td>";
+			sTr += "<td abbr=\""+obj.rsize+"\">"+obj.size+"</td>";
+			sTr += "<td abbr=\""+obj.time+"\" title=\""+obj.date+"\">"+obj.date.split(" ")[0]+"</td>";
+			var bVImg = (obj.width*obj.height)>0;
+			sTr += (bHasImgs?("<td"+(bVImg?(" abbr=\""+(obj.width*obj.height)+"\""):"")+">"+(bVImg?(obj.width+"x"+obj.height+"px"):"")+"</td>"):"");
+			sTr += "<td>";
+			if (!(bFolder||bUFolder||bUpload)) sTr += "	<a onclick=\"\" class=\"sfbbutton preview\" title=\""+oSettings.lang.view+"\">&nbsp;<span>"+oSettings.lang.view+"</span></a>";
+			if (!(bUFolder||bUpload)) sTr += "	<a onclick=\"\" class=\"sfbbutton filedelete\" title=\""+oSettings.lang.del+"\">&nbsp;<span>"+oSettings.lang.del+"</span></a>";
+			sTr += "</td>";
+		}
 		sTr += "</tr>";
 		// 
 		var mTr = $(sTr).prependTo(mTbB);
@@ -570,17 +583,23 @@
 		obj.tr = mTr;
 		mTr.find("a.filedelete").click(deleteFile);
 		mTr.find("a.preview").click(showFile);
+		mTr.find("a.cancel").click(function(e){
+				$("#swfUploader").get(0).cancelUpload($(this).parent().parent().attr("id"));
+				mTr.remove();
+			});
 		//mTr.find("td:last").css({textAlign:"right"}); // IE fix
 		mTr.folder = bFolder||bUFolder;
-		mTr.mouseover( function() {
-			mTr.addClass("over");
-		}).mouseout( function() {
-			mTr.removeClass("over");
-		}).mousedown( function(e) {
-			mTr.mouseup( clickTr );
-		}).dblclick( function(e) {
-			chooseFile($(this));
-		})
+		if (!bUpload) {
+			mTr.mouseover( function() {
+				mTr.addClass("over");
+			}).mouseout( function() {
+				mTr.removeClass("over");
+			}).mousedown( function(e) {
+				mTr.mouseup( clickTr );
+			}).dblclick( function(e) {
+				chooseFile($(this));
+			})
+		}
 		mTr[0].oncontextmenu = function() {
 			return false;
 		};
@@ -601,6 +620,7 @@
 		var sFile = oFile.file;
 		var bRight = e.button==2;
 		var mCntx = $("#sfbcontext");
+		if (mTr.hasClass("uploading")) return false;
 		//
 		if (bRight) { // show context menu
 			mCntx.slideUp("fast",function(){
@@ -1232,3 +1252,10 @@ jQuery.fn.height = function() {
 function unique(b) { var a=[],i; b.sort(); for(i=0;i<b.length;i++) if(b[i]!==b[i+1]) a[a.length]=b[i]; return a; }
 //if(typeof Array.prototype.copy==='undefined'){Array.prototype.copy=function(a){var a=[],i=this.length;while(i--){a[i]=(typeof this[i].copy!=='undefined')?this[i].copy():this[i];}return a;};}
 function copy(b) { var a=[],i = b.length; while (i--) a[i] = b[i].constructor===Array?copy(b[i]):b[i]; return a; }
+
+function format_size(size,round) {
+	if (!round) round = 0;
+    aSize = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    for (var i=0;size>1024&&aSize.length>i;i++) size /= 1024;
+    return Math.round(size,round)+aSize[i];
+}

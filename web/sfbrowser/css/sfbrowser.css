@@ -5,7 +5,7 @@ body, html {
 /* black layer */
 #sfbrowser * {
 	font-family: arial, sans, verdana;
-	font-size: 12px !important;
+	font-size: 12px;
 	line-height: 26px;
 }
 #sfbrowser {
@@ -417,18 +417,74 @@ div#resizer {
 	cursor: move;
 }
 
+/* swfUploader 
+#swfUploader {
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+tr.uploading {
+	background-color: #FFA!important;
+}
+	div.progress {
+		position: relative;
+		width: 100%;
+		height: 14px;
+		margin-top: 6px;
+		background-color: #DCDC92;
+		padding: 0px;
+	}
+		div.progress div {
+			position: absolute;
+			width: 1px;
+			height: 14px;
+			background-color: #EE8116;
+		}
+		div.progress span {
+			position: absolute;
+                        padding-left: 3px;
+			z-index: 101;
+			font-size: 10px!important;
+			line-height: 12px!important;
+                        font-weight: bold;
+                        color: white;
+		}*/
+		
 /* swfUploader */
 #swfUploader {
 	display: block;
 	position: absolute;
 	left: 0px;
 	top: 0px;
-	font-size: 10px;
-	line-height: 10px;
 }
-.progress {
-	width: 1px;
-	height: 14px;
-	margin-top: 6px;
-	background: transparent url(progress.png) 0px 0px;
+tr.uploading {
+	background-color: #D7FF99!important;
+	cursor: default;
 }
+	tr.uploading td {
+		border-bottom: 1px solid #9BE62B;
+	}
+		div.progress {
+			position: relative;
+			width: 100%;
+			height: 13px;
+			margin-top: 7px;
+			background-color: #B8ED67;
+			padding: 0px;
+		}
+			div.progress div {
+				position: absolute;
+				width: 1px;
+				height: 13px;
+				background-color: #35ADFD;
+			}
+			div.progress span {
+				position: absolute;
+				padding-left: 3px;
+				z-index: 101;
+				font-size: 10px!important;
+				line-height: 12px!important;
+				font-weight: bold;
+				color: white;
+			}

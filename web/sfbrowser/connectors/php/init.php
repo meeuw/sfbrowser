@@ -29,6 +29,7 @@ echo "\t\t\t$.sfbrowser.defaults.deny = (\"".SFB_DENY."\").split(\",\");\n";
 echo "\t\t\t$.sfbrowser.defaults.icons = ['".implode("','",$aIcons)."'];\n";
 echo "\t\t\t$.sfbrowser.defaults.browser = \"".$sSfbHtml."\";\n";
 echo "\t\t\t$.sfbrowser.defaults.debug = ".(SFB_DEBUG?"true":"false").";\n";
+echo "\t\t\t$.sfbrowser.defaults.maxsize = ".getUploadMaxFilesize().";\n";
 if (SFB_PLUGINS!="") echo "\t\t\t$.sfbrowser.defaults.plugins = ['".implode("','",$aPlugins)."'];\n";
 echo "\t\t--></script>\n";
 

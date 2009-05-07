@@ -206,3 +206,23 @@ function getFilePath($relative_path) {
     // and implodes both arrays 
     return implode("/", $abs_array) . "/" . implode("/", $relative_array);   
 }
+
+
+function getUploadMaxFilesize() {
+	$iMaxBytes = 0;
+	$sMxSz = ini_get("upload_max_filesize");
+	$iLen = strlen($sMxSz);
+	if ($iLen>1) {
+		$sLast = substr($sMxSz, $iLen-1, 1);
+		$iRest = intVal(substr($sMxSz, 0, $iLen-1));
+		switch ($sLast) {
+			case "K": $iMaxBytes = $iRest*1024; break;
+			case "M": $iMaxBytes = $iRest*1048576; break;
+			case "G": $iMaxBytes = $iRest*1073741824; break;
+			default: $iMaxBytes = intVal($sMxSz);
+		}
+	} else {
+		$iMaxBytes = intVal($sMxSz);
+	}
+	return $iMaxBytes;
+}

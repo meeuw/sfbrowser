@@ -12,7 +12,7 @@ package {
 		private var oQue:Object = new Object();
 		//
 		// flashvar data
-		private var bMulti:Boolean = false;
+		private var iMaxSize:uint = 2097152;
 		private var sUploadUri:String = "";
 		private var sAction:String = "";
 		private var sFolder:String = "";
@@ -31,7 +31,7 @@ package {
 			for (var sVar:String in oFlashVars) {
 				var sValue:String = String(oFlashVars[sVar]);
 				switch (sVar) {
-					case "multi":		bMulti = sValue=="true"; break;
+					case "maxsize":		iMaxSize = uint(sValue); break;
 					case "uploadUri":	sUploadUri = sValue; break;
 					case "action":		sAction = sValue; break;
 					case "folder":		sFolder = sValue; break;
@@ -50,6 +50,7 @@ package {
 			mBg.addEventListener(MouseEvent.CLICK,findFile);
 			//
 			ExternalInterface.addCallback("setPath", setPath);
+			ExternalInterface.addCallback("cancelUpload", cancelUpload);
 			//
 			ExternalInterface.call("$.sfbrowser.swfInit()");
 		}
@@ -59,6 +60,14 @@ package {
 		// setPath
 		public function setPath(s:String):void {
 			sFolder = s;
+		}
+		//
+		// cancelUpload
+		public function cancelUpload(s:String):void {
+			trace("cancelUpload: "+s);
+			var oDl:FileReference = FileReference(oQue[s]);
+			oDl.cancel();
+			delete(oQue[s]);
 		}
 		//
 		// PRIVATE FUNCTIONS
@@ -89,9 +98,13 @@ package {
 		private function fileSelected(e:Event):void {
 			trace("fileSelected");
 			oFRef = FileReference(e.currentTarget);
-			oQue[oFRef.name] = oFRef;
-			oFRef.upload(new URLRequest(uri));
-			ExternalInterface.call("$.sfbrowser.ufileSelected(\""+oFRef.name+"\")");
+			if (oFRef.size>iMaxSize) { // file exceeds upload_max_filesize
+				ExternalInterface.call("$.sfbrowser.ufileTooBig(\""+oFRef.name+"\")");
+			} else if (!oQue.hasOwnProperty(oFRef.name)) {// proceed to upload
+				oQue[oFRef.name] = oFRef;
+				oFRef.upload(new URLRequest(uri));
+				ExternalInterface.call("$.sfbrowser.ufileSelected(\""+oFRef.name+"\")");
+			}
 		}
 		private function fileOpen(e:Event):void {
 			ExternalInterface.call("$.sfbrowser.ufileOpen(\""+FileReference(e.currentTarget).name+"\")");

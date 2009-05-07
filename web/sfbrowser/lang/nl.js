@@ -48,6 +48,8 @@ $.sfbrowser.defaults.lang =	{
 	,fileExistsOverwrite:	"Het bestand bestaat al, overschrijven?"
 	,fileExistsrenamed:		"Het bestand bestaat al, het is hernoemd met een nr."
 	,fileRenamed:			"Bestand hernoemd"
+	,fileUploadCancel:		"Annuleer upload"
+	,fileTooBig:			"Het bestand '#1' overschrijd het de maximum upload grootte van #2. Komprimeer het bestand of upload het via FTP."
 
 	,duplicate:				"Dupliceer"
 	,fileDuplicated:		"Duplicatie gelukt"

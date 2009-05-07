@@ -48,6 +48,8 @@ $.sfbrowser.defaults.lang =	{
 	,fileExistsOverwrite:	"The file already exists, overwrite?"
 	,fileExistsrenamed:		"The file already exists, it has been uploaded and appended by a number."
 	,fileRenamed:			"Rename succesfull"
+	,fileUploadCancel:		"Cancel upload"
+	,fileTooBig:			"The file '#1' exceeds the maximum upload size of #2. Either compress the file, or upload through FTP."
 
 	,duplicate:				"Duplicate"
 	,fileDuplicated:		"Duplication succesfull"
