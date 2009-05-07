@@ -1,12 +1,15 @@
 package {
+	//
 	import flash.net.*;
 	import flash.events.*;
 	import flash.display.*;
 	import flash.external.ExternalInterface;
-	import nl.ronvalstar.net.FileUpload;
+	//
 	public class Uploader extends Sprite {
 		//
-		private var oFu:FileUpload;
+		private var oFRef:FileReference;
+		private var aTypeFilter:Array = new Array();
+		private var oQue:Object = new Object();
 		//
 		// flashvar data
 		private var bMulti:Boolean = false;
@@ -18,7 +21,7 @@ package {
 		private var sResize:String = "";
 		//
 		public function Uploader() {
-			//
+			trace("Uploader");
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.quality = StageQuality.LOW;
@@ -37,62 +40,81 @@ package {
 					case "resize":		sResize = sValue; break;
 				}
 			}
-			//
-			var aTypeFilter:Array = new Array();
 			if (sAllow!="") aTypeFilter.push(new FileFilter("SFBrowser", "*."+sAllow.replace(/\|/g,";*.")));
 			//
 			var mBg:Sprite = Sprite(this.addChild(new Sprite()));
-			mBg.graphics.beginFill(0xFF0000,.4);
+			mBg.graphics.beginFill(0xFF0000,.0);
 			mBg.graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight);
 			mBg.graphics.endFill();
 			mBg.mouseEnabled = mBg.useHandCursor = true;
 			mBg.addEventListener(MouseEvent.CLICK,findFile);
-			//
-			oFu = new FileUpload(uri,bMulti,aTypeFilter);
-			oFu.addEventListener(Event.SELECT,fileSelected);
-			oFu.addEventListener(Event.OPEN,fileOpen);
-			oFu.addEventListener(ProgressEvent.PROGRESS,fileProgress);
-			oFu.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA,fileCompleteD);
 			//
 			ExternalInterface.addCallback("setPath", setPath);
 			//
 			ExternalInterface.call("$.sfbrowser.swfInit()");
 		}
 		//
-		// findFile
-		private function findFile(e:MouseEvent):void {
-			ExternalInterface.call("$.sfbrowser.getPath()");
-			oFu.findFile();
-		}
-		//
-		//
-		private function fileSelected(e:Event):void {
-			trace("fileSelectede.target: "+e.target);
-			trace("fileSelectede.currentTarget: "+e.currentTarget);
-			ExternalInterface.call("$.sfbrowser.ufileSelected(\""+oFu.name+"\")");
-		}
-		private function fileOpen(e:Event):void {
-			trace("fileOpene.target: "+e.target);
-			trace("fileOpene.currentTarget: "+e.currentTarget);
-			ExternalInterface.call("$.sfbrowser.ufileOpen(\""+oFu.name+"\")");
-		}
-		private function fileProgress(e:ProgressEvent):void {
-			ExternalInterface.call("$.sfbrowser.ufileProgress("+e.bytesLoaded/e.bytesTotal+",\""+oFu.name+"\")");
-		}
-		private function fileCompleteD(e:DataEvent):void {
-			ExternalInterface.call("$.sfbrowser.ufileCompleteD("+e.data+")");
-		}
-		//
-		//
-		// uri
-		private function get uri():String {
-			return sUploadUri+"?a="+sAction+"&folder="+sFolder+"&allow="+sAllow+"&deny="+sDeny+"&resize="+sResize;
-		}
+		// PUBLIC FUNCTIONS
 		//
 		// setPath
 		public function setPath(s:String):void {
 			sFolder = s;
-			oFu.uri = uri
+		}
+		//
+		// PRIVATE FUNCTIONS
+		//
+		// findFile
+		private function findFile(e:MouseEvent):void {
+			trace("findFile");
+			ExternalInterface.call("$.sfbrowser.getPath()");
+			//
+			oFRef = new FileReference();
+			// (de)activation
+			//	activate			Dispatched when Flash Player gains operating system focus and becomes active. EventDispatcher
+			//	deactivate			Dispatched when Flash Player loses operating system focus and is becoming inactive. EventDispatcher
+			// file handling
+			oFRef.addEventListener(Event.SELECT,						fileSelected);		// Dispatched when the user selects a file for upload or download from the file-browsing dialog box. FileReference
+			oFRef.addEventListener(Event.OPEN,							fileOpen);			// Dispatched when an upload or download operation starts. FileReference
+			oFRef.addEventListener(ProgressEvent.PROGRESS,				fileProgress);		// Dispatched periodically during the file upload or download operation. FileReference
+			oFRef.addEventListener(Event.CANCEL,						fileCancel);		// Dispatched when a file upload or download is canceled through the file-browsing dialog box by the user. FileReference
+			oFRef.addEventListener(Event.COMPLETE,						fileComplete);		// Dispatched when download is complete or when upload generates an HTTP status code of 200. FileReference
+			oFRef.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA,		fileCompleteD);		// Dispatched after data is received from the server after a successful upload.
+			// error handling
+			oFRef.addEventListener(HTTPStatusEvent.HTTP_STATUS,			errorHttpStatus);	// Dispatched when an upload fails and an HTTP status code is available to describe the failure. FileReference
+			oFRef.addEventListener(IOErrorEvent.IO_ERROR,				errorIO);			// Dispatched when the upload or download fails. FileReference
+			oFRef.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	errorSecurity);		// Dispatched when a call to the FileReference.upload() or FileReference.download() method tries to upload a file to a server or get a file from a server that is outside the caller's security sandbox. FileReference
+			oFRef.browse(aTypeFilter);
+		}
+		//
+		private function fileSelected(e:Event):void {
+			trace("fileSelected");
+			oFRef = FileReference(e.currentTarget);
+			oQue[oFRef.name] = oFRef;
+			oFRef.upload(new URLRequest(uri));
+			ExternalInterface.call("$.sfbrowser.ufileSelected(\""+oFRef.name+"\")");
+		}
+		private function fileOpen(e:Event):void {
+			ExternalInterface.call("$.sfbrowser.ufileOpen(\""+FileReference(e.currentTarget).name+"\")");
+		}
+		private function fileProgress(e:ProgressEvent):void {
+			ExternalInterface.call("$.sfbrowser.ufileProgress("+e.bytesLoaded/e.bytesTotal+",\""+FileReference(e.currentTarget).name+"\")");
+		}
+		private function fileCancel(e:Event):void {				trace("fileCancel: "+e); }			// remove from que
+		private function fileComplete(e:Event):void {			trace("fileComplete: "+e); }
+		private function fileCompleteD(e:DataEvent):void {
+			trace("fileCompleteD");
+			delete(oQue[FileReference(e.currentTarget).name]);
+			ExternalInterface.call("$.sfbrowser.ufileCompleteD("+e.data+")");
+		}
+		//
+		// error
+		private function errorHttpStatus(e:HTTPStatusEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);trace("errorHttpStatus: "+e); }	// remove from que
+		private function errorIO(e:IOErrorEvent):void {				delete(oQue[FileReference(e.currentTarget).name]);trace("fileComplete: "+e); }	// remove from que
+		private function errorSecurity(e:SecurityErrorEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);trace("errorSecurity: "+e); }	// remove from que
+		//
+		// uri
+		private function get uri():String {
+			return sUploadUri+"?a="+sAction+"&folder="+sFolder+"&allow="+sAllow+"&deny="+sDeny+"&resize="+sResize;
 		}
 	}
 }

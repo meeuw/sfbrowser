@@ -79,7 +79,6 @@
 *   - new: edit ascii file (plugin)
 *	- fix: Opera sucks (or let Opera fix itself)
 *	- code: check what timeout code in upload code really does
-*	- do something like http://www.uploadify.com/ to make multiple file uploads
 *
 * in this update:
 *		- added: audio and video preview
@@ -89,6 +88,7 @@
 *		- removed: array prototype functions / added single function
 *		- fixed: overwrite file uploade shows duplicate file
 *		- alert when uploading same file
+*		- implemented an optional as3 inline upload
 *
 */
 ;(function($) {
@@ -176,7 +176,7 @@
 			var oExists = getPath().contents[s];
 			var mPrg = oExists.tr.find(".progress");
 			mPrg.text(Math.round(f*100)+"%");
-			mPrg.width(Math.round(f*mPrg.parent().width()));
+			mPrg.width(Math.round(f*.8*mPrg.parent().width()));
 		}
 		,ufileCompleteD: function(o) {
 			trace("getPath().contents[o.data.file]: "+getPath().contents[o.data.file]);

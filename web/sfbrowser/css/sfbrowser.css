@@ -144,7 +144,7 @@ body, html {
 	#sfbrowser a.rename {		background-image: url("rename.gif");}
 	#sfbrowser a.newfolder {	background-image: url("folder_new.gif");}
 	#sfbrowser a.duplicate {	background-image: url("files.gif");}
-	#sfbrowser a.cancel {		background-image: url("close.gif");}
+	#sfbrowser a.cancel {		background-image: url("uploadcancel.gif");}
 
 	/* table anchor buttons */
 	#sfbrowser #fbwin table a.sfbbutton {
@@ -423,10 +423,12 @@ div#resizer {
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	font-size: 10px;
+	line-height: 10px;
 }
 .progress {
 	width: 1px;
-	height: 16px;
-	margin-top: 2px;
-	background-color: red;
+	height: 14px;
+	margin-top: 6px;
+	background: transparent url(progress.png) 0px 0px;
 }
