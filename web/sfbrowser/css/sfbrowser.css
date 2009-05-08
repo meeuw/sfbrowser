@@ -6,7 +6,6 @@ body, html {
 #sfbrowser * {
 	font-family: arial, sans, verdana;
 	font-size: 12px;
-	line-height: 26px;
 }
 #sfbrowser {
 	position: fixed;
@@ -53,6 +52,10 @@ body, html {
 			padding-left: 19px;
 			cursor: move;
 		}
+			#sfbrowser h3 span {
+				color: #D00;
+				padding-left: 10px;
+			}
 		#sfbrowser #loadbar {
 			display: none;
 			position: absolute;
@@ -88,6 +91,7 @@ body, html {
 			list-style: none;
 			margin: 0px;
 			padding: 0px;
+			line-height: 26px;
 		}
 		#sfbrowser #fbwin #sfbtopmenu li {
 			position: relative;
@@ -112,6 +116,14 @@ body, html {
 				font-size: 5px;
 				cursor: pointer;
 				cursor: hand;
+			}
+
+			/* swf uploader */
+			#sfbrowser #swfUploader {
+				display: block;
+				position: absolute;
+				left: 0px;
+				top: 0px;
 			}
 		
 	/* anchor buttons */
@@ -139,7 +151,7 @@ body, html {
 	#sfbrowser a.cancelfb {		background-image: url("close.gif");}
 	#sfbrowser a.upload {		background-image: url("upload.gif");}
 	#sfbrowser a.filedelete {	background-image: url("delete.gif");}
-	#sfbrowser a.preview {		background-image: url("preview.gif");}
+	#sfbrowser a.preview {		background-image: url("download.gif");}
 	#sfbrowser a.choose {		background-image: url("file_select.gif");}
 	#sfbrowser a.rename {		background-image: url("rename.gif");}
 	#sfbrowser a.newfolder {	background-image: url("folder_new.gif");}
@@ -189,10 +201,7 @@ body, html {
 	/* sfbrowser table */
 	#sfbrowser div#fbtable {
 		height: 226px;
-		/*height: 60%;*/
-		overflow: auto;/* auto hidden */
-		/*overflow-y: hidden;*/
-		/*overflow-x: hidden;*/
+		overflow: auto;
 		border: 2px solid #888;
 		border-color: #888 #fff #fff #888;
 		background-color: #fff;
@@ -213,7 +222,7 @@ body, html {
 			#sfbrowser thead tr	{
 			}*/
 				#sfbrowser thead th {
-					height: 26px !important;
+					height: 20px;
 					font-family: verdana;
 					text-align: left;
 					border-width: 1px;
@@ -238,12 +247,12 @@ body, html {
 					background: url(ascdesc.gif) -9px 0px no-repeat;
 				}
 		#sfbrowser table>tbody {
-			/*height: 198px;
-			height: 2%;*/
-			
 			height: 198px;
 			overflow: auto; 
 			overflow-x: hidden;			
+		}
+		#sfbrowser table>tbody * {
+			line-height: 26px;
 		}
 			#sfbrowser table tbody tr {
 				height: 26px !important;
@@ -251,21 +260,6 @@ body, html {
 				cursor: pointer;
 				white-space: nowrap;
 			}
-			/*#sfbrowser table thead tr th {
-				overflow: hidden;
-			}
-			#sfbrowser table thead tr th.type {
-				width: 24px;
-				overflow: hidden;
-			}
-			#sfbrowser table thead tr th.size {
-				width: 24px;
-				overflow: hidden;
-			}
-			#sfbrowser table thead tr th.buttons {
-				width: 54px;
-				overflow: hidden;
-			}*/
 			#sfbrowser table tbody tr.over {
 				background-color: #def;
 			}
@@ -276,10 +270,6 @@ body, html {
 					vertical-align: top;/*baseline;*/
 					border-right: 1px solid #def;
 				}
-				/*#sfbrowser table tbody tr td div {
-					width: 90%;
-					overflow: hidden;
-				}*/
 				#sfbrowser td.loading {
 					height: 194px;
 					background: url(loadingb.gif) center center no-repeat;
@@ -300,6 +290,38 @@ body, html {
 						line-height: 14px;
 						width: 90%;
 					}
+							
+			/* uploading */
+			#sfbrowser table tbody tr.uploading {
+				background-color: #D7FF99!important;
+				cursor: default;
+			}
+				#sfbrowser table tbody tr.uploading td {
+					border-bottom: 1px solid #9BE62B;
+				}
+					#sfbrowser table tbody div.progress {
+						position: relative;
+						width: 100%;
+						height: 13px;
+						margin-top: 7px;
+						background-color: #B8ED67;
+						padding: 0px;
+					}
+						#sfbrowser table tbody div.progress div {
+							position: absolute;
+							width: 1px;
+							height: 13px;
+							background-color: #35ADFD;
+						}
+						#sfbrowser table tbody div.progress span {
+							position: absolute;
+							padding-left: 3px;
+							z-index: 101;
+							font-size: 10px!important;
+							line-height: 12px!important;
+							font-weight: bold;
+							color: white;
+						}
 
 /* preview */
 #sfbrowser div#fbpreview {
@@ -416,75 +438,3 @@ div#resizer {
 	background: transparent url(resizer.gif) 3px 3px no-repeat;
 	cursor: move;
 }
-
-/* swfUploader 
-#swfUploader {
-	display: block;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-}
-tr.uploading {
-	background-color: #FFA!important;
-}
-	div.progress {
-		position: relative;
-		width: 100%;
-		height: 14px;
-		margin-top: 6px;
-		background-color: #DCDC92;
-		padding: 0px;
-	}
-		div.progress div {
-			position: absolute;
-			width: 1px;
-			height: 14px;
-			background-color: #EE8116;
-		}
-		div.progress span {
-			position: absolute;
-                        padding-left: 3px;
-			z-index: 101;
-			font-size: 10px!important;
-			line-height: 12px!important;
-                        font-weight: bold;
-                        color: white;
-		}*/
-		
-/* swfUploader */
-#swfUploader {
-	display: block;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-}
-tr.uploading {
-	background-color: #D7FF99!important;
-	cursor: default;
-}
-	tr.uploading td {
-		border-bottom: 1px solid #9BE62B;
-	}
-		div.progress {
-			position: relative;
-			width: 100%;
-			height: 13px;
-			margin-top: 7px;
-			background-color: #B8ED67;
-			padding: 0px;
-		}
-			div.progress div {
-				position: absolute;
-				width: 1px;
-				height: 13px;
-				background-color: #35ADFD;
-			}
-			div.progress span {
-				position: absolute;
-				padding-left: 3px;
-				z-index: 101;
-				font-size: 10px!important;
-				line-height: 12px!important;
-				font-weight: bold;
-				color: white;
-			}

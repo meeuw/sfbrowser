@@ -1,3 +1,13 @@
+/**
+title:		Uploader
+description:An uploader interface for SFBrowser
+version:	1.0
+rights:		Copyright (c) 2009, Ron Valstar
+author:		Ron Valstar
+author email:	ron@ronvalstar.nl
+author uri:	http://www.sjeiti.com/
+disclaimer: Dual licensed under the MIT and GPL licenses: http://www.opensource.org/licenses/mit-license.php and http://www.gnu.org/licenses/gpl.html
+*/
 package {
 	//
 	import flash.net.*;
@@ -12,6 +22,7 @@ package {
 		private var oQue:Object = new Object();
 		//
 		// flashvar data
+		private var bDebug:Boolean = false;
 		private var iMaxSize:uint = 2097152;
 		private var sUploadUri:String = "";
 		private var sAction:String = "";
@@ -21,7 +32,6 @@ package {
 		private var sResize:String = "";
 		//
 		public function Uploader() {
-			trace("Uploader");
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.quality = StageQuality.LOW;
@@ -31,6 +41,7 @@ package {
 			for (var sVar:String in oFlashVars) {
 				var sValue:String = String(oFlashVars[sVar]);
 				switch (sVar) {
+					case "debug":		bDebug = sValue=="true"; break;
 					case "maxsize":		iMaxSize = uint(sValue); break;
 					case "uploadUri":	sUploadUri = sValue; break;
 					case "action":		sAction = sValue; break;
@@ -43,16 +54,18 @@ package {
 			if (sAllow!="") aTypeFilter.push(new FileFilter("SFBrowser", "*."+sAllow.replace(/\|/g,";*.")));
 			//
 			var mBg:Sprite = Sprite(this.addChild(new Sprite()));
-			mBg.graphics.beginFill(0xFF0000,.0);
+			mBg.graphics.beginFill(0xFF0000,bDebug?.4:0);
 			mBg.graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight);
 			mBg.graphics.endFill();
 			mBg.mouseEnabled = mBg.useHandCursor = true;
 			mBg.addEventListener(MouseEvent.CLICK,findFile);
 			//
 			ExternalInterface.addCallback("setPath", setPath);
+			ExternalInterface.addCallback("doUpload", doUpload);
 			ExternalInterface.addCallback("cancelUpload", cancelUpload);
 			//
 			ExternalInterface.call("$.sfbrowser.swfInit()");
+			if (bDebug) trace("Uploader");
 		}
 		//
 		// PUBLIC FUNCTIONS
@@ -62,9 +75,16 @@ package {
 			sFolder = s;
 		}
 		//
+		// doUpload
+		public function doUpload(s:String):void {
+			if (bDebug) trace("doUpload: "+s);
+			var oFRef:FileReference = FileReference(oQue[s]);
+			oFRef.upload(new URLRequest(uri));
+		}
+		//
 		// cancelUpload
 		public function cancelUpload(s:String):void {
-			trace("cancelUpload: "+s);
+			if (bDebug) trace("cancelUpload: "+s);
 			var oDl:FileReference = FileReference(oQue[s]);
 			oDl.cancel();
 			delete(oQue[s]);
@@ -74,7 +94,7 @@ package {
 		//
 		// findFile
 		private function findFile(e:MouseEvent):void {
-			trace("findFile");
+			if (bDebug) trace("findFile");
 			ExternalInterface.call("$.sfbrowser.getPath()");
 			//
 			oFRef = new FileReference();
@@ -96,13 +116,12 @@ package {
 		}
 		//
 		private function fileSelected(e:Event):void {
-			trace("fileSelected");
+			if (bDebug) trace("fileSelected");
 			oFRef = FileReference(e.currentTarget);
 			if (oFRef.size>iMaxSize) { // file exceeds upload_max_filesize
 				ExternalInterface.call("$.sfbrowser.ufileTooBig(\""+oFRef.name+"\")");
-			} else if (!oQue.hasOwnProperty(oFRef.name)) {// proceed to upload
+			} else if (!oQue.hasOwnProperty(oFRef.name)) {// ask to upload
 				oQue[oFRef.name] = oFRef;
-				oFRef.upload(new URLRequest(uri));
 				ExternalInterface.call("$.sfbrowser.ufileSelected(\""+oFRef.name+"\")");
 			}
 		}
@@ -112,18 +131,18 @@ package {
 		private function fileProgress(e:ProgressEvent):void {
 			ExternalInterface.call("$.sfbrowser.ufileProgress("+e.bytesLoaded/e.bytesTotal+",\""+FileReference(e.currentTarget).name+"\")");
 		}
-		private function fileCancel(e:Event):void {				trace("fileCancel: "+e); }			// remove from que
-		private function fileComplete(e:Event):void {			trace("fileComplete: "+e); }
+		private function fileCancel(e:Event):void {				if (bDebug) trace("fileCancel: "+e); }			// remove from que
+		private function fileComplete(e:Event):void {			if (bDebug) trace("fileComplete: "+e); }
 		private function fileCompleteD(e:DataEvent):void {
-			trace("fileCompleteD");
+			if (bDebug) trace("fileCompleteD");
 			delete(oQue[FileReference(e.currentTarget).name]);
 			ExternalInterface.call("$.sfbrowser.ufileCompleteD("+e.data+")");
 		}
 		//
 		// error
-		private function errorHttpStatus(e:HTTPStatusEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);trace("errorHttpStatus: "+e); }	// remove from que
-		private function errorIO(e:IOErrorEvent):void {				delete(oQue[FileReference(e.currentTarget).name]);trace("fileComplete: "+e); }	// remove from que
-		private function errorSecurity(e:SecurityErrorEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);trace("errorSecurity: "+e); }	// remove from que
+		private function errorHttpStatus(e:HTTPStatusEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("errorHttpStatus: "+e); }	// remove from que
+		private function errorIO(e:IOErrorEvent):void {				delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("fileComplete: "+e); }	// remove from que
+		private function errorSecurity(e:SecurityErrorEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("errorSecurity: "+e); }	// remove from que
 		//
 		// uri
 		private function get uri():String {

@@ -54,40 +54,46 @@
 *	- Spanish translation: Juan Razeto
 *
 * todo:
+*	- sort uploading files on top
 *	- correct error handling (opposed to the current silent json break php fail)
+*	- multiple file deletion (recursive folder deletion)
+*   - new: general filetype filter
+*   - fix: IE swf upload
+*   - new: folder information such as number of files (possibly add to filetree)
+*	- oSettings.file to work with multiple files
 *	o table
 *		- possibly replace table for http://code.google.com/p/flexigrid/, or do it myself and fix the scrolling, structure follows function
-*		- FF: multiple file selection: disable table cell highlighting (border)
-*		- IE: fix multiple file selection
 *		- IE: fix IE and Safari scrolling (table header moves probably due to absolute positioning of parents), or simply don't do xhtml (make two tables)
 *		- add: drag and drop files to folders
 *		- maybe: thumbnail view
 *		- fix: since resizing is possible abbreviating long filenames does not cut it (...)
-*	- oSettings.file to work with multiple files
-*	- revise: keyboard shortcuts (select on first char)
-*	- revise: 'fixed' property: not very nescesary (since fixed should be default true on inline)
-*   - new: general filetype filter
-*	- add: style option: new or custom css files
-*	- add: make text selection in table into multiple file selection
+*		o multiple file selection
+*			- add: make text selection in table into multiple file selection
+*			- FF: multiple file selection: disable table cell highlighting (border)
+*			- IE: fix multiple file selection
 *	o preview
 *		- new: make preview an option
 *		- add: image preview: no-scaling on smaller images
 *		- add: show zip and rar file contents in preview
-*   - new: folder information such as number of files (possibly add to filetree)
 *   - new: add mime instead of extension (for mac)
-*   - new: create ascii file (plugin)
-*   - new: edit ascii file (plugin)
+*   - new: create/edit ascii file (plugin)
+*	- add: style option: new or custom css files
 *	- fix: Opera sucks (or let Opera fix itself)
 *	- code: check what timeout code in upload code really does
+*	- fix: figure out IE slowness by disabling half transparent bg (replace with gif)
 *
 * in this update:
+*		- added: debug mode message
+*		- added: auto scrol lto selection
 *		- added: audio and video preview
-*		- added: key-selection
+*		- added: keyboard first character selection
 *		- added: highlight current selection (file) on open
 *		- added: "j-n-Y H:i" filetime now in config
 *		- removed: array prototype functions / added single function
 *		- fixed: overwrite file uploade shows duplicate file
-*		- alert when uploading same file
+*		- added: alert when uploading same file
+*		- added: swf preview
+*		- changed: preview/download icon
 *		- implemented as3 swf upload enabeling:
 *			- queued multiple uploads
 *			- upload progress
@@ -165,15 +171,20 @@
 		,addLang: function(oLang) {
 			for (var sId in oLang) $.sfbrowser.defaults.lang[sId] = oLang[sId];
 		}
-		// swf upload functions (ExternalInterface) 429
+		// swf upload functions (ExternalInterface) 446
 		,swfInit: function() {trace("swfInit");}
 		,ufileSelected: function(s) {
-			trace("ufileSelect "+s);
+			var bPrcd = true;
+			if (getPath().contents[s]!==undefined&&!confirm(oSettings.lang.fileExistsOverwrite)) bPrcd = false;
+			if (bPrcd) $("#swfUploader").get(0).doUpload(s);
+			else $("#swfUploader").get(0).cancelUpload(s);
 		}
 		,ufileTooBig: function(s) {
 			alert(oSettings.lang.fileTooBig.replace("#1",s).replace("#2",format_size(oSettings.maxsize,0)));
 		}
 		,ufileOpen: function(s) {
+			var oExists = getPath().contents[s];
+			if (oExists) oExists.tr.remove(); // $$overwriting existing files and canceling while uploading will cause the old file to disappear from view
 			var mTr = listAdd({file:s,mime:"upload",rsize:0,size:"",time:0,date:"",width:0,height:0}).addClass("uploading");
 		}
 		,ufileProgress: function(f,s) {
@@ -269,7 +280,7 @@
 			mWin = mSfb.find("#fbwin");
 			mTbB = mSfb.find("#fbtable>table>tbody");
 			// top menu
-			mSfb.find("div.sfbheader>h3").text(oSettings.title==""?oSettings.lang.sfb:oSettings.title);
+			mSfb.find("div.sfbheader>h3").html((oSettings.title==""?oSettings.lang.sfb:oSettings.title)+(oSettings.debug?" <span>debug mode</span>":""));
 			mSfb.find("div#loadbar>span").text(oSettings.lang.loading);
 			mSfb.find("#fileToUpload").change(fileUpload);
 			var mTopA = mSfb.find("ul#sfbtopmenu>li>a");
@@ -358,29 +369,25 @@
 			oSettings.keys = [];
 			$(window).keydown(function(e){
 				oSettings.keys[e.keyCode] = true;
+				//
+				var iNumDown = 0;
+				$.each(oSettings.keys,function(i,o){if(o)iNumDown++});
+				//
 				// selection by char a:65 z:90
-				if (e.keyCode>=65&&e.keyCode<=90) {
+				if (iNumDown==1&&!checkRename()&&e.keyCode>=65&&e.keyCode<=90) {
 					var sChar = ("abcdefghijklmnopqrstuvwxyz").substr(e.keyCode-65,1);
-// $$ use tableBody for traversing
-//					mTbB.find("tr").each(function(i,el){
-////						getPath().contents[obj.file]
-//						trace("ai "+i+" "+el);
-//					});
-					var iSel = 1;
-					var aSelected = mTbB.find("tr.selected");
-					var aMaySel = new Array();
-					if (aSelected.length!=0) iSel = 0;
-					$.each(getPath().contents,function(i,o){
-						if (o.file.substr(0,1).toLowerCase()==sChar) {
-							aMaySel.push(o);
-							if (iSel==1) {
-								o.tr.mouseup(clickTr).mouseup();
-								iSel = 2;
-							}
+					var mSel = mTbB.find("tr.selected:first");
+					var aTbr = mTbB.find("tr");
+					var iInd = aTbr.index(mSel);
+					if (iInd==-1) iInd = 0;
+					var iTbr = aTbr.length;
+					for (var i=1;i<iTbr;i++) {
+						var mChk = $(aTbr[(i+iInd)%iTbr]);
+						if (mChk.attr("id").substr(0,1).toLowerCase()==sChar) {
+							mChk.mouseup(clickTr).mouseup();
+							return false;
 						}
-						if (o.tr.get(0)==aSelected[0]) iSel = 1;
-					});
-					if (iSel==1&&aMaySel.length>0) aMaySel[0].mouseup(clickTr).mouseup();
+					}
 				}
 				// single key functions
 				switch (e.keyCode) {
@@ -430,36 +437,41 @@
 			};
 			$.each( oSettings.plugins, function(i,sPlugin) { $.sfbrowser[sPlugin](oThis) });
 			//
+			// swf uploader (timeout to ensure width and height are set)
+			$("<br/>").animate({"foo":1},{
+				"duration":1
+				,"complete":function(){
+					if (oSettings.swfupload) {
+						mSfb.find("#fileio").remove();
+						var mAup = mSfb.find("#sfbtopmenu a.upload");
+						mAup.append("<div id=\"swfUploader\"></div>");
+						swfobject.embedSWF(
+							 oSettings.sfbpath+"uploader.swf"
+							,"swfUploader"
+							,(mAup.width()+10)+"px" // +10 accounts for padding
+							,mAup.height()+"px"
+							,"9.0.0",""
+							,{ // flashvars
+								 debug:		oSettings.debug
+								,maxsize:	oSettings.maxsize
+								,uploadUri:	"../"+oSettings.conn
+								,action:	"sfu"
+								,folder:	aPath.join("")
+								,allow:		oSettings.allow.join("|")
+								,deny:		oSettings.deny.join("|")
+								,resize:	oSettings.resize
+							},{menu:"false",wmode:"transparent"}
+						);
+					}
+				}
+			});
+			//
 			//////////////////////////// start
 			//
 			openDir(sFolder);
 			openSFB();
 			if (oSettings.cookie&&!bCookie) setSfbCookie();
 			trace("SFBrowser open ("+oSettings.plugins+")",true);
-			//
-			// swf uploader (do after so we can read width)
-			if (oSettings.swfupload) {
-				mSfb.find("#fileio").remove();
-				var mAup = mSfb.find("#sfbtopmenu a.upload");
-				mAup.append("<div id=\"swfUploader\"></div>");
-				swfobject.embedSWF(
-					 oSettings.sfbpath+"uploader.swf"
-					,"swfUploader"
-					,(mAup.width()+10)+"px" // +10 accounts for padding
-					,mAup.height()+"px"
-					,"9.0.0"
-					,""
-					,{ // flashvars
-						 maxsize:	oSettings.maxsize
-						,uploadUri:	"../"+oSettings.conn
-						,action:	"sfu"
-						,folder:	aPath.join("")
-						,allow:		oSettings.allow.join("|")
-						,deny:		oSettings.deny.join("|")
-						,resize:	oSettings.resize
-					},{menu:"false",wmode:"transparent"}
-				);
-			}
 		}
 	});
 	
@@ -471,13 +483,16 @@
 		// animation
 		mSfb.find("#fbbg").slideDown();
 		mWin.slideDown("normal",resizeWindow);
+		//mSfb.show();
+		//mWin.show();
+		//resizeWindow();
 	}
 	//
 	// close
 	function closeSFB() {
 		trace("sfb close");
 		// $$ remove all pending uploads
-		// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+		// $$
 		$("#sfbrowser #fbbg").fadeOut();
 		mWin.slideUp("normal",function(){mSfb.remove();});
 	}
@@ -502,8 +517,6 @@
 		//
 		var oCTree = getPath();
 		oCTree.filled = true;
-		//
-		//
 		//
 		//
 		if (oSettings.file!="") { // find selected file // #@@##@!$#@! bloody figure out why file not has ../ and base has!!!!!!!!!
@@ -532,8 +545,13 @@
 					var mTr = listAdd(oFile);
 					// find selected file
 					if (oSettings.file!=""&&sSelFileName==oFile.file) {
-						mTr.mouseup(clickTr).mouseup();
-						oSettings.file = "";
+						mTr.animate({"foo":1},{ // select by timeout to prevent error
+							"duration":1
+							,"complete":function(){
+								mTr.mouseup(clickTr).mouseup();
+								oSettings.file = "";
+							}
+						});
 					}
 				}
 			}
@@ -577,8 +595,8 @@
 		// 
 		var mTr = $(sTr).prependTo(mTbB);
 		//
-//		mTr.find("td").wrapInner("<div></div>");
-//		$("#sfbrowser thead>tr").remove();
+		//mTr.find("td").wrapInner("<div></div>");
+		//$("#sfbrowser thead>tr").remove();
 		//
 		obj.tr = mTr;
 		mTr.find("a.filedelete").click(deleteFile);
@@ -654,57 +672,85 @@
 			else mTr.addClass("selected");
 		}
 		// selection must be in fov
-//		$$
-//		trace("mTbB.scrollTop "+" "+mTbB.scrollTop());
-//		trace("fbtable.scrollTop "+" "+fbtable.scrollTop());
-		// preview image
-		$("#fbpreview").html("");
-		if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
-			var sFuri = oSettings.sfbpath+aPath.join("")+sFile; // todo: cleanup img path
-			$("<img src=\""+sFuri+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
-		} else if (oSettings.ascii.indexOf(oFile.mime)!=-1) {// preview ascii
-			if (oFile.preview) {
-				$("#fbpreview").html(oFile.preview);
-			} else {
-				$("#fbpreview").html(oSettings.lang.previewText);
-				$.ajax({type:"POST", url:oSettings.conn, data:"a=mizu&folder="+aPath.join("")+"&file="+sFile, dataType:"json", success:function(data, status){
-						if (typeof(data.error)!="undefined") {
-						if (data.error!="") {
-							trace("sfb error: "+lang(data.error));
-							alert(lang(data.error));
-						} else {
-							trace(lang(data.msg));
-							oFile.preview = "<pre><div>"+oSettings.lang.previewPart.replace("#1",oSettings.preview)+"</div>\n"+data.data.text.replace(/\>/g,"&gt;").replace(/\</g,"&lt;")+"</pre>";
-							$("#fbpreview").html(oFile.preview);
-						}
-					}
-				}});
+		// table: Chrome, IE, Safari, Opera
+		// tbody: FF
+		// oSettings.file causes error for mTr.position() when not used with timout
+		var mTbl = $("#fbtable");
+		var iHTbl = mTbl.height();
+		var iTrY = mTr.position().top;
+		//trace("ehr: "+mTbB.height()+">"+iHTbl+" || "+mTbB.get(0).scrollHeight+"!="+iHTbl+"   "+iTrY);
+		if (mTbB.height()>iHTbl||mTbB.get(0).scrollHeight!=iHTbl) { // body>table
+			trace("jQuery.browser.mozilla: "+jQuery.browser.mozilla);
+			var mScroll = jQuery.browser.mozilla?mTbB:mTbl; // scroll table or body?
+			if (iTrY>iHTbl||iTrY<0) {
+				var iDff = iTrY>iHTbl?(iTrY-iHTbl):(iTrY-2*mTr.height());
+				mScroll.scrollTop(mScroll.scrollTop()+iDff);
+				//trace("mScroll.scrollTop "+mScroll.scrollTop()+" -> "+(mScroll.scrollTop()-iDff));
 			}
-		} else if (oSettings.movie.indexOf(oFile.mime)!=-1) {// preview movie
-			$("#fbpreview").html("<div id=\"previewMovie\"></div>");
-			var iW = $("#fbpreview").width();
-			var iH = $("#fbpreview").height();
-			var sFuri = oSettings.sfbpath+aPath.join("")+sFile; // todo: cleanup img path
-			var sMdPt = oFile.mime=="mp3"?"":"../../"; // todo: extract path from sfbpath
-			swfobject.embedSWF(
-				 oSettings.sfbpath+"css/splayer.swf"
-				,"previewMovie"
-				,iW+"px"
-				,iH+"px"
-				,"9.0.0"
-				,""
-				,{ //flashvars
-					 file:		sMdPt+sFuri
-					,width:		iW
-					,height:	iH
-					,gui:		"playpause,scrubbar"
-					,guiOver:	true
-					,colors:	'{"bg":"0xFFDEDEDE","bg1":"0xFFBBBBBB","fg":"0xFF666666","fg1":"0xFFD13A3A"}'
-				},{ // params
-					 menu:	"false"
-				}
-			);
 		}
+		//
+		// preview image
+		if ($("#fbpreview").attr("class")!=oFile.file) {
+			$("#fbpreview").html("");
+			var iWprv = $("#fbpreview").width();
+			var iHprv = $("#fbpreview").height();
+			if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
+				var sFuri = oSettings.sfbpath+aPath.join("")+sFile; // todo: cleanup img path
+				$("<img src=\""+sFuri+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
+			} else if (oSettings.ascii.indexOf(oFile.mime)!=-1) {// preview ascii
+				if (oFile.preview) {
+					$("#fbpreview").html(oFile.preview);
+				} else {
+					$("#fbpreview").html(oSettings.lang.previewText);
+					$.ajax({type:"POST", url:oSettings.conn, data:"a=mizu&folder="+aPath.join("")+"&file="+sFile, dataType:"json", success:function(data, status){
+							if (typeof(data.error)!="undefined") {
+							if (data.error!="") {
+								trace("sfb error: "+lang(data.error));
+								alert(lang(data.error));
+							} else {
+								trace(lang(data.msg));
+								oFile.preview = "<pre><div>"+oSettings.lang.previewPart.replace("#1",oSettings.preview)+"</div>\n"+data.data.text.replace(/\>/g,"&gt;").replace(/\</g,"&lt;")+"</pre>";
+								$("#fbpreview").html(oFile.preview);
+							}
+						}
+					}});
+				}
+			} else if (oFile.mime=="swf"||oFile.mime=="fla") {// preview flash
+				$("#fbpreview").html("<div id=\"previewFlash\"></div>");
+				swfobject.embedSWF(
+					 oSettings.sfbpath+aPath.join("")+sFile
+					,"previewFlash"
+					,iWprv+"px"
+					,iHprv+"px"
+					,"9.0.0","",{},{menu:"false"}
+				);
+			} else if (oSettings.movie.indexOf(oFile.mime)!=-1) {// preview movie
+				$("#fbpreview").html("<div id=\"previewMovie\"></div>");
+				var sFuri = oSettings.sfbpath+aPath.join("")+sFile; // todo: cleanup img path
+				var sMdPt = oFile.mime=="mp3"?"":"../../"; // todo: extract path from sfbpath
+				swfobject.embedSWF(
+					 oSettings.sfbpath+"css/splayer.swf"
+					,"previewMovie"
+					,iWprv+"px"
+					,iHprv+"px"
+					,"9.0.0"
+					,""
+					,{ //flashvars
+						 file:		sMdPt+sFuri
+						,width:		iWprv
+						,height:	iHprv
+						,gui:		"playpause,scrubbar"
+						,guiOver:	true
+						,colors:	'{"bg":"0xFFDEDEDE","bg1":"0xFFBBBBBB","fg":"0xFF666666","fg1":"0xFFD13A3A"}'
+					},{ // params
+						 menu:	"false"
+					}
+				);
+			}
+			$("#fbpreview").attr("class",$("#fbpreview").html()==""?"":oFile.file);
+		}
+
+		//
 		return false;
 	}
 	// chooseFile
@@ -1252,6 +1298,9 @@ jQuery.fn.height = function() {
 function unique(b) { var a=[],i; b.sort(); for(i=0;i<b.length;i++) if(b[i]!==b[i+1]) a[a.length]=b[i]; return a; }
 //if(typeof Array.prototype.copy==='undefined'){Array.prototype.copy=function(a){var a=[],i=this.length;while(i--){a[i]=(typeof this[i].copy!=='undefined')?this[i].copy():this[i];}return a;};}
 function copy(b) { var a=[],i = b.length; while (i--) a[i] = b[i].constructor===Array?copy(b[i]):b[i]; return a; }
+// $$ fucking IE forces prototype... oh well...
+if (!Array.indexOf) Array.prototype.indexOf=function(n){for(var i=0;i<this.length;i++){if(this[i]===n){return i;}}return -1;}
+
 
 function format_size(size,round) {
 	if (!round) round = 0;
