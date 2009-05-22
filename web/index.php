@@ -51,6 +51,7 @@
 			<h3>features</h3>
 			<ul>
 				<li>ajax file upload</li>
+				<li>optional as3 swf upload (queued multiple uploads, upload progress, upload canceling, selection filtering, size filtering)</li>
 				<li>localisation (English, Dutch or Spanish)</li>
 				<li>server side script connector</li>
 				<li>plugin environment (with filetree and imageresize plugin)</li>
@@ -61,13 +62,14 @@
 				<li>file duplication</li>
 				<li>file download</li>
 				<li>file/folder context menu</li>
-				<li>file preview (image and text/ascii)</li>
+				<li>file preview (image, audio, video, text/ascii and swf)</li>
 				<li>folder creation</li>
 				<li>multiple files selection</li>
 				<li>inline or overlay window</li>
 				<li>window dragging and resizing</li>
 				<li>cookie for size, position and path</li>
 				<li>keyboard shortcuts</li>
+				<li>key file selection</li>
 			</ul>
 
 			<h3>caution</h3>
@@ -95,6 +97,7 @@
 					<tr><td>SFB_LANG</td>			<td>String</td>		<td>language ISO code</td><td>"en"</td></tr>
 					<tr><td>PREVIEW_BYTES</td>		<td>Integer</td>	<td>ASCII files can be previewed up to a certain amout of bytes.</td><td>600</td></tr>
 					<tr><td>SFB_DENY</td>			<td>String</td>		<td>forbidden file extensions</td><td>"php,php3,phtml"</td></tr>
+					<tr><td>FILETIME</td>			<td>String</td>		<td>datetime format</td><td>"j-n-Y H:i"</td></tr>
 					<tr><td>SFB_ERROR_RETURN</td>	<td>String</td>		<td>return value in case of error</td><td>"&lt;html&gt;&lt;head&gt;&lt;meta http-equiv="Refresh" content="0;URL=http:/" /&gt;&lt;/head&gt;&lt;/html&gt;"</td></tr>
 					<tr><td>SFB_PLUGINS</td>		<td>String</td>		<td>case sensitive, comma separated string with plugin names</td><td>""imageresize,filetree""</td></tr>
 					<tr><td>SFB_DEBUG</td>			<td>Boolean</td>	<td>debug boolean, enables log file and console trace</td><td>false</td></tr>
@@ -118,9 +121,11 @@
 				<tbody>
 					<tr><td>title</td>	<td>String</td>		<td>title of the SFBrowser window</td><td>"SFBrowser"</td></tr>
 					<tr><td>select</td>	<td>Function</td>	<td>calback function on choose</td><td>function(a){trace(a)}</td></tr>
+					<tr><td>file</td>	<td>String</td>		<td>selected file</td><td>""</td></tr>
 					<tr><td>folder</td>	<td>String</td>		<td>a subfolder (relative to base, to which all returned files are relative)</td><td>""</td></tr>
 					<tr><td>dirs</td>	<td>Boolean</td>	<td>allow visibility and creation/deletion of subdirectories.</td><td>true</td></tr>
 					<tr><td>upload</td>	<td>Boolean</td>	<td>allow upload of files</td><td>true</td></tr>
+					<tr><td>swfupload</td><td>Boolean</td>	<td>use swf uploader instead of form hack</td><td>false</td></tr>
 					<tr><td>allow</td>	<td>Array&lt;String&gt;</td>		<td>allowed file extensions</td><td>[]</td></tr>
 					<tr><td>resize</td>	<td>Array&lt;Integer&gt;</td>		<td>maximum image constraint: array(width,height) or null</td><td>null</td></tr>
 					<tr><td>inline</td>	<td>String</td>		<td>a JQuery selector for inline browser</td><td>"body"</td></tr>
@@ -132,8 +137,9 @@
 					<tr><td>h</td>		<td>Integer</td>	<td>height</td><td>480</td></tr>
 				
 					<tr><th colspan="4">the following properties normally need no change</th></tr>
-					<tr><td>img</td>	<td>Array&lt;String&gt;</td>		<td>image file extensions for preview</td><td>["gif", "jpg", "jpeg", "png"]</td></tr>
-					<tr><td>ascii</td>	<td>Array&lt;String&gt;</td>		<td>text file extensions for preview</td><td>["txt", "xml", "html", "htm", "eml", "ffcmd", "js", "as", "php", "css", "java", "cpp", "pl", "log"]</td></tr>
+					<tr><td>img</td>	<td>Array&lt;String&gt;</td>	<td>image file extensions for preview</td><td>["gif", "jpg", "jpeg", "png"]</td></tr>
+					<tr><td>ascii</td>	<td>Array&lt;String&gt;</td>	<td>text file extensions for preview</td><td>["txt", "xml", "html", "htm", "eml", "ffcmd", "js", "as", "php", "css", "java", "cpp", "pl", "log"]</td></tr>
+					<tr><td>movie</td>	<td>Array&lt;String&gt;</td>	<td>movie file extensions for preview</td><td>["mp3","mp4","m4v","m4a","3gp","mov","flv","f4v"]</td></tr>
 					
 					<tr><th colspan="4">The following properties are set automaticly from the init file, explicitly setting these from js can lead to unexpected results.</th></tr>
 					<tr><td>sfbpath</td><td>String</td>		<td>the path of sfbrowser</td><td>"sfbrowser/"</td></tr>
@@ -144,6 +150,7 @@
 					<tr><td>connector</td><td>String</td>	<td>server side script type</td><td>"php"</td></tr>
 					<tr><td>lang</td><td>Object</td>		<td>language object</td><td>see lang/en.js</td></tr>
 					<tr><td>plugins</td><td>Array</td>		<td>plugins</td><td>[]</td></tr>
+					<tr><td>maxsize</td><td>Integer</td>	<td>upload_max_filesize in bytes</td><td>2097152</td></tr>
 					<tr><td>debug</td><td>Boolean</td>		<td>allows trace to console</td><td>false</td></tr>
 					
 				</tbody>
@@ -207,6 +214,11 @@
 			<p>The selected files are added to a list and their sizes are shown. Select multiple files by pressing CTRL and selecting. Start <a onclick="$.sfb({select:addFiles,plugins:[]});">adding files.</a></p>
 			<pre class="example">$.sfb({select:addFiles,plugins:[]});</pre> 
 			<div id="addfiles"></div>
+
+			<h3>swf uploader</h3>
+			<p>The <a onclick="$.sfb({select:addFiles,plugins:[]});">swf uploader</a> allows multiple simultanious uploads but does require the <a href="http://get.adobe.com/shockwave/" target="_blank">Adobe Shockwave plugin</a>.</p>
+			<pre class="example">$.sfb({select:addFiles,plugins:[],swfupload:true});</pre> 
+			<div id="addfiles"></div>
 			
 			<h3>allowing only images</h3>
 			<p>The <span class="property">allow</span> property is set to accept only images. The selected images are added to a div. Note also the title of the SFBrowser is now changed to: <a onclick="$.sfb({folder:'ImageFolder/',title:'Add some images',allow:['jpeg','png','gif','jpg'],resize:[640,480],select:addImages});">Add some images</a>.</p>
@@ -217,8 +229,7 @@
 	,resize:	[640,480]
 	,select:	addImages
 });</pre> 
-			<div id="addimages"></div>
-			
+
 			<h3>inline</h3>
 			<p>When you set the <span class="property">inline</span> property to something other than "body" SFBrowser will no appear as an overlay but inside the new value. The value has to be a regular JQuery selector with a single result. A selector with possible multiple results will really screw things up. If you're unsure about your selector simply add ':eq(0)' to it to ensure a single result<br/>
 			Contrary to an overlay, an inline SFBrowser will keep the rest of your page clickable.<br/>

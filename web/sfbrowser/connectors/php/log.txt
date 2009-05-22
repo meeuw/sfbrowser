@@ -2346,3 +2346,15 @@
 		POST: [a:ka,folder:../data/,file:6664_Lizarazo_Proc.pdf,]
 		GET:  []
 		FILE: []
+19-5-2009 11:29		ip:192.168.1.13		a:chi()		error:
+		POST: [a:chi,folder:../data/,]
+		GET:  []
+		FILE: []
+19-5-2009 11:29		ip:192.168.1.13		a:sfu()		error:
+		POST: [Filename:ZendFramework-1.7.8.zip,Upload:Submit Query,]
+		GET:  [a:sfu,folder:../data/,allow:,deny:php|php3|phtml,resize:,]
+		FILE: [Filedata:Array,]
+19-5-2009 11:35		ip:192.168.1.13		a:chi()		error:
+		POST: [a:chi,folder:../data/,]
+		GET:  []
+		FILE: []

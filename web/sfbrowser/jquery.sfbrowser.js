@@ -18,6 +18,7 @@
 *
 * features
 *   - ajax file upload
+*	- optional as3 swf upload (queued multiple uploads, upload progress, upload canceling, selection filtering, size filtering)
 *   - localisation (English, Dutch or Spanish)
 *	- server side script connector
 *	- plugin environment (with filetree and imageresize plugin)
@@ -28,7 +29,7 @@
 *   - file duplication
 *   - file download
 *   - file/folder context menu
-*   - file preview (image, audio, video and text/ascii)
+*   - file preview (image, audio, video, text/ascii and swf)
 *	- folder creation
 *   - multiple files selection (not in IE for now)
 *	- inline or overlay window
@@ -141,7 +142,7 @@
 			,folder:	""						// subfolder (relative to base), all returned files are relative to base
 			,dirs:		true					// allow visibility and creation/deletion of subdirectories
 			,upload:	true					// allow upload of files
-			,swfupload:	false					// use swf uploader instead of form hack
+			,swfupload:	!false					// use swf uploader instead of form hack
 			,allow:		[]						// allowed file extensions
 			,resize:	null					// resize images after upload: array(width,height) or null
 			,inline:	"body"					// a JQuery selector for inline browser
@@ -164,8 +165,8 @@
 			,connector:	"php"					// connector file type (php)
 			,lang:		{}						// language object
 			,plugins:	[]						// plugins
-			,debug:		false					// debug (allows trace to console)
 			,maxsize:	2097152					// upload_max_filesize in bytes
+			,debug:		false					// debug (allows trace to console)
 		}
 		// add language on the fly
 		,addLang: function(oLang) {

@@ -187,14 +187,30 @@ switch ($sAction) {
 					list($iW,$iH) = getimagesize($sFileTo);
 					$fXrs = $iToW/$iW;
 					$fYrs = $iToH/$iH;
-					$fRsz = min($fXrs,$fYrs);
-					if ($fRsz<1) {
-						$iNW = intval($iW*$fRsz);
-						$iNH = intval($iH*$fRsz);
-						$oImgN = imagecreatetruecolor($iNW,$iNH);
-						$oImg = imagecreatefromjpeg($sFileTo);
-						imagecopyresampled($oImgN,$oImg, 0,0, 0,0, $iNW,$iNH, $iW,$iH );
-						imagejpeg($oImgN, $sFileTo);
+					if (false) {//just resize
+						$fRsz = min($fXrs,$fYrs);
+						if ($fRsz<1) {
+							$iNW = intval($iW*$fRsz);
+							$iNH = intval($iH*$fRsz);
+							$oImgN = imagecreatetruecolor($iNW,$iNH);
+							$oImg = imagecreatefromjpeg($sFileTo);
+							imagecopyresampled($oImgN,$oImg, 0,0, 0,0, $iNW,$iNH, $iW,$iH );
+							imagejpeg($oImgN, $sFileTo);
+						}
+					} else { // crop after resize
+						$fRsz = max($fXrs,$fYrs);
+						if ($fRsz<1) {
+							$iNW = intval($iW*$fRsz);
+							$iNH = intval($iH*$fRsz);
+							$iFrX = $iNW>$iToW?($iNW-$iToW)/2:0;
+							$iFrY = $iNH>$iToH?($iNH-$iToH)/2:0;
+							$iFrW = $iNW>$iToW?$iToW*(1/$fRsz):$iW;
+							$iFrH = $iNH>$iToH?$iToH*(1/$fRsz):$iH;
+							$oImgN = imagecreatetruecolor($iToW,$iToH);
+							$oImg = imagecreatefromjpeg($sFileTo);
+							imagecopyresampled($oImgN,$oImg, 0,0, $iFrX,$iFrY, $iToW,$iToH, $iFrW,$iFrH );
+							imagejpeg($oImgN, $sFileTo);
+						}
 					}
 					$oFNfo = fileInfo($sFileTo);
 				}

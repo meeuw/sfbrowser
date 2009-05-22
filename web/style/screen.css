@@ -111,7 +111,7 @@ body {
 	}
 
 #page table {
-	border: 1px solid #90BBDB;/*#CFD4E6;*/
+	border: 1px solid #9BE62B;/*#90BBDB;#CFD4E6;*/
 }
 	#page table th, #page table td {
 		padding: 2px 5px 2px 5px;
@@ -119,8 +119,8 @@ body {
 	#page table th {
 		color: #444;/*#fff;*/
 		text-align: left;
-		border-bottom: 1px solid #90BBDB;/*#aaa;*/
-		background-color: #CEE9F4;/*#90BBDB;#727EA3;*/
+		border-bottom: 1px solid #9BE62B;/*#90BBDB;#aaa;*/
+		background-color: #B8ED67;/*#CEE9F4;#90BBDB;#727EA3;*/
 	}
 	#page table th, #page table td {
 		font-size: .7em;
@@ -128,7 +128,7 @@ body {
 		vertical-align: top;
 	}
 	#page table tr.odd {
-		background-color: #E6F1F4;/*#E0E3EE;*/
+		background-color: #E6F1F4;/*#E6F1F4;E0E3EE;*/
 	}
 #page pre {
 	font-size: .9em;
