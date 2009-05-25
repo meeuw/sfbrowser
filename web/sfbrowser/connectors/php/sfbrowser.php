@@ -199,7 +199,8 @@ switch ($sAction) {
 						}
 					} else { // crop after resize
 						$fRsz = max($fXrs,$fYrs);
-						if ($fRsz<1) {
+//						if ($fRsz<1) {
+						if ($fXrs<1||$fYrs<1) {
 							$iNW = intval($iW*$fRsz);
 							$iNH = intval($iH*$fRsz);
 							$iFrX = $iNW>$iToW?($iNW-$iToW)/2:0;

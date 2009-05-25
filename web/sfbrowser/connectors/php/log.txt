@@ -2358,3 +2358,7 @@
 		POST: [a:chi,folder:../data/,]
 		GET:  []
 		FILE: []
+22-5-2009 17:28		ip:10.0.0.4		a:chi()		error:
+		POST: [a:chi,folder:../data/,]
+		GET:  []
+		FILE: []
