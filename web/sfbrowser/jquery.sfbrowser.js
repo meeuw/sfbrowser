@@ -142,7 +142,7 @@
 			,folder:	""						// subfolder (relative to base), all returned files are relative to base
 			,dirs:		true					// allow visibility and creation/deletion of subdirectories
 			,upload:	true					// allow upload of files
-			,swfupload:	!false					// use swf uploader instead of form hack
+			,swfupload:	false					// use swf uploader instead of form hack
 			,allow:		[]						// allowed file extensions
 			,resize:	null					// resize images after upload: array(width,height) or null
 			,inline:	"body"					// a JQuery selector for inline browser
