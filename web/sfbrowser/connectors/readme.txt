@@ -103,7 +103,7 @@ A number of the JSON outputs contain file descriptions. In the description of th
 
 The following are the possible values for _POST["a"]: the possible actions that can be taken and the required return values.
 
-_POST["a"]=="chi" :: retreive file list
+_POST["a"]=="fileList" :: retreive file list
 	requires:
 		_POST["folder"] <String>	path to folder
 	action:
@@ -129,7 +129,7 @@ _POST["a"]=="chi" :: retreive file list
 
 
 
-_POST["a"]=="kung" :: duplicate file
+_POST["a"]=="duplicate" :: duplicate file
 	requires:
 		_POST["file"]	<String>	file name
 		_POST["folder"]	<String>	file folder
@@ -145,7 +145,7 @@ _POST["a"]=="kung" :: duplicate file
 
 
 
-_POST["a"]=="fu" :: file upload
+_POST["a"]=="upload" :: file upload
 	requires:
 		_FILES["fileToUpload"]	<Object>	file object
 		_POST["file"]		<String>	path to folder
@@ -186,7 +186,7 @@ _POST["a"]=="bar" :: image resize
 
 
 
-_POST["a"]=="ka" :: file delete
+_POST["a"]=="delete" :: file delete
 	requires:
 		_POST["file"]	<String>	file name
 		_POST["folder"]	<String>	file folder
@@ -200,7 +200,7 @@ _POST["a"]=="ka" :: file delete
 
 
 
-_POST["a"]=="sui" :: file force download
+_POST["a"]=="download" :: file force download
 	requires:
 		_POST["file"]	<String>	file name
 		_POST["folder"]	<String>	file folder
@@ -211,7 +211,7 @@ _POST["a"]=="sui" :: file force download
 
 
 
-_POST["a"]=="mizu" :: read txt file contents
+_POST["a"]=="read" :: read txt file contents
 	requires:
 		_POST["file"]	<String>	file name
 		_POST["folder"]	<String>	file folder
@@ -228,7 +228,7 @@ _POST["a"]=="mizu" :: read txt file contents
 
 
 
-_POST["a"]=="ho" :: rename file
+_POST["a"]=="rename" :: rename file
 	requires:
 		_POST["file"]	<String>	original file name
 		_POST["folder"]	<String>	file folder
@@ -244,7 +244,7 @@ _POST["a"]=="ho" :: rename file
 
 
 
-_POST["a"]=="tsuchi" :: add folder
+_POST["a"]=="addFolder" :: add folder
 	requires:
 		_POST["folder"]		<String>	folder to create new folder into
 		_POST["foldername"]	<String>	new folder name

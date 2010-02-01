@@ -17,6 +17,7 @@
 	// private vars
 	var sConnector;
 	var oFile;
+	var mContextItem;
 	//
 	// dragging
 	var mDragEl;
@@ -102,7 +103,7 @@
 				setView();
 			});
 			// add contextmenu item
-			addContextItem("resize",oSettings.lang.resize,function(){resizeImage()},0);
+			mContextItem = addContextItem("resize",oSettings.lang.resize,function(){resizeImage()},0);
 		}
 	});
 	$.extend($.sfbrowser.imageresize, {
@@ -115,6 +116,9 @@
 				$("#sfbimgresize div#org").css({width:(fRzsScale*oFile.width)+"px",height:(fRzsScale*oFile.height)+"px"});
 				setView();
 			}
+		}
+		,checkContextItem: function(oFile,mCntx) {
+			mContextItem.css({display:oFile.width!=null&&oFile.height!=null?"block":"none"});
 		}
 	});
 	// resize Image

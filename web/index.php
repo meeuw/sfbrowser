@@ -8,7 +8,9 @@
 
 		<!--script type="text/javascript" src="http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js"></script-->
 
-		<script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script>
+		<!--script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script-->
+		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
+		<script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script>
 		<?php include("sfbrowser/connectors/php/init.php"); ?>
 		<script type="text/javascript">
 			<!--
@@ -216,8 +218,8 @@
 			<div id="addfiles"></div>
 
 			<h3>swf uploader</h3>
-			<p>The <a onclick="$.sfb({select:addFiles,plugins:[]});">swf uploader</a> allows multiple simultanious uploads but does require the <a href="http://get.adobe.com/shockwave/" target="_blank">Adobe Shockwave plugin</a>.</p>
-			<pre class="example">$.sfb({select:addFiles,plugins:[],swfupload:true});</pre> 
+			<p>The <a onclick="$.sfb({select:addFiles,plugins:['createascii'],swfupload:true,preview:false,bgcolor:'#CEE9F4',bgalpha:.8});">swf uploader</a> allows multiple simultanious uploads but does require the <a href="http://get.adobe.com/shockwave/" target="_blank">Adobe Shockwave plugin</a>.</p>
+			<pre class="example">$.sfb({select:addFiles,plugins:['createascii'],swfupload:true,preview:false,bgcolor:'#CEE9F4',bgalpha:.8});</pre> 
 			<div id="addfiles"></div>
 			
 			<h3>allowing only images</h3>
@@ -327,7 +329,7 @@
 }</pre>
 			<p>The following are the possible values for _POST["a"]: the possible actions that can be taken and the required return values.</p>
 
-			<h3>_POST["a"]=="chi" :: retreive file list</h3>
+			<h3>_POST["a"]=="fileList" :: retreive file list</h3>
 			<pre>input:
 	_POST["folder"] &lt;String&gt;	path to folder
 action:
@@ -350,7 +352,7 @@ example: {
 	}
 }</pre>
 
-			<h3>_POST["a"]=="fu" :: file upload</h3>
+			<h3>_POST["a"]=="upload" :: file upload</h3>
 			<pre>input:
 	_FILES["fileToUpload"]	&lt;Object&gt;	file object
 	_POST["file"]		&lt;String&gt;	path to folder
@@ -372,7 +374,7 @@ output: JSON {
 	,data:		&lt;FileObject&gt;	uploaded file
 }</pre>
 
-			<h3>_POST["a"]=="kung" :: duplicate file</h3>
+			<h3>_POST["a"]=="duplicate" :: duplicate file</h3>
 			<pre>input:
 	_POST["file"]	&lt;String&gt;	file name
 	_POST["folder"]	&lt;String&gt;	file folder
@@ -385,7 +387,7 @@ output: JSON {
 	,data:		&lt;FileObject&gt;	duplicated file
 }</pre>
 
-			<h3>_POST["a"]=="ka" :: file delete</h3>
+			<h3>_POST["a"]=="delete" :: file delete</h3>
 			<pre>input:
 	_POST["file"]	&lt;String&gt;	file name
 	_POST["folder"]	&lt;String&gt;	file folder
@@ -396,7 +398,7 @@ output: JSON {
 	,msg:		&lt;String&gt;	succes message (see lang.js)
 }</pre>
 
-			<h3>_POST["a"]=="sui" :: file force download</h3>
+			<h3>_POST["a"]=="download" :: file force download</h3>
 			<pre>input:
 	_POST["file"]	&lt;String&gt;	file name
 	_POST["folder"]	&lt;String&gt;	file folder
@@ -404,7 +406,7 @@ action:
 	Force file download
 output: nothing</pre>
 
-			<h3>_POST["a"]=="mizu" :: read txt file contents</h3>
+			<h3>_POST["a"]=="read" :: read txt file contents</h3>
 			<pre>input:
 	_POST["file"]	&lt;String&gt;	file name
 	_POST["folder"]	&lt;String&gt;	file folder
@@ -418,7 +420,7 @@ output: JSON {
 	}
 }</pre>
 
-			<h3>_POST["a"]=="ho" :: rename file</h3>
+			<h3>_POST["a"]=="rename" :: rename file</h3>
 			<pre>input:
 	_POST["file"]	&lt;String&gt;	original file name
 	_POST["folder"]	&lt;String&gt;	file folder
@@ -431,7 +433,7 @@ output: JSON {
 	,msg:		&lt;String&gt;	succes message (see lang.js)
 }</pre>
 
-			<h3>_POST["a"]=="tsuchi" :: add folder</h3>
+			<h3>_POST["a"]=="addFolder" :: add folder</h3>
 			<pre>input:
 	_POST["folder"]		&lt;String&gt;	folder to create new folder into
 	_POST["foldername"]	&lt;String&gt;	new folder name

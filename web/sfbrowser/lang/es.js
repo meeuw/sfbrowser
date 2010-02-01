@@ -87,6 +87,7 @@ $.sfbrowser.defaults.lang =	{
 	// misc
 	,previewPart:			"Muestra los #1 primeros bytes"
 	,previewText:			"- cargando texto -"
+	,previewContents:		"File contents:"
 	,getfirefox:			"Todo funciona bien, sólo las cosas se ven mejor con <a href=\"http://www.getfirefox.com/\">Firefox</a>."
 	,contentsSucces:		"Contenido obtenido.";
 }

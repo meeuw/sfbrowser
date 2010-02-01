@@ -46,4 +46,4 @@ switch ($sAction) {
 		else							$sERR .= "imgNotresized";
 	break;
 }
-echo "{error: \"".$sErr."\", msg: \"".$sMsg."\", data: {".$sData."}}";
+echo '{"error":"'.$sErr.'","msg":"'.$sMsg.'","data":{'.$sData.'}}';

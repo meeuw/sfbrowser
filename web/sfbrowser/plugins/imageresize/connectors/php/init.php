@@ -1,4 +1,7 @@
 <?php
+//
+// IMPORTANT: This init.php file is practically redundant because all everything below is already automaticly handled by de main init.php. This file is just an example for how you'd handle custom initialisation.
+//
 $sSfbImgHtml = getBody(SFB_PATH."plugins/imageresize/browser.html");
 $sPluginPath = SFB_PATH."plugins/imageresize/";
 echo "\t\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"".$sPluginPath."css/imageresize.css\" />\n";

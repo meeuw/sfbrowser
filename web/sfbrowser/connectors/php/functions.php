@@ -14,12 +14,14 @@ if (!function_exists("dump")) {
 	}
 }
 
-function trace($s) {
-	if (SFB_DEBUG) {
-		$oFile = fopen("log.txt", "a");
-		$sDump  = $s."\n";
-		fputs ($oFile, $sDump );
-		fclose($oFile);
+if (!function_exists("trace")) {
+	function trace($s) {
+		if (SFB_DEBUG) {
+			$oFile = fopen("log.txt", "a");
+			$sDump  = $s."\n";
+			fputs ($oFile, $sDump );
+			fclose($oFile);
+		}
 	}
 }
 
@@ -27,6 +29,51 @@ function format_size($size, $round = 0) {
     $sizes = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
     for ($i=0; $size > 1024 && isset($sizes[$i+1]); $i++) $size /= 1024;
     return round($size,$round).$sizes[$i];
+}
+
+function fileInfo($sFile) {
+	$aRtr = array();
+	$aRtr["type"] = filetype($sFile);
+	$sFileName = array_pop(split("\/",$sFile));
+	if ($aRtr["type"]=="file") {
+		$aRtr["time"] = filemtime($sFile);
+		$aRtr["date"] = date(FILETIME,$aRtr["time"]);
+		$aRtr["size"] = filesize($sFile);
+		$aRtr["mime"] = array_pop(split("\.",$sFile));//mime_content_type($sFile);
+		//
+		$aRtr["width"] = 0;
+		$aRtr["height"] = 0;
+		$aImgNfo = ($aRtr["mime"]=="jpeg"||$aRtr["mime"]=="jpg"||$aRtr["mime"]=="gif") ? getimagesize($sFile) : "";
+		if (is_array($aImgNfo)) {
+			list($width, $height, $type, $attr) = $aImgNfo;
+			$aRtr["width"] = $width;
+			$aRtr["height"] = $height;
+		}
+		$sNfo  = '"file":"'.		$sFileName.'",';
+		$sNfo .= '"mime":"'.		$aRtr["mime"].'",';
+		$sNfo .= '"rsize":'.		$aRtr["size"].',';
+		$sNfo .= '"size":"'.		format_size($aRtr["size"]).'",';
+		$sNfo .= '"time":'.			$aRtr["time"].',';
+		$sNfo .= '"date":"'.		$aRtr["date"].'",';
+		$sNfo .= '"width":'.		$aRtr["width"].',';
+		$sNfo .= '"height":'.		$aRtr["height"];
+		$aRtr["stringdata"] = $sNfo;
+	} else if ($aRtr["type"]=="dir"&&$sFileName!="."&&$sFileName!=".."&&!preg_match("/^\./",$sFileName)) {
+		$aRtr["mime"] = "folder";
+		$aRtr["time"] = filemtime($sFile);
+		$aRtr["date"] = date(FILETIME,$aRtr["time"]);
+		$aRtr["size"] = filesize($sFile);
+		$sNfo  = '"file":"'.		$sFileName.'",';
+		$sNfo .= '"mime":"'.		'folder",';
+		$sNfo .= '"rsize":'.		'0,';
+		$sNfo .= '"size":"'.		'-",';
+		$sNfo .= '"time":'.			$aRtr["time"].',';
+		$sNfo .= '"date":"'.		$aRtr["date"].'"';
+		$aRtr["stringdata"] = $sNfo;
+	}
+	$aDeny = explode(",",SFB_DENY);
+	if (!isset($aRtr["mime"])||in_array($aRtr["mime"],$aDeny)) return null;
+	return $aRtr;
 }
 
 function getBody($path) {
@@ -56,8 +103,12 @@ function validateInput($sConnBse,$aGPF) {
 	// check input
 	if (isset($_POST["a"])||isset($_GET["a"])) {
 		$sAction = isset($_POST["a"])?$_POST["a"]:$_GET["a"];
-		$aChck = $aGPF[$sAction];
-		if (!(count($_GET)==$aChck[0]&&count($_POST)==$aChck[1]&&count($_FILES)==$aChck[2])) $sErr .= sterf("input does not match action");
+		if (isset($aGPF[$sAction])) {
+			$aChck = $aGPF[$sAction];
+			if (!(count($_GET)==$aChck[0]&&count($_POST)==$aChck[1]&&count($_FILES)==$aChck[2])) $sErr .= sterf("input does not match action");
+		} else {
+			$sErr .= sterf("action does not exist");
+		}
 	} else {
 		$sErr .= sterf("no action set");
 	}
@@ -226,3 +277,11 @@ function getUploadMaxFilesize() {
 	}
 	return $iMaxBytes;
 }
+
+
+//function simplify_path($path) {
+//	$oldcwd = getcwd();
+//	chdir($path);
+//	return gstr_replace('\\', '/', getcwd());
+//	chdir($oldcwd);
+//}
