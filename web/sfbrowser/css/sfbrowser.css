@@ -116,6 +116,9 @@ body, html {
 				font-size: 5px;
 				cursor: pointer;
 				cursor: hand;
+				color: "red";
+				background-color: "red";
+				border: 1px solid "red";
 			}
 
 			/* swf uploader */

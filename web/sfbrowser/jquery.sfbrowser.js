@@ -104,6 +104,8 @@
 *		- explicitly return php callback with json mime
 *		- small php changes/refinements
 *		- small javascript changes/refinements
+*		- committed fix for issue #2
+*		- committed fix for issue #3 (but not yet IE swf upload)
 *
 * in last update:
 *		- added: parameter for extra parameter in select function
@@ -189,6 +191,7 @@
 			,plugins:	[]						// plugins
 			,maxsize:	2097152					// upload_max_filesize in bytes
 			,debug:		false					// debug (allows trace to console)
+			,prefx:	""							// modify path to ajax script, file path and preview
 		}
 		// add language on the fly
 		,addLang: function(oLang) {
@@ -233,7 +236,7 @@
 	$.fn.extend({
 		sfbrowser: function(_settings) {
 			oSettings = $.extend({}, $.sfbrowser.defaults, _settings);
-			oSettings.conn = oSettings.sfbpath+"connectors/"+oSettings.connector+"/sfbrowser."+oSettings.connector;
+			oSettings.conn = oSettings.prefx+oSettings.sfbpath+"connectors/"+oSettings.connector+"/sfbrowser."+oSettings.connector;
 			//
 			// extra vars in debug mode
 			if (oSettings.debug) {
@@ -518,6 +521,22 @@
 				}});
 			}
 			//
+			//
+			var mUpbut = mSfb.find("form#fileio");
+			var mAUpbut = mSfb.find("#sfbtopmenu a.upload");
+			//
+			// debug
+			//mTbB.parent().parent().hide();
+			if (oSettings.debug) mUpbut.css({opacity:".5",filter:"alpha(opacity=50)"});
+			//
+			// IE8 upload css fix $$ IE does not yet render swf upload
+			$.browser.msie&&$.browser.version>=8&&mUpbut.css({
+				 top:		"-15px"
+				,width:		"90px"
+			}).find("input").css({
+				 fontSize:	"12px"
+			});
+			//
 			//////////////////////////// start
 			//
 			openDir(sFolder);
@@ -793,7 +812,7 @@
 			var iWprv = $("#fbpreview").width();
 			var iHprv = $("#fbpreview").height();
 			if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
-				var sFuri = oSettings.sfbpath+aPath.join("")+sFile; // $$ todo: cleanup img path
+				var sFuri = oSettings.prefx+oSettings.sfbpath+aPath.join("")+sFile; // $$ todo: cleanup img path
 				$("<img src=\""+sFuri+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
 			} else if (oSettings.ascii.indexOf(oFile.mime)!=-1||oSettings.archive.indexOf(oFile.mime)!=-1) {// preview ascii or zip
 				if (oFile.preview) {
