@@ -104,6 +104,7 @@
 *		- explicitly return php callback with json mime
 *		- small php changes/refinements
 *		- small javascript changes/refinements
+*		- 'fixed' Safari right click context-menu bug
 *		- committed fix for issue #2
 *		- committed fix for issue #3 (but not yet IE swf upload)
 *
@@ -745,7 +746,7 @@
 		}
 		if (bRight) { // show context menu
 			mCntx.slideUp("fast",function(){
-				mCntx.css({left:e.clientX+1,top:e.clientY+1});
+				mCntx.css({left:e.clientX-3,top:e.clientY-3});//+1
 				// check context contents
 				// folders
 				var oFld = {display:bFolder||bUFolder?"none":"block"};
