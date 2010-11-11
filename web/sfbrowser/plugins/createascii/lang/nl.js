@@ -1,5 +1,5 @@
 // author: Ron Valstar
-$.sfbrowser.addLang({
+jQuery.sfbrowser.addLang({
 	 asciiFileNew:			"Nieuw bestand"
 	,asciiFileSave:			"Bestand aanpassen"
 	,axciiFileNameInvalid:	"Dit is geen geldige bestandsnaam"

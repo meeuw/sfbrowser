@@ -2,6 +2,7 @@ body, html {
 	margin: 0px;
 	height: 100%;
 }
+
 /* black layer */
 #sfbrowser * {
 	font-family: arial, sans, verdana;
@@ -34,16 +35,32 @@ body, html {
 #sfbrowser div#fbwin {
 	position: absolute;
 	width: 600px;
-	border: 2px outset #888;
+	border: 1px outset #AAA;
 	background: #D5D5D5 url(sfbg.jpg) 0px 0px repeat-x;
 	overflow: hidden;
 	display: none;
+	/* css3 */
+	background: -webkit-gradient(linear, 0 0, 0 100, from(#F1F1F1), to(rgba(213, 213, 213, .8))) repeat-x;
+	-webkit-border-radius:	4px;
+	-moz-border-radius:		4px;
+	border-radius:			4px;
+	-webkit-box-shadow:		inset rgba(255,255,255,.6) 0 0 8px, rgba(0,0,0,.3) 3px 6px 16px;
+	-moz-box-shadow:		inset rgba(255,255,255,.6) 0 0 8px, rgba(0,0,0,.3) 3px 6px 16px;
+	box-shadow:				inset rgba(255,255,255,.6) 0 0 8px, rgba(0,0,0,.3) 3px 6px 16px;
 }
 	/* header */
 	#sfbrowser .sfbheader {
 		position: relative;
 		padding: 3px 10px 3px 10px;
 		background: #ccc url(butbg.png) 0px 24px;
+		/* css3 */
+		background: -webkit-gradient(linear, 0 0, 0 20, from(#D4D4D4), color-stop(0.3,#D4D4D4), color-stop(0.8,#F1F1F1), to(#F1F1F1)) repeat-x;
+		-webkit-border-radius:	4px	4px	0 0;
+		-moz-border-radius:		4px	4px	0 0;
+		border-radius:			4px	4px	0 0;
+	}
+	#sfbrowser .sfbheader:hover {
+		background: -webkit-gradient(linear, 0 0, 0 20, from(#FFF), color-stop(0.3,#FFF), color-stop(0.8,#F1F1F1), to(#F1F1F1)) repeat-x;
 	}
 		#sfbrowser h3 {
 			margin: 0px;
@@ -85,8 +102,8 @@ body, html {
 		/* top menu */
 		#sfbrowser #sfbtopmenu {
 			position: absolute;
-			top: 0px;
-			right: 8px;
+			top: 3px;
+			right: 3px;
 			text-align: right;
 			list-style: none;
 			margin: 0px;
@@ -179,7 +196,7 @@ body, html {
 		width: 100px;
 		border-width: 1px;
 		border-style: outset;
-		padding: 5px 2px 5px 2px;
+		padding: 4px 2px 6px 2px;
 		background: #eee url(butbg.png);
 		color: #444;
 		font-weight: bold;
@@ -188,12 +205,23 @@ body, html {
 		line-height: 12px;
 		cursor: hand;
 		cursor: pointer;
+		/* css3 */
+		background: -webkit-gradient(linear, 0 0, 0 22, from(#F1F1F1), color-stop(0.49,#E1E1E1), color-stop(0.51,#D3D3D3), to(#D3D3D3)) repeat-x;
+		-webkit-border-radius:	5px;
+		-moz-border-radius:		5px;
+		border-radius:			5px;
+		-webkit-box-shadow:		inset rgba(255,255,255,.1) 2px 2px 2px, inset rgba(0,0,0,.1) -2px -2px 2px;
+		-moz-box-shadow:		inset rgba(255,255,255,.1) 2px 2px 2px, inset rgba(0,0,0,.1) -2px -2px 2px;
+		box-shadow:				inset rgba(255,255,255,.1) 2px 2px 2px, inset rgba(0,0,0,.1) -2px -2px 2px;
+		text-shadow: 0px -1px 1px rgba(255,255,255,.4);
 	}
 	#sfbrowser div.sfbbutton:hover {
 		border-style: inset;
-		padding: 6px 1px 4px 3px;
+		padding: 5px 1px 5px 3px;
 		background-position: 0px -2px;
 		color: #000;
+		/* css3 */
+		background: -webkit-gradient(linear, 0 0, 0 22, from(#F8F8F8), color-stop(0.4,#E1E1E1), color-stop(0.6,#D3D3D3), to(#D3D3D3)) repeat-x;
 	}
 	#sfbrowser div.choose {
 		right: 10px;
@@ -216,6 +244,13 @@ body, html {
 		border: 2px solid #888;
 		border-color: #888 #fff #fff #888;
 		background-color: #fff;
+		/* css3 */
+		position: relative;
+		z-index: 100;
+		border: 1px inset #CCC;
+		-webkit-box-shadow:		rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
+		-moz-box-shadow:		rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
+		box-shadow:				rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
 
 	}
 	#sfbrowser table {
@@ -358,6 +393,13 @@ body, html {
 	border-color: #888 #fff #fff #888;
 	background: #eee url(fbpreview.gif);
 	text-align: center;
+	/* css3 */
+	width: 190px;
+	height: 142px;
+	border: 1px inset #CCC;
+	-webkit-box-shadow:		rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
+	-moz-box-shadow:		rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
+	box-shadow:				rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
 }
 #sfbrowser div#fbpreview.auto {
 	overflow: auto;
@@ -425,6 +467,7 @@ body, html {
 	left: 200px;
 	margin: 0px;
 	padding: 0px;
+	z-index: 150;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #fff #888 #888 #fff;
@@ -462,4 +505,8 @@ div#resizer {
 	height: 16px;
 	background: transparent url(resizer.gif) 3px 3px no-repeat;
 	cursor: move;
+	/* css3 */
+	-webkit-border-radius:	0 0 4px 0;
+	-moz-border-radius:		0 0 4px 0;
+	border-radius:			0 0 4px 0;
 }

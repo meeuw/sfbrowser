@@ -300,3 +300,4 @@ switch ($sAction) {
 //	header('Content-type: application/json');
 //}
 echo '{"error":"'.$sErr.'","msg":"'.$sMsg.'","data":{'.$sData.'}}';
+

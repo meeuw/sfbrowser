@@ -1,13 +1,14 @@
-/*
+/*!
 * jQuery SFBrowser
 *
-* Version: 3.1.0
+* Version: 3.1.2
 *
-* Copyright (c) 2009 Ron Valstar http://www.sjeiti.com/
+* Copyright (c) 2010 Ron Valstar http://www.sjeiti.com/
 *
 * Dual licensed under the MIT and GPL licenses:
 *   http://www.opensource.org/licenses/mit-license.php
 *   http://www.gnu.org/licenses/gpl.html
+*//*
 *
 * description
 *   - A file browsing and upload plugin. Returns a list of objects with additional information on the selected files.
@@ -87,6 +88,11 @@
 *   - new: add mime instead of extension (for mac)
 *
 * in this update:
+*		- slight css3 style update
+*		- small bugfixes in image plugin
+*		- added boolean bIsOpen to prevent keyboard shortcuts from firing
+*
+* in last update:
 *		- tested with jQuery 1.4.1
 *		- fixed json markup for jQuery 1.4.1
 *		- added: create/edit ascii file (plugin)
@@ -107,11 +113,6 @@
 *		- 'fixed' Safari right click context-menu bug
 *		- committed fix for issue #2
 *		- committed fix for issue #3 (but not yet IE swf upload)
-*
-* in last update:
-*		- added: parameter for extra parameter in select function
-*		- added: parameter for number of selectable files
-*
 */
 ;(function($) {
 	// private variables
@@ -137,6 +138,8 @@
 	//
 	var sBodyOverflow = "auto";
 	//
+	var bIsOpen = false;
+	//
 	// display
 	var mBdy;
 	var mWin;
@@ -153,7 +156,7 @@
 	// default settings
 	$.sfbrowser = {
 		 id: "SFBrowser"
-		,version: "3.1.0"
+		,version: "3.1.2"
 		,defaults: {
 			 title:		""						// the title
 			,select:	function(a){trace(a)}	// calback function on choose
@@ -184,6 +187,7 @@
 			// set from init, explicitly setting these from js can lead to unexpected results.
 			,sfbpath:	"sfbrowser/"			// path of sfbrowser (relative to the page it is run from)
 			,base:		"../data/"				// upload folder (relative to sfbpath)
+			,prefx:	""							// modify path to ajax script, file path and preview
 			,deny:		[]						// not allowed file extensions
 			,icons:		[]						// list of existing file icons 
 			,previewbytes:600					// amount of bytes for ascii preview
@@ -192,7 +196,6 @@
 			,plugins:	[]						// plugins
 			,maxsize:	2097152					// upload_max_filesize in bytes
 			,debug:		false					// debug (allows trace to console)
-			,prefx:	""							// modify path to ajax script, file path and preview
 		}
 		// add language on the fly
 		,addLang: function(oLang) {
@@ -201,6 +204,7 @@
 		// swf upload functions (ExternalInterface) 446
 		,swfInit: function() {trace("swfInit");}
 		,ufileSelected: function(s) {
+			trace("ufileSelected: "+s); // TRACE ### ufileSelected
 			var bPrcd = true;
 			if (getPath().contents[s]!==undefined&&!confirm(oSettings.lang.fileExistsOverwrite)) bPrcd = false;
 			if (bPrcd) $("#swfUploader").get(0).doUpload(s);
@@ -210,6 +214,7 @@
 			alert(oSettings.lang.fileTooBig.replace("#1",s).replace("#2",format_size(oSettings.maxsize,0)));
 		}
 		,ufileOpen: function(s) {
+			trace("ufileOpen: "+s); // TRACE ### ufileOpen
 			var oExists = getPath().contents[s];
 			if (oExists) oExists.tr.remove(); // $$ overwriting existing files and canceling while uploading will cause the old file to disappear from view
 			var mTr = listAdd({file:s,mime:"upload",rsize:0,size:"",time:0,date:"",width:0,height:0}).addClass("uploading");
@@ -222,10 +227,13 @@
 			mPrg.find("div").css({width:sPerc});
 		}
 		,ufileCompleteD: function(o) {
+			trace("ufileCompleteD: "+o); // TRACE ### o
+			trace(o); // TRACE ### o
 			getPath().contents[o.data.file].tr.remove();
 			listAdd(o.data,1).trigger('click');
 		}
 		,getPath: function() {
+			trace("getPath"); // TRACE ### o
 			$("#swfUploader").get(0).setPath(aPath.join(""));
 		}
 	};
@@ -237,7 +245,9 @@
 	$.fn.extend({
 		sfbrowser: function(_settings) {
 			oSettings = $.extend({}, $.sfbrowser.defaults, _settings);
-			oSettings.conn = oSettings.prefx+oSettings.sfbpath+"connectors/"+oSettings.connector+"/sfbrowser."+oSettings.connector;
+			oSettings.connbase = "connectors/"+oSettings.connector+"/sfbrowser."+oSettings.connector;
+			oSettings.conn = oSettings.prefx+oSettings.sfbpath+oSettings.connbase;
+			trace("oSettings.conn: "+oSettings.conn); // TRACE ### oSettings.conn
 			//
 			// extra vars in debug mode
 			if (oSettings.debug) {
@@ -428,7 +438,7 @@
 				// selection by char a:65 z:90
 				// $$ checkRename doet rename disabelen
 //				if (iNumDown==1&&!checkRename()&&e.keyCode>=65&&e.keyCode<=90) {
-				if (iNumDown==1&&mTbB.find("tr>td>input").length==0&&e.keyCode>=65&&e.keyCode<=90) {
+				if (bIsOpen&&iNumDown==1&&mTbB.find("tr>td>input").length==0&&e.keyCode>=65&&e.keyCode<=90) {
 					var sChar = ("abcdefghijklmnopqrstuvwxyz").substr(e.keyCode-65,1);
 					var mSel = mTbB.find("tr.selected:first");
 					var aTbr = mTbB.find("tr");
@@ -445,15 +455,15 @@
 				}
 				// single key functions
 				switch (e.keyCode) {
-					case 13: chooseFile(); break; //$$ disable in pluginmode
+					case 13: if (bIsOpen) chooseFile(); break; //$$ disable in pluginmode
 				}
 				// CTRL functions
 				if (oSettings.keys[17]) {
 					var bReturn = false;
 					switch (e.keyCode) {
-						case 81: closeSFB(); break;
-						case 65: mTbB.find("tr").each(function(){$(this).addClass("selected")}); break;
-						case 70: if ($("#sfbrowser").length==0) $.sfb(oSettings); break;
+						case 81: if (bIsOpen) closeSFB(); break;
+						case 65: if (bIsOpen) mTbB.find("tr").each(function(){$(this).addClass("selected")}); break;
+						case 70: if (!bIsOpen&&$("#sfbrowser").length==0) $.sfb(oSettings); break;
 						default: bReturn = true;
 					}
 					if (!bReturn) return false;
@@ -464,8 +474,8 @@
 			});
 			$(window).keyup(function(e){
 				//trace("key: "+e.keyCode+" ")
-				if (oSettings.keys[113])	renameSelected();
-				if (oSettings.keys[27])		closeSFB();
+				if (bIsOpen&&oSettings.keys[113])	renameSelected();
+				if (bIsOpen&&oSettings.keys[27])		closeSFB();
 				oSettings.keys[e.keyCode] = false;
 				return false;
 			});
@@ -511,7 +521,23 @@
 						,{ // flashvars
 							 debug:		oSettings.debug
 							,maxsize:	oSettings.maxsize
-							,uploadUri:	"../"+oSettings.conn
+							,uploadUri:	oSettings.connbase//"../../"+oSettings.conn///////#################################### ../ is the bastard
+/*
+
+web/wp-admin/
+web/wp-content/uploads/
+SFB_PATH	"../wp-content/plugins/sfbrowser/"
+SFB_BASE	"../../uploads/"
+"../../"+oSettings.conn		(oSettings.conn: ../wp-content/plugins/sfbrowser/connectors/php/sfbrowser.php)
+
+
+web/
+web/data/
+SFB_PATH	"sfbrowser/"
+SFB_BASE	"../data/"
+"../"+oSettings.conn		(oSettings.conn: sfbrowser/connectors/php/sfbrowser.php)
+
+*/
 							,action:	"swfUpload"
 							,folder:	aPath.join("")
 							,allow:		oSettings.allow.join("|")
@@ -561,6 +587,7 @@
 			sBodyOverflow = mBdy.css("overflow");
 			mBdy.css({overflow:"hidden"});
 		}
+		bIsOpen = true;
 	}
 	//
 	// close
@@ -570,6 +597,7 @@
 		$("#sfbrowser #fbbg").fadeOut();
 		mWin.slideUp("normal",function(){mSfb.remove();});
 		if (bOverlay) mBdy.css({overflow:sBodyOverflow}).scrollTop(mBdy.scrollTop()+1);
+		bIsOpen = false;
 	}
 	// sortFbTable
 	function sortFbTable(nr) {
@@ -814,7 +842,7 @@
 			var iHprv = $("#fbpreview").height();
 			if (oSettings.img.indexOf(oFile.mime)!=-1) {// preview Image
 				var sFuri = oSettings.prefx+oSettings.sfbpath+aPath.join("")+sFile; // $$ todo: cleanup img path
-				$("<img src=\""+sFuri+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
+				$("<img src=\""+sFuri+"?"+Math.random()+"\" />").appendTo("#fbpreview").click(function(){$(this).parent().toggleClass("auto")});
 			} else if (oSettings.ascii.indexOf(oFile.mime)!=-1||oSettings.archive.indexOf(oFile.mime)!=-1) {// preview ascii or zip
 				if (oFile.preview) {
 					$("#fbpreview").html(oFile.preview);

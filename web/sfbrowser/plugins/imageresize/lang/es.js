@@ -1,5 +1,5 @@
 // author: Juan Razeto
-$.sfbrowser.addLang({
+jQuery.sfbrowser.addLang({
 	 resize:				"Redimensionar"
 	,scale:					"Escala"
 	,crop:					"Crop"

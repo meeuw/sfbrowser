@@ -12,5 +12,5 @@ define("SFB_ERROR_RETURN",	"<html><head><meta http-equiv=\"Refresh\" content=\"0
 
 define("SFB_PLUGINS",		"imageresize,filetree,createascii");
 
-define("SFB_DEBUG",			!false);
+define("SFB_DEBUG",			false);
 ?>

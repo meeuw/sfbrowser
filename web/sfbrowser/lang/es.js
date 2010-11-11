@@ -1,5 +1,5 @@
 // author: Juan Razeto
-$.sfbrowser.defaults.lang =	{
+jQuery.sfbrowser.defaults.lang =	{
 	 sfb:					"SFBrowser"
 
 	// single or small words

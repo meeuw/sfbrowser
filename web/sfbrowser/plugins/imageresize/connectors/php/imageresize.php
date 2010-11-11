@@ -43,7 +43,7 @@ switch ($sAction) {
 		$oImg = imagecreatefromjpeg($sSFile);
 		imagecopyresampled($oImgN,$oImg, 0,0, $iFrX,$iFrY, $iCrW,$iCrH, $iFrW,$iFrH );
 		if (imagejpeg($oImgN, $sSFile)) $sMsg .= "imgResized";
-		else							$sERR .= "imgNotresized";
+		else							$sErr .= "imgNotresized";
 	break;
 }
 echo '{"error":"'.$sErr.'","msg":"'.$sMsg.'","data":{'.$sData.'}}';

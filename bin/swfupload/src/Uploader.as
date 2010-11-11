@@ -53,6 +53,9 @@ package {
 			}
 			if (sAllow!="") aTypeFilter.push(new FileFilter("SFBrowser", "*."+sAllow.replace(/\|/g,";*.")));
 			//
+			if (bDebug) trace("uploadUri: "+sUploadUri);
+			if (bDebug) trace("folder: "+sFolder);
+			//
 			var mBg:Sprite = Sprite(this.addChild(new Sprite()));
 			mBg.graphics.beginFill(0xFF0000,bDebug?.4:0);
 			mBg.graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight);
@@ -64,7 +67,7 @@ package {
 			ExternalInterface.addCallback("doUpload", doUpload);
 			ExternalInterface.addCallback("cancelUpload", cancelUpload);
 			//
-			ExternalInterface.call("$.sfbrowser.swfInit()");
+			ExternalInterface.call("jQuery.sfbrowser.swfInit()");
 			if (bDebug) trace("Uploader");
 		}
 		//
@@ -95,7 +98,7 @@ package {
 		// findFile
 		private function findFile(e:MouseEvent):void {
 			if (bDebug) trace("findFile");
-			ExternalInterface.call("$.sfbrowser.getPath()");
+			ExternalInterface.call("jQuery.sfbrowser.getPath()");
 			//
 			oFRef = new FileReference();
 			// (de)activation
@@ -119,29 +122,30 @@ package {
 			if (bDebug) trace("fileSelected");
 			oFRef = FileReference(e.currentTarget);
 			if (oFRef.size>iMaxSize) { // file exceeds upload_max_filesize
-				ExternalInterface.call("$.sfbrowser.ufileTooBig(\""+oFRef.name+"\")");
+				ExternalInterface.call("jQuery.sfbrowser.ufileTooBig(\""+oFRef.name+"\")");
 			} else if (!oQue.hasOwnProperty(oFRef.name)) {// ask to upload
 				oQue[oFRef.name] = oFRef;
-				ExternalInterface.call("$.sfbrowser.ufileSelected(\""+oFRef.name+"\")");
+				ExternalInterface.call("jQuery.sfbrowser.ufileSelected(\""+oFRef.name+"\")");
 			}
 		}
 		private function fileOpen(e:Event):void {
-			ExternalInterface.call("$.sfbrowser.ufileOpen(\""+FileReference(e.currentTarget).name+"\")");
+			if (bDebug) trace("fileOpen "+FileReference(e.currentTarget).name);
+			ExternalInterface.call("jQuery.sfbrowser.ufileOpen(\""+FileReference(e.currentTarget).name+"\")");
 		}
 		private function fileProgress(e:ProgressEvent):void {
-			ExternalInterface.call("$.sfbrowser.ufileProgress("+e.bytesLoaded/e.bytesTotal+",\""+FileReference(e.currentTarget).name+"\")");
+			ExternalInterface.call("jQuery.sfbrowser.ufileProgress("+e.bytesLoaded/e.bytesTotal+",\""+FileReference(e.currentTarget).name+"\")");
 		}
 		private function fileCancel(e:Event):void {				if (bDebug) trace("fileCancel: "+e); }			// remove from que
 		private function fileComplete(e:Event):void {			if (bDebug) trace("fileComplete: "+e); }
 		private function fileCompleteD(e:DataEvent):void {
-			if (bDebug) trace("fileCompleteD");
+			if (bDebug) trace("fileCompleteD "+e.data+" "+FileReference(e.currentTarget).name);
 			delete(oQue[FileReference(e.currentTarget).name]);
-			ExternalInterface.call("$.sfbrowser.ufileCompleteD("+e.data+")");
+			ExternalInterface.call("jQuery.sfbrowser.ufileCompleteD("+e.data+")");
 		}
 		//
 		// error
 		private function errorHttpStatus(e:HTTPStatusEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("errorHttpStatus: "+e); }	// remove from que
-		private function errorIO(e:IOErrorEvent):void {				delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("fileComplete: "+e); }	// remove from que
+		private function errorIO(e:IOErrorEvent):void {				delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("errorIO: "+e); }	// remove from que
 		private function errorSecurity(e:SecurityErrorEvent):void {	delete(oQue[FileReference(e.currentTarget).name]);if (bDebug) trace("errorSecurity: "+e); }	// remove from que
 		//
 		// uri

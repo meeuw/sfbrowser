@@ -54,7 +54,8 @@
 			var oSfb = $.sfbrowser;
 			sConnector = oSettings.sfbpath+"plugins/imageresize/connectors/"+oSettings.connector+"/imageresize."+oSettings.connector;
 			//
-			mSfb.find("#fbwin").prepend(oSettings.imageresize);
+			//mSfb.find("#fbwin").prepend(oSettings.imageresize);
+			$(oSettings.imageresize).prependTo(mSfb.find("#fbwin")).hide();
 			//
 			// header
 			mSfb.find("#sfbimgresize>div.sfbheader>h3").mousedown(moveWindowDown);
@@ -131,7 +132,7 @@
 		iCrpHs = iCrpH = iRzsH = oFile.height;
 		iCrpXs = iCrpYs = iCrpX = iCrpY = 0;
 		$("#sfbimgresize>div.sfbheader>h3").text(oSettings.lang.imgResize+": "+oFile.file);
-		$("div#sfbrsimg>img").attr("src",oSettings.sfbpath+aPath.join("")+oFile.file);
+		$("div#sfbrsimg>img").attr("src",oSettings.sfbpath+aPath.join("")+oFile.file+"?"+Math.random());
 		$.sfbrowser.imageresize.resizeWindow();
 	}
 	// dragging

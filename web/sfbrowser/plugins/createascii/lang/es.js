@@ -1,5 +1,5 @@
 // author: Ron Valstar
-$.sfbrowser.addLang({
+jQuery.sfbrowser.addLang({
 	 asciiFileNew:			"New file"
 	,asciiFileSave:			"Edit file"
 	,axciiFileNameInvalid:	"This is not a valid filename"

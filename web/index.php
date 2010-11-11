@@ -212,6 +212,8 @@
 
 			<h2>examples</h2>
 
+			<?php if ($_SERVER["SERVER_NAME"]=="sfbrowser.sjeiti.com") echo "<p class=\"alert\">For security reasons file manipulations in the examples are disabled.</p>"; ?>
+
 			<h3>a simple one</h3>
 			<p>The selected files are added to a list and their sizes are shown. Select multiple files by pressing CTRL and selecting. Start <a onclick="$.sfb({select:addFiles,plugins:[]});">adding files.</a></p>
 			<pre class="example">$.sfb({select:addFiles,plugins:[]});</pre> 
@@ -219,7 +221,14 @@
 
 			<h3>swf uploader</h3>
 			<p>The <a onclick="$.sfb({select:addFiles,plugins:['createascii'],swfupload:true,preview:false,bgcolor:'#CEE9F4',bgalpha:.8});">swf uploader</a> allows multiple simultanious uploads but does require the <a href="http://get.adobe.com/shockwave/" target="_blank">Adobe Shockwave plugin</a>.</p>
-			<pre class="example">$.sfb({select:addFiles,plugins:['createascii'],swfupload:true,preview:false,bgcolor:'#CEE9F4',bgalpha:.8});</pre> 
+			<pre class="example">$.sfb({
+	 select:addFiles
+	,plugins:['createascii']
+	,swfupload:true
+	,preview:false
+	,bgcolor:'#CEE9F4'
+	,bgalpha:.8
+});</pre> 
 			<div id="addfiles"></div>
 			
 			<h3>allowing only images</h3>
@@ -230,6 +239,7 @@
 	,allow:		['jpeg','png','gif','jpg']
 	,resize:	[640,480]
 	,select:	addImages
+	,plugins:	['filetree']
 });</pre> 
 
 			<h3>inline</h3>
@@ -245,10 +255,13 @@
 
 			<p>Plugins can be used to extend or alter the basic functionality of SFBrowser. These have to be set in 'sfbrowser/connectors/php/config.php'.<br/>
 			Once set, the init will automaticly fill the $.sfbrowser.defaults.plugins variable. You can override this by parsing the <span class="property">plugins</span> variable in your SFBrowser call (as shown in example 1).</p>
-			<p>Right now SFBrowser comes with two plugins: filetree and imageresize.</p>
+			<p>Right now SFBrowser comes with a couple plugins:</p>
 
 			<h3>filetree</h3>
 			<p><img src="data/filetree.png" align="left" alt="filetree" style="margin: 0px 30px 30px 0px;" />This plugin adds an additional filetree to the left of the filetable.</p>
+
+			<h3>createascii</h3>
+			<p>A simple plugin that lets you create and edit ascii files. Don't expect anything fancy, it's just a plain text editor. Naturally you can only create and edit files that are set in <span class="property">allow</span> or not set in <span class="property">deny</span>.</p>
 
 			<h3>imageresize</h3>
 			<p><img src="data/resize_image.jpg" align="left" alt="imageresize" style="margin: 0px 30px 30px 0px;" />This plugin lets you resize and crop jpeg images. Indexed color images (gif and png) require different code that isn't implemented yet.<br />

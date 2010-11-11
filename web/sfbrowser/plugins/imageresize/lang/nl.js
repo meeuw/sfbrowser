@@ -1,5 +1,5 @@
 // author: Ron Valstar
-$.sfbrowser.addLang({
+jQuery.sfbrowser.addLang({
 	 resize:				"Verschaal"
 	,scale:					"Schaal"
 	,crop:					"Uitsnede"

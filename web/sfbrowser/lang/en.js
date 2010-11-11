@@ -1,5 +1,5 @@
 // author: Ron Valstar
-$.sfbrowser.defaults.lang =	{
+jQuery.sfbrowser.defaults.lang =	{
 	 sfb:					"SFBrowser"
 
 	// single or small words
