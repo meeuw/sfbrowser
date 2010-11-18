@@ -7,6 +7,11 @@ body, html {
 #sfbrowser * {
 	font-family: arial, sans, verdana;
 	font-size: 12px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	line-height: 1;
 }
 #sfbrowser {
 	position: fixed;
@@ -65,7 +70,7 @@ body, html {
 		#sfbrowser h3 {
 			margin: 0px;
 			line-height: 20px;
-			background: url(logo.png) 0px 3px no-repeat;
+			background: url(sheet.png) 0px 1px no-repeat;
 			padding-left: 19px;
 			cursor: move;
 		}
@@ -148,7 +153,7 @@ body, html {
 		
 	/* anchor buttons */
 	#sfbrowser a.sfbbutton, #sfbrowser a.textbutton {
-		background: transparent no-repeat 0px 0px;
+		background: transparent url(sheet.png) no-repeat 0px 0px;
 		cursor: hand;
 		cursor: pointer;
 		padding: 0px 0px 0px 16px;
@@ -168,18 +173,75 @@ body, html {
 	#sfbrowser a.sfbbutton span {
 		display: none;
 	}
-	#sfbrowser a.cancelfb {		background-image: url("close.gif");}
-	#sfbrowser a.upload {		background-image: url("upload.gif");}
-	#sfbrowser a.filedelete {	background-image: url("delete.gif");}
-	#sfbrowser a.preview {		background-image: url("download.gif");}
-	#sfbrowser a.choose {		background-image: url("file_select.gif");}
-	#sfbrowser a.rename {		background-image: url("rename.gif");}
-	#sfbrowser a.newfolder {	background-image: url("folder_new.gif");}
-	#sfbrowser a.duplicate {	background-image: url("files.gif");}
-	#sfbrowser a.cancel {		background-image: url("uploadcancel.gif");}
-	
-	/*#sfbrowser a.cancelfb {			background: url("sheet.gif") -32px 0px;}
-	#sfbrowser a.cancelfb:hover {	background: url("sheet.gif") -32px -32px;}*/
+
+	/* 1 logo */
+	/* 2 close */
+	/* 3 maximize */
+	/* 4 sortup */
+	/* 5 sortdown */
+	/* 6 resize */
+	/* 7 folder */
+	/* 8 folder open */
+	/* 9 new folder */
+	/* 10 upload */
+	/* 11 duplicate */
+	/* 12 choose */
+	/* 13 download */
+	/* 14 cancel upload */
+	/* 15 rename */
+	/* 16 show */
+	/* 17 delete */
+
+	#sfbrowser a.cancelfb {			background-position: 0px -64px; }
+	#sfbrowser a.cancelfb:hover {	background-position: 0px -96px; }
+
+	#sfbrowser a.maximizefb {			background-position: 0px -128px; }
+	#sfbrowser a.maximizefb:hover {	background-position: 0px -160px; }
+
+/*	#sfbrowser a.sortup {			background-position: 0px -192px; } see: #sfbrowser thead th span.sort
+	#sfbrowser a.sortup:hover {	background-position: 0px -224px; }
+
+	#sfbrowser a.sortdown {			background-position: 0px -256px; }
+	#sfbrowser a.sortdown:hover {	background-position: 0px -288px; }
+
+	#sfbrowser a.resize {			background-position: 0px -320px; }
+	#sfbrowser a.resize:hover {	background-position: 0px -352px; }*/
+
+/*	#sfbrowser a.folder {			background-position: 0px -384px; }
+	#sfbrowser a.folder:hover {	background-position: 0px -416px; }
+
+	#sfbrowser a.folderopen {			background-position: 0px -448px; }
+	#sfbrowser a.folderopen:hover {	background-position: 0px -480px; }*/
+
+	#sfbrowser a.newfolder {			background-position: 0px -512px; }
+	#sfbrowser a.newfolder:hover {	background-position: 0px -544px; }
+
+	#sfbrowser a.upload {			background-position: 0px -576px; }
+	#sfbrowser a.upload:hover {	background-position: 0px -608px; }
+
+	#sfbrowser a.duplicate {			background-position: 0px -640px; }
+	#sfbrowser a.duplicate:hover {	background-position: 0px -672px; }
+
+	#sfbrowser a.choose {			background-position: 0px -704px; }
+	#sfbrowser a.choose:hover {	background-position: 0px -736px; }
+
+	#sfbrowser a.preview {			background-position: 0px -768px; }
+	#sfbrowser a.preview:hover {	background-position: 0px -800px; }
+
+	#sfbrowser a.cancel {			background-position: 0px -832px; }
+	#sfbrowser a.cancel:hover {	background-position: 0px -864px; }
+
+	#sfbrowser a.rename {			background-position: 0px -896px; }
+	#sfbrowser a.rename:hover {	background-position: 0px -928px; }
+
+/*	#sfbrowser a.preview {			background-position: 0px -960px; }
+	#sfbrowser a.preview:hover {	background-position: 0px -992px; }*/
+
+	#sfbrowser a.filedelete {			background-position: 0px -1024px; }
+	#sfbrowser a.filedelete:hover {	background-position: 0px -1056px; }
+
+/*	#sfbrowser a.cancelfb {			background-position: 0px -1088px; }
+	#sfbrowser a.cancelfb:hover {	background-position: 0px -1120px; }*/
 
 	/* table anchor buttons */
 	#sfbrowser #fbwin table a.sfbbutton {
@@ -289,8 +351,22 @@ body, html {
 					color: #000;
 				}
 				#sfbrowser thead th span {
-					padding: 0px 5px 0px 10px;
-					background: url(ascdesc.gif) -9px 0px no-repeat;
+					padding: 0px 10px 0px 10px;
+					background-image: url(sheet.png);
+					background-repeat: no-repeat;
+					background-position: 300px 0px;
+				}
+				#sfbrowser thead th span.sort {
+					background-position: 10px -192px;
+				}
+				#sfbrowser thead th:hover span.sort {
+					background-position: 10px -224px;
+				}
+				#sfbrowser thead th span.sort.asc {
+					background-position: 10px -256px;
+				}
+				#sfbrowser thead th:hover span.sort.asc {
+					background-position: 10px -288px;
 				}
 		#sfbrowser table>tbody {
 			height: 198px;
@@ -327,26 +403,33 @@ body, html {
 				#sfbrowser td.icon {
 						/*position: relative;
 						top: 0px;
-						left: 0px;*/
+						left: 0px;
 					padding-left: 20px;
 					background-repeat: no-repeat;
-					background-position: 1px 4px;
+					background-position: 1px 4px;*/
 				}
-					/*#sfbrowser td.icon span {
-						position: absolute;
+					#sfbrowser td.icon span.icon {
+						/*position: absolute;
 						top: 0px;
-						left: 0px;
+						left: 0px;*/
 						float: left;
 						display: block;
 						width: 16px;
 						height: 16px;
-					}*/
+						margin: 4px 3px 0px 1px;
+						background-image: url(fileSheet.png);
+						background-repeat: no-repeat;
+					}
+					#sfbrowser td.icon span.filename {
+						display: inline-block;
+						overflow: hidden;
+					}
 					#sfbrowser td input {
 						border: 1px solid #64A5D3;
 						margin: 4px -22px 0px 0px;
 						padding: 0px;
 						line-height: 14px;
-						width: 90%;
+						width: 80%;
 					}
 							
 			/* uploading */
@@ -380,6 +463,16 @@ body, html {
 							font-weight: bold;
 							color: white;
 						}
+
+	/* table drag select */
+	#sfbrowser table#sfbDragSelect {
+		border: 2px solid #9BE62B;
+	}
+		#sfbrowser table#sfbDragSelect, #sfbrowser table#sfbDragSelect * {
+			background-color: #D7FF99;
+			margin: 0;
+			text-align: left;
+		}
 
 /* preview */
 #sfbrowser div#fbpreview {
@@ -472,6 +565,10 @@ body, html {
 	border-style: solid;
 	border-color: #fff #888 #888 #fff;
 	background-color: #eee;
+	/* css3 
+	-webkit-box-shadow:	rgba(0,0,0,.3) 1px 3px 8px;
+	-moz-box-shadow:	rgba(0,0,0,.3) 1px 3px 8px;
+	box-shadow:			rgba(0,0,0,.3) 1px 3px 8px;*/
 }
 #sfbrowser ul#sfbcontext li {
 	margin: 0px;
@@ -503,7 +600,7 @@ div#resizer {
 	bottom: 0px;
 	width: 16px;
 	height: 16px;
-	background: transparent url(resizer.gif) 3px 3px no-repeat;
+	background: transparent url(sheet.png) 0px -320px no-repeat;
 	cursor: move;
 	/* css3 */
 	-webkit-border-radius:	0 0 4px 0;

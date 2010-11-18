@@ -118,9 +118,19 @@ function validateInput($sConnBse,$aGPF) {
 	else if (isset($_GET["file"])) $sSFile = $_GET["file"];
 	else if (isset($_FILES["fileToUpload"])) $sSFile = $_FILES["fileToUpload"]["name"];
 	//
+	$aFiles = explode(",",$sSFile);
+	$bFiles = count($aFiles)>0;
+	//
 	$bFld = isset($_POST["folder"]);
 	if ($sSFile!="") {
-		if ($bFld) $sSFile = $sConnBse.$_POST["folder"].$sSFile;
+		if ($bFld) {
+			$sSFile = $sConnBse.$_POST["folder"].$sSFile;
+			if ($bFiles) {
+				for ($i=0;$i<count($aFiles);$i++) {
+					$aFiles[$i] = $sConnBse.$_POST["folder"].$aFiles[$i];
+				}
+			}
+		}
 		if (strstr($sSFile,"sfbrowser")!==false||!preg_match('/[^:\*\?<>\|(\.\/)]+\/[^:\*\?<>\|(\.\/)]/',$sSFile)) $sErr .= sterf("not a valid path");
 		// $$todo: maybe check SFB_DENY here as well
 		// check if path within base path
@@ -146,7 +156,9 @@ function validateInput($sConnBse,$aGPF) {
 		$sLog .= "\n\t\t".$sP."\n\t\t".$sG."\n\t\t".$sF;
 		trace($sLog);
 	}
-	return array("action"=>$sAction,"file"=>$sSFile,"error"=>$sErr);
+	$aReturn = array("action"=>$sAction,"file"=>$sSFile,"error"=>$sErr);
+	if ($bFiles) $aReturn["files"] = $aFiles;
+	return $aReturn;
 }
 
 function sterf($sErr) {
@@ -182,7 +194,8 @@ function camelCase($in) {
 
 function numToAZ($i) {
 	$s = "";
-	for ($j=0;$j<strlen((string)$i);$j++) $s .= chr((int)substr((string)$i, $j, 1)%26+97);
+	if ($i==85) $s = "i_";
+	else for ($j=0;$j<strlen((string)$i);$j++) $s .= chr((int)substr((string)$i, $j, 1)%26+97);
 	return $s;
 }
 
@@ -219,10 +232,8 @@ function strip_html_tags($text) {
 
 function getUriContents($sUri) {
 	$sExt = array_pop(explode(".", $sUri));
-
 	if ($sExt=="pdf")	$sContents = pdf2txt($sUri);
 	else				$sContents = file_get_contents($sUri);
-
 	$sContents = strip_html_tags($sContents);
 	$sContents = preg_replace(
 		array(

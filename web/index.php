@@ -10,7 +10,8 @@
 
 		<!--script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script-->
 		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
-		<script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script>
+		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
+		<script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script>
 		<?php include("sfbrowser/connectors/php/init.php"); ?>
 		<script type="text/javascript">
 			<!--

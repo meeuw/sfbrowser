@@ -18,21 +18,23 @@ include("functions.php");
 //
 // security file checking
 $aVldt = validateInput($sConnBse,array(
-	 "fileList"=>	array(0,2,0)	// retreive file list			chi
-	,"duplicate"=>	array(0,3,0)	// duplicate file				kung
-	,"upload"=>		array(0,5,1)	// file upload					fu
-	,"swfUpload"=>	array(5,2,1)	// swf file upload				sfu
-	,"delete"=>		array(0,3,0)	// file delete					ka
-	,"download"=>	array(2,0,0)	// file force download			sui
-	,"read"=>		array(0,3,0)	// read txt file contents		mizu
-	,"rename"=>		array(0,4,0)	// rename file					ho
-	,"addFolder"=>	array(0,3,0)	// add folder					tsuchi
+	 "fileList"=>	array(0,2,0)	// retreive file list
+	,"duplicate"=>	array(0,3,0)	// duplicate file
+	,"upload"=>		array(0,5,1)	// file upload
+	,"swfUpload"=>	array(5,2,1)	// swf file upload
+	,"delete"=>		array(0,3,0)	// file delete
+	,"download"=>	array(2,0,0)	// file force download
+	,"read"=>		array(0,3,0)	// read txt file contents
+	,"rename"=>		array(0,4,0)	// rename file
+	,"addFolder"=>	array(0,3,0)	// add folder
+	,"moveFiles"=>	array(0,4,0)	// move files
 ));
 $sAction = $aVldt["action"];
 $sSFile = $aVldt["file"];
 $sErr .= $aVldt["error"];
 if ($sErr!="") die('{"error":"'.$sErr.'","msg":"'.$sMsg.'","data":{'.$sData.'}}');
 //
+$sErr = '';
 switch ($sAction) {
 
 	case "fileList": // retreive file list
@@ -208,31 +210,42 @@ switch ($sAction) {
 		//
 		// install extensions and add to php.ini
 		// - extension=php_zip.dll
-		// - extension=php_rar.dll
 		if ($sExt=="zip") {
 			$sDta = "";
 			if (!function_exists("zip_open")) {
 				$sErr .= "php_zip not installed or enabled";
-			} else if ($zip=@zip_open(getcwd()."/".$sSFile)) {
+			} else if ($zip=@zip_open(getcwd()."/".$sSFile)) { // 
 				while ($zip_entry=@zip_read($zip)) $sDta .=  @zip_entry_name($zip_entry)."\\r\\n"; // zip_entry_filesize | zip_entry_compressedsize | zip_entry_compressionmethod
 				@zip_close($zip);
-				$sData = '"type":"archive","text":"'.$sDta.'"';
+				$sData = '"type":"archive","text":"'.$sDta.' "';
 				$sMsg .= "contentsSucces";
 			} else {
 				$sMsg .= "contentsFail";
 			}
-		} else if ($sExt=="rar") {
+		} else if ($sExt=="rar") { // - extension=php_rar.dll
 			if (!function_exists("rar_open")) {
 				$sMsg .= "php_rar not installed or enabled";
-			} else if ($rar_file=@rar_open('example.rar')) {
+			} else if ($rar_file=@rar_open(getcwd()."/".$sSFile)) {
 				$entries = @rar_list($rar_file);
 				foreach ($entries as $entry) $sDta .=  $entry->getName()."\\r\\n"; // getName | getPackedSize | getUnpackedSize
 				@rar_close($rar_file);
-				$sData = '"type":"archive","text":"'.$sDta.'"';
+				$sData = '"type":"archive","text":"'.$sDta.' "';
 				$sMsg .= "contentsSucces";
 			} else {
 				$sMsg .= "contentsFail";
 			}
+		} else if ($sExt=="pdf") {
+			include('class.pdf2text.php');
+			$oPdf = new PDF2Text();
+			$oPdf->setFilename($sSFile);
+			$oPdf->decodePDF();
+			$sCnt = str_replace(array("\n","\r","\t"),array("\\n","\\n",""),substr($oPdf->output(),0,PREVIEW_BYTES));
+			$sData = '"type":"ascii","text":"'.$sCnt.' "';
+			$sMsg .= "contentsSucces";
+		} else if ($sExt=="doc") {
+			//////////////////////////////
+			// does not seem to be possible
+			//////////////////////////////
 		} else {
 			$oHnd = fopen($sSFile, "r");
 			$sCnt = preg_replace(array("/\n/","/\r/","/\t/"),array("\\n","\\r","\\t"),addslashes(fread($oHnd, 600)));
@@ -291,6 +304,50 @@ switch ($sAction) {
 			} else {
 				$sErr .= "folderFailed";
 			}
+		}
+	break;
+
+	case "moveFiles": // move files
+		if (isset($_POST["file"])&&isset($_POST["folder"])&&isset($_POST["nfolder"])) {
+			//
+			$sFolder = $_POST["folder"];
+			$sNFolder = $_POST["nfolder"];
+			$aFiles = explode(",",$_POST["file"]);
+			$aMoved = array();
+			$aNotMoved = array();
+			for ($i=0;$i<count($aVldt["files"]);$i++) {
+				$sFile = $aFiles[$i];
+				$sSFile = $aVldt["files"][$i];
+				$sNSFile = str_replace($sFile,$sNFolder."/".$sFile,$sSFile);
+				if (file_exists($sNSFile)) {
+					$sErr .= "filemoveExists[".$sSFile." ".$sNSFile."] ";
+					$aNotMoved[] = $sFile;
+				} else {
+					if (@rename($sSFile,$sNSFile)) {
+						$sMsg .= "filemoveSucces";
+						$aMoved[] = $sFile;
+					} else {
+						$sErr .= "filemoveFailed";
+						$aNotMoved[] = $sFile;
+					}
+				}
+			}
+			$sDat = json_encode(array("moved"=>$aMoved,"notmoved"=>$aNotMoved,"newfolder"=>$sNFolder));
+			$sData = substr($sDat,1,count($sDat)-2);
+			//
+//			if (isset()) $sMsg .= "[".implode("_",$aVldt["files"])."]";
+//			//
+//			//
+//			$sFile = $_POST["file"];
+//			$sFolder = $_POST["folder"];
+//			$sNFolder = $_POST["nfolder"];
+//			$sNSFile = str_replace($sFile,$sNFolder."/".$sFile,$sSFile);
+//			if (file_exists($sNSFile)) {
+//				$sErr .= "filemoveExists";
+//			} else {
+//				if (@rename($sSFile,$sNSFile)) $sMsg .= "filemoveSucces";
+//				else $sErr .= "filemoveFailed";
+//			}
 		}
 	break;
 }

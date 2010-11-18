@@ -72,6 +72,10 @@ jQuery.sfbrowser.defaults.lang =	{
 	,filenameFailed:		"Rename failed."
 	,filenameExists:		"The filename already exists."
 
+	,filemoveSucces:		"Move succesfull."
+	,filemoveFailed:		"Move failed."
+	,filemoveExists:		"There is already a file by that name, try renaming your file first."
+
 	// upload
 	,uploadErr:				"No error code available"
 	,uploadErr1:			"The uploaded file exceeds the upload_max_filesize directive in php.ini"
