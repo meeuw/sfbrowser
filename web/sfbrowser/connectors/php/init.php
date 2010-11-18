@@ -3,10 +3,6 @@
 include("config.php");
 include("functions.php");
 
-// check existing icons
-$aIcons = array();
-if ($handle = opendir(SFB_PATH."icons/")) while (false !== ($file = readdir($handle))) if (filetype(SFB_PATH."icons/".$file)=="file") $aIcons[] = array_shift(explode(".",$file));
-
 // retreive browser html data
 $sSfbHtml = getBody(SFB_PATH."browser.html");
 
@@ -32,7 +28,6 @@ echo $T.$T.$T."jQuery.sfbrowser.defaults.sfbpath = \"".SFB_PATH."\";".$N;
 echo $T.$T.$T."jQuery.sfbrowser.defaults.base = \"".SFB_BASE."\";".$N;
 echo $T.$T.$T."jQuery.sfbrowser.defaults.previewbytes = ".PREVIEW_BYTES.";".$N;
 echo $T.$T.$T."jQuery.sfbrowser.defaults.deny = (\"".SFB_DENY."\").split(\",\");".$N;
-echo $T.$T.$T."jQuery.sfbrowser.defaults.icons = ['".implode("','",$aIcons)."'];".$N;
 echo $T.$T.$T."jQuery.sfbrowser.defaults.browser = \"".$sSfbHtml."\";".$N;
 echo $T.$T.$T."jQuery.sfbrowser.defaults.debug = ".(SFB_DEBUG?"true":"false").";".$N;
 echo $T.$T.$T."jQuery.sfbrowser.defaults.maxsize = ".getUploadMaxFilesize().";".$N;

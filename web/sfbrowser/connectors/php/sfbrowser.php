@@ -1,6 +1,6 @@
 <?php
 /*
-* jQuery SFBrowser 2.5.3
+* jQuery SFBrowser
 * Copyright (c) 2008 Ron Valstar http://www.sjeiti.com/
 * Dual licensed under the MIT and GPL licenses:
 *   http://www.opensource.org/licenses/mit-license.php

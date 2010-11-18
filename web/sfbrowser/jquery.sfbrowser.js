@@ -1,7 +1,7 @@
 /*!
 * jQuery SFBrowser
 *
-* Version: 3.2.0
+* Version: 3.2.1
 *
 * Copyright (c) 2010 Ron Valstar http://www.sjeiti.com/
 *
@@ -159,7 +159,7 @@
 	// default settings
 	$.sfbrowser = {
 		 id: "SFBrowser"
-		,version: "3.2.0"
+		,version: "3.2.1"
 		,copyright: "Copyright (c) 2007 - 2010 Ron Valstar"
 		,uri: "http://sfbrowser.sjeiti.com/"
 		,defaults: {
@@ -194,7 +194,6 @@
 			,base:		"../data/"				// upload folder (relative to sfbpath)
 			,prefx:	""							// modify path to ajax script, file path and preview
 			,deny:		[]						// not allowed file extensions
-			,icons:		[]						// list of existing file icons 
 			,previewbytes:600					// amount of bytes for ascii preview
 			,connector:	"php"					// connector file type (php)
 			,lang:		{}						// language object
@@ -401,11 +400,6 @@
 
 				$SFB.find("h3").attr("title",ss.lang.dragMe).mousedown(moveWindowDown);
 				$SFB.find("div#resizer").attr("title",ss.lang.dragMe).mousedown(resizeWindowDown);
-
-				//$SFBWin.disableSelection().draggable({
-				//	 handle:$SFB.find("h3")
-				//	,containment:'parent'
-				//}).resizable(); // resizable fails miserably so fuck jquery.ui altogether
 
 				if (ss.x==null) ss.x = Math.round($Window.width()/2-$SFBWin.width()/2);
 				if (ss.y==null) ss.y = Math.round($Window.height()/2-$SFBWin.height()/2);
@@ -831,28 +825,6 @@ SFB_BASE	"../data/"
 			}});
 		}
 		//
-//		if (!bCTRL) $TbBody.find("tr").each(function(){if ($Tr[0]!=$(this)[0]) $(this).removeClass("selected")});
-//		//
-//		// check if something is being renamed: if (no other file is being renamed & the table row is selected & file is not an up-folder & shift is not pressed & the first table cell is targeted)
-//		// todo: do it better
-//		if (renameTryToPost()[0]!=$Tr[0]&&!bRight&&$Tr.hasClass("selected")&&!bUFolder&&!ss.keys[17]&&$Tr.find("td:eq(0)")[0]==e.target) {
-//			setTimeout(renameAddInputField,500,$Tr); // rename with timeout to enable doubleclick (input field stops propagation)
-//		} else {
-//			if (bCTRL&&!bRight) {
-//				// $$ check # of .selected against selectnum (preferably remove lastly selected)
-//				// but maybe do it on-select, so a multiple select can be used for manipulation (drag,remove)
-//				//var bOvrSelNum = ss.selectnum!=0&&$TbBody.find("tr.selected").length>=ss.selectnum;
-//				//if (bOvrSelNum) {
-//				//	trace("remove a selection "+$TbBody.find("tr.selected").length+" of "+ss.selectnum);
-//				//	if ($Tr.hasClass("selected")) $Tr.toggleClass("selected");
-//				//} else {
-//				//	$Tr.toggleClass("selected");
-//				//}
-//				$Tr.toggleClass("selected");
-//			} else {
-//				$Tr.addClass("selected");
-//			}
-//		}
 		// close rename
 		bTrDownHasRenamed = renameTryToPost()!==false;
 		//
