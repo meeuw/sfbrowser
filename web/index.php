@@ -1,6 +1,5 @@
-<<?php echo '?'; ?>xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html>
 	<head>
 		<title>jquery filebrowser</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -11,7 +10,9 @@
 		<!--script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script-->
 		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
 		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
-		<script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script>
+		<!--script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script-->
+		<script type="text/javascript" src="scripts/jquery-1.5.2.min.js"></script>
+
 		<?php include("sfbrowser/connectors/php/init.php"); ?>
 		<script type="text/javascript">
 			<!--
@@ -50,6 +51,8 @@
 			<p><img src="data/screenshot.jpg" align="right" alt="screenshot" />SFBrowser is a file browser and uploader for jQuery. It returns a list of objects with containing the names and additional information of the selected files.<br/>
 			You can use it, like any open-file-dialog, to select one or more files. Most inherent functionalities are also there like: file upload, file preview, creating folders and renaming or deleting files and folders.<br/>
 			You can download as <a href="http://code.google.com/p/sfbrowser/downloads">zip</a> or do a <a href="http://sfbrowser.googlecode.com/svn/trunk">repository checkout</a>. If you stumble upon anything out of the ordinary you can <a href="http://code.google.com/p/sfbrowser/issues">file them here</a>.</p>
+
+			<p>SFBrowser is also available as a <a href="http://wordpress.org/extend/plugins/sfbrowser/" rel="nofollow">Wordpress plugin</a>.</p>
 
 			<h3>features</h3>
 			<ul>
@@ -115,7 +118,7 @@
 			<p>Setting the <span class="property">SFB_DEBUG</span> value will do three things. Setting the value to true will cause inclusion of the uncompressed scripts rather than the minified ones. It will enable tracing in the console window. It will log all server side actions into 'sfbrowser/connectors/php/log.txt'.
 
 
-			<h3>javascript</h3>
+			<h3 id="javascript">javascript</h3>
 
 			<p>You can call up SFBrowser by '$.fn.sfbrowser();' or the shorter '$.sfb();'</p>
 			<p>SFBrowser has a number of properties you can parse:</p>
@@ -159,7 +162,7 @@
 				</tbody>
 			</table>
 
-			<h3>select</h3>
+			<h3 id="select">select</h3>
 			<p>The <span class="property">select</span> property is something you will want to set if you want SFBrowser to be usefull. It's value has to be a function with one parameter: an array containing objects for the selected files (for instance: function(a){alert(a)};). Each object in that array has the following properties (where applicable):</p>
 			<table id="returnobjects" cellpadding="0" cellspacing="0">
 				<thead><tr><th>property</th><th>type</th><th>description</th></tr></thead>
@@ -213,7 +216,7 @@
 
 			<h2>examples</h2>
 
-			<?php if ($_SERVER["SERVER_NAME"]=="sfbrowser.sjeiti.com") echo "<p class=\"alert\">For security reasons file manipulations in the examples are disabled.</p>"; ?>
+			<?php if ($_SERVER["SERVER_NAME"]=="sfbrowser.sjeiti.com") echo "<p class=\"alert\">For security reasons all manipulations in the examples are disabled. You can look at it, but it will not work.</p>"; ?>
 
 			<h3>a simple one</h3>
 			<p>The selected files are added to a list and their sizes are shown. Select multiple files by pressing CTRL and selecting. Start <a onclick="$.sfb({select:addFiles,plugins:[]});">adding files.</a></p>

@@ -6,13 +6,24 @@
 	var addContextItem;
 	var file;
 	var lang;
+	var gettext;
 	var moveWindowDown;
 	var resizeWindow;
 	// variables
 	var aPath;
 	var oSettings;
 	var oTree;
-	var mSfb;
+	// display objects
+	var $Document;
+	var $Window;
+	var $Body;
+	var $SFB;
+	var $SFBWin;
+	var $TableH;
+	var $Table;
+	var $TbBody;
+	var $TrLoading;
+	var $Context;
 	//
 	// private vars
 	var sConnector;
@@ -44,35 +55,46 @@
 			aPath = p.aPath;
 			oTree = p.oTree;
 			oSettings = p.oSettings;
-			mSfb = p.mSfb;
 			addContextItem = p.addContextItem;
 			file = p.file;
 			lang = p.lang;
+			gettext = p.gettext;
 			moveWindowDown = p.moveWindowDown;
 			resizeWindow = p.resizeWindow;
+			// display objects
+			$Document = p.$Document;
+			$Window = p.$Window;
+			$Body = p.$Body;
+			$SFB = p.$SFB;
+			$SFBWin = p.$SFBWin;
+			$TableH = p.$TableH;
+			$Table = p.$Table;
+			$TbBody = p.$TbBody;
+			$TrLoading = p.$TrLoading;
+			$Context = p.$Context;
 			//
 			var oSfb = $.sfbrowser;
 			sConnector = oSettings.sfbpath+"plugins/imageresize/connectors/"+oSettings.connector+"/imageresize."+oSettings.connector;
 			//
-			//mSfb.find("#fbwin").prepend(oSettings.imageresize);
-			$(oSettings.imageresize).prependTo(mSfb.find("#fbwin")).hide();
+			//$SFB.find("#fbwin").prepend(oSettings.imageresize);
+			$(oSettings.imageresize).prependTo($SFB.find("#fbwin")).hide();
 			//
 			// header
-			mSfb.find("#sfbimgresize>div.sfbheader>h3").mousedown(moveWindowDown);
+			$SFB.find("#sfbimgresize>div.sfbheader>h3").mousedown(moveWindowDown);
 			// resize menu
-			mSfb.find("div.cancelresize").text(oSettings.lang.cancel).click(function(){
+			$SFB.find("div.cancelresize").text(gettext('cancel')).click(function(){
 				$("#sfbimgresize").hide();
 				$("#winbrowser").show();
 				resizeWindow();
 			});
-			mSfb.find("div.resize").text(oSettings.lang.resize).click(resizeSend);
-			mSfb.find("div.handle").attr("title",oSettings.lang.dragMe).mousedown(dragStart);
-			mSfb.find("div#crop").attr("title",oSettings.lang.dragMe).mousedown(dragStart);
-			$("div#sfbimgresize>div.fbcontent>label[for=rszperc]").text(oSettings.lang.scale);
+			$SFB.find("div.resize").text(gettext('resize')).click(resizeSend);
+			$SFB.find("div.handle").attr("title",gettext('dragMe')).mousedown(dragStart);
+			$SFB.find("div#crop").attr("title",gettext('dragMe')).mousedown(dragStart);
+			$("div#sfbimgresize>div.fbcontent>label[for=rszperc]").text(gettext('scale'));
 			// resize form
-			$("form#sfbsize legend:eq(0)").text(oSettings.lang.resize+":");
-			$("form#sfbsize label[for=rszW]").text(oSettings.lang.width);
-			$("form#sfbsize label[for=rszH]").text(oSettings.lang.height);
+			$("form#sfbsize legend:eq(0)").text(gettext('resize')+":");
+			$("form#sfbsize label[for=rszW]").text(gettext('width'));
+			$("form#sfbsize label[for=rszH]").text(gettext('height'));
 			$("form#sfbsize input[name=rszW]").change(function(){
 				iRzsW = Math.min(oFile.width,parseInt($(this).val()));
 				iRzsH = iRzsW/fRzsAspR;
@@ -84,9 +106,9 @@
 				setView();
 			});
 			// resize crop
-			$("form#sfbsize legend:eq(1)").text(oSettings.lang.crop+":");
-			$("form#sfbsize label[for=crpW]").text(oSettings.lang.width);
-			$("form#sfbsize label[for=crpH]").text(oSettings.lang.height);
+			$("form#sfbsize legend:eq(1)").text(gettext('crop')+":");
+			$("form#sfbsize label[for=crpW]").text(gettext('width'));
+			$("form#sfbsize label[for=crpH]").text(gettext('height'));
 			$("form#sfbsize input[name=crpX]").change(function(){
 				iCrpX = parseInt($(this).val());
 				setView();
@@ -104,7 +126,7 @@
 				setView();
 			});
 			// add contextmenu item
-			mContextItem = addContextItem("resize",oSettings.lang.resize,function(){resizeImage()},0);
+			mContextItem = addContextItem("resize",gettext('resize'),function(){resizeImage()},0);
 		}
 	});
 	$.extend($.sfbrowser.imageresize, {
@@ -119,7 +141,7 @@
 			}
 		}
 		,checkContextItem: function(oFile,mCntx) {
-			mContextItem.css({display:oFile.width!=null&&oFile.height!=null?"block":"none"});
+			mContextItem.css({display:oFile.width!==undefined&&oFile.height!==undefined?"block":"none"});
 		}
 	});
 	// resize Image
@@ -131,7 +153,7 @@
 		iCrpWs = iCrpW = iRzsW = oFile.width;
 		iCrpHs = iCrpH = iRzsH = oFile.height;
 		iCrpXs = iCrpYs = iCrpX = iCrpY = 0;
-		$("#sfbimgresize>div.sfbheader>h3").text(oSettings.lang.imgResize+": "+oFile.file);
+		$("#sfbimgresize>div.sfbheader>h3").text(gettext('imgResize')+": "+oFile.file);
 		$("div#sfbrsimg>img").attr("src",oSettings.sfbpath+aPath.join("")+oFile.file+"?"+Math.random());
 		$.sfbrowser.imageresize.resizeWindow();
 	}
@@ -142,7 +164,7 @@
 		iCrpWs = iCrpW;
 		iCrpHs = iCrpH;
 		var oCurTarget = this;
-		mSfb.find("div.handle").each(function(i){
+		$SFB.find("div.handle").each(function(i){
 			if ($(this)[0]==oCurTarget) iDragEl = i;
 		});
 		mDragEl = $(this);

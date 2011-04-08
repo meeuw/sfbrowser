@@ -346,3 +346,15 @@
 		POST: [a:cont,folder:../data/,file:a.txt,]
 		GET:  []
 		FILE: []
+15-11-2010 22:01		ip:127.0.0.1		a:cont(../../../../../data/DumbEmail.eml)		error:
+		POST: [a:cont,folder:../data/,file:DumbEmail.eml,]
+		GET:  []
+		FILE: []
+15-11-2010 22:02		ip:127.0.0.1		a:cont(../../../../../data/library0 Report.txt)		error:
+		POST: [a:cont,folder:../data/,file:library0 Report.txt,]
+		GET:  []
+		FILE: []
+15-11-2010 22:02		ip:127.0.0.1		a:cont(../../../../../data/JQueryRocks.js)		error:
+		POST: [a:cont,folder:../data/,file:JQueryRocks.js,]
+		GET:  []
+		FILE: []

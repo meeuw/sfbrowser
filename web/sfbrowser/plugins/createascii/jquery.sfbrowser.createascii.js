@@ -5,15 +5,28 @@
 	var trace;
 	var file;
 	var lang;
+	var gettext;
 	var onError;
 	var listAdd;
+	var shortcutsDisabled;
+	var resizeWindow;
 	// variables
 	var aPath;
 	var oSettings;
 	var oTree;
-	var mSfb;
 	var oReg;
 	var oThis;
+	// display objects
+	var $Document;
+	var $Window;
+	var $Body;
+	var $SFB;
+	var $SFBWin;
+	var $TableH;
+	var $Table;
+	var $TbBody;
+	var $TrLoading;
+	var $Context;
 	//
 	// private vars
 	var oFile;
@@ -32,25 +45,38 @@
 			trace = p.trace;
 			file = p.file;
 			lang = p.lang;
+			gettext = p.gettext;
 			onError = p.onError;
 			addContextItem = p.addContextItem;
 			aPath = p.aPath;
 			oTree = p.oTree;
 			oSettings = p.oSettings;
-			mSfb = p.mSfb;
 			oReg = p.oReg;
 			moveWindowDown = p.moveWindowDown;
 			listAdd = p.listAdd;
+			shortcutsDisabled = p.shortcutsDisabled;
+			resizeWindow = p.resizeWindow;
+			// display objects
+			$Document = p.$Document;
+			$Window = p.$Window;
+			$Body = p.$Body;
+			$SFB = p.$SFB;
+			$SFBWin = p.$SFBWin;
+			$TableH = p.$TableH;
+			$Table = p.$Table;
+			$TbBody = p.$TbBody;
+			$TrLoading = p.$TrLoading;
+			$Context = p.$Context;
 			//
 			sConnector = oSettings.sfbpath+"plugins/createascii/connectors/"+oSettings.connector+"/createascii."+oSettings.connector;
 			//
 			var sHtml = "<div>"+oSettings.createascii+"</div>";
 			var oHtml = $(sHtml);
 			//
-			mBut = oHtml.find(">ul>li:first").prependTo(mSfb.find("#sfbtopmenu")).click(openCreateascii);
-			mBut.find("a>span").text(oSettings.lang.asciiFileNew);
+			mBut = oHtml.find(">ul>li:first").prependTo($SFB.find("#sfbtopmenu")).click(openCreateascii);
+			mBut.find("a>span").text(gettext('asciiFileNew'));
 			//
-			mAsc = oHtml.find("#sfbcreateascii").appendTo(mSfb.find("#fbwin")).hide();
+			mAsc = oHtml.find("#sfbcreateascii").appendTo($SFB.find("#fbwin")).hide();
 			mAsc.find(".cancel").click(closeCreateascii);
 			mAsc.find(".submit").click(submitCreateascii);
 
@@ -59,9 +85,9 @@
 			mCnt = mAsc.find("textarea");
 			//
 			// labels
-			mAsc.find("label[for=filename]").text(oSettings.lang.filename+": ");
-			mAsc.find("label[for=fileext]").text(oSettings.lang.filetype+": ");
-			mAsc.find("label[for=filecont]").text(oSettings.lang.contents+": ");
+			mAsc.find("label[for=filename]").text(gettext('filename')+": ");
+			mAsc.find("label[for=fileext]").text(gettext('filetype')+": ");
+			mAsc.find("label[for=filecont]").text(gettext('contents')+": ");
 			//
 			// add mime types
 			$(oSettings.ascii).each(function(i,o){
@@ -72,7 +98,7 @@
 			mAsc.find("div.sfbheader>h3").mousedown(moveWindowDown);
 			//
 			// add contextmenu item
-			mContextItem = addContextItem("editascii",oSettings.lang.asciiFileSave,function(){openCreateascii()},0);
+			mContextItem = addContextItem("editascii",gettext('editascii'),function(){openCreateascii()},0);
 //			//$.sfbrowser.createascii.resizeWindow(123,123); //$$ causes IE error : functions are probably not inited yet
 		}
 	});
@@ -86,9 +112,10 @@
 	});
 	function openCreateascii(e) {
 		bNewOrEdit = e!=null;
+		shortcutsDisabled(true);
 		// set txt
-		mAsc.find("h3").text(bNewOrEdit?oSettings.lang.asciiFileNew:oSettings.lang.asciiFileSave);
-		mAsc.find(".submit").text(bNewOrEdit?oSettings.lang.create:oSettings.lang.save);
+		mAsc.find("h3").text(bNewOrEdit?gettext('asciiFileNew'):gettext('editascii'));
+		mAsc.find(".submit").text(bNewOrEdit?gettext('create'):gettext('save'));
 		//
 		if (bNewOrEdit) {
 			mCnt.text("");
@@ -111,20 +138,24 @@
 		//
 		$("#winbrowser").hide();
 		mAsc.show();
+		resizeWindow();
+//		resizeBrowser();
 //		$("#resizer").mousedown().mouseup();
-//			mSfb.resizeBrowser();
-//			mSfb.resizeWindow();
-//		oSettings.lang.editascii
+//			$SFB.resizeBrowser();
+//			$SFB.resizeWindow();
+//		gettext('editascii')
 //		mAsc.show(0,$.sfbrowser.resizeWindow);
 //		mAsc.show(0,resizeWindow);
 //		$.sfbrowser.createascii.resizeWindow();
 	}
 	function closeCreateascii(e) {
 		mAsc.hide();
+		shortcutsDisabled(false);
 		$("#winbrowser").show();
+		resizeWindow();
 //		$("#resizer").mousedown().mouseup();
-//			mSfb.resizeBrowser();
-//			mSfb.resizeWindow();
+//			$SFB.resizeBrowser();
+//			$SFB.resizeWindow();
 	}
 	function submitCreateascii(e) {
 		var sNme = mNme.val();
@@ -134,7 +165,7 @@
 		var bProceed = true;
 		if (bNewOrEdit) {
 			if (sNme==""||sNme.match(oReg.fileNameNoExt)) {
-				alert(oSettings.lang.axciiFileNameInvalid);
+				alert(gettext('axciiFileNameInvalid'));
 				bProceed = false;
 			}
 		} else {
