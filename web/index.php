@@ -15,7 +15,6 @@
 
 		<?php include("sfbrowser/connectors/php/init.php"); ?>
 		<script type="text/javascript">
-			<!--
 			function addFiles(aFiles) {
 				if ($('#addfiles>ul').length==0) $('#addfiles').html('<ul/>');
 				for (var i=0;i<aFiles.length;i++) $("#addfiles>ul").append("<li><a onclick=\"$.sfb({select:addFiles,plugins:[],file:'"+aFiles[i].file+"'});\">"+aFiles[i].file+"</a> is "+aFiles[i].size+" <a onclick=\"$(this).parent().remove()\">[x]</a></li>");
@@ -27,7 +26,7 @@
 			}
 			$(function(){
 				var fnTop = function(){$(document).scrollTop(0)};
-				$("h1").text("jQuery."+$.sfbrowser.id+" "+$.sfbrowser.version).click(fnTop);
+				$("h1").text($.sfbrowser.id+" "+$.sfbrowser.version).click(fnTop);
 				$("#page tr:odd").addClass("odd");
 				$("#page tbody>tr").find("td:eq(0)").addClass("property");
 				var mMenu = $("<ul id=\"menu\" />").appendTo("#header>div");
@@ -40,12 +39,26 @@
 			//$(window).load(function() {
 			//	$.fn.sfbrowser({x:20,y:20,w:700});
 			//});
-			-->
+			// FLATTR code
+			/* <![CDATA[ */
+				(function() {
+					var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+					
+					s.type = 'text/javascript';
+					s.async = true;
+					s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+					
+					t.parentNode.insertBefore(s, t);
+				})();
+			/* ]]> */
 		</script>
 	</head>
 	<body>
 		<div id="header">
-			<div><h1><span>SFBrowser</span></h1></div>
+			<div>
+				<h1><span>SFBrowser</span></h1>
+				<p style="position:absolute;left:-80px;top:55px;"><a class="FlattrButton" style="display:none;" href="http://sfbrowser.sjeiti.com/"></a></p>
+			</div>
 		</div>
 		<div id="page">
 			<p><img src="data/screenshot.jpg" align="right" alt="screenshot" />SFBrowser is a file browser and uploader for jQuery. It returns a list of objects with containing the names and additional information of the selected files.<br/>
@@ -111,11 +124,11 @@
 			</table>
 
 			<h3>localisation</h3>
-			<p>You can easily make SFBrowser into another language. Simply copy one of the existing language js files (sfbrowser/lang/[iso].js and sfbrowser/plugins/[name]/lang/[iso].js) and name them the <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO_3166 code</a> of the new language (in lowercase). Then edit the <span class="property">SFB_LANG</span> constant in 'sfbrowser/connectors/php/config.php' to that ISO code.<br/>
-			Should you make any language file other than the ones already present, I'd be happy to include them in a later release. Please send them to: sfbrowser at sjeiti dot com.</p>
+			<p>You can easily make SFBrowser into another language. Simply copy one of the existing language po files (sfbrowser/lang/[iso].po and sfbrowser/plugins/[name]/lang/[iso].po) and name them the <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO_3166 code</a> of the new language. Then edit the <span class="property">SFB_LANG</span> constant in 'sfbrowser/connectors/php/config.php' to that ISO code.<br/>
+			Should you make any language file other than the ones already present, I'd be happy to include them in a later release. Please send them to: <a href="mailto:sfbrowser@sjeiti.com">sfbrowser@sjeiti.com</a>.</p>
 
 			<h3>debug</h3>
-			<p>Setting the <span class="property">SFB_DEBUG</span> value will do three things. Setting the value to true will cause inclusion of the uncompressed scripts rather than the minified ones. It will enable tracing in the console window. It will log all server side actions into 'sfbrowser/connectors/php/log.txt'.
+			<p>Setting the <span class="property">SFB_DEBUG</span> value will do three things. Setting the value to true will cause inclusion of the uncompressed scripts rather than the minified ones. It will enable tracing in the console window. It will log all server side actions into 'sfbrowser/connectors/php/log.txt'.</p>
 
 
 			<h3 id="javascript">javascript</h3>
@@ -126,7 +139,9 @@
 				<thead><tr><th>property</th><th>type</th><th>description</th><th>default</th></tr></thead>
 				<tbody>
 					<tr><td>title</td>	<td>String</td>		<td>title of the SFBrowser window</td><td>"SFBrowser"</td></tr>
-					<tr><td>select</td>	<td>Function</td>	<td>calback function on choose</td><td>function(a){trace(a)}</td></tr>
+					<tr><td>select</td>	<td>Function</td>	<td>calback function on choose</td><td>function(a,params){trace(a,params)}</td></tr>
+					<tr><td>selectparams</td><td>Object</td><td>optional value to be parsed as the second parameter of the select function</td><td>null</td></tr>
+					<tr><td>selectnum</td><td>Integer</td><td>number of selectable files (0==any)</td><td>0</td></tr>
 					<tr><td>file</td>	<td>String</td>		<td>selected file</td><td>""</td></tr>
 					<tr><td>folder</td>	<td>String</td>		<td>a subfolder (relative to base, to which all returned files are relative)</td><td>""</td></tr>
 					<tr><td>dirs</td>	<td>Boolean</td>	<td>allow visibility and creation/deletion of subdirectories.</td><td>true</td></tr>
@@ -137,6 +152,9 @@
 					<tr><td>inline</td>	<td>String</td>		<td>a JQuery selector for inline browser</td><td>"body"</td></tr>
 					<tr><td>fixed</td>	<td>Boolean</td>	<td>keep the browser open after selection (only works when inline is not "body")</td><td>false</td></tr>
 					<tr><td>cookie</td>	<td>Boolean</td>	<td>use a cookie to remember path, x, y, w, h</td><td>false</td></tr>
+					<tr><td>copyRelative</td><td>Boolean</td><td>CTRL-c the relative or absolute path (false for absolute)</td><td>false</td></tr>
+					<tr><td>bgcolor</td>	<td>String</td>	<td>a hex string for the background color</td><td>"#000"</td></tr>
+					<tr><td>bgalpha</td>	<td>Float</td>	<td>a floating point from 0 to 1 for background alpha</td><td>.5</td></tr>
 					<tr><td>x</td>		<td>Integer</td>	<td>x position, centered if left null</td><td>null</td></tr>
 					<tr><td>y</td>		<td>Integer</td>	<td>y position, centered if left null</td><td>null</td></tr>
 					<tr><td>w</td>		<td>Integer</td>	<td>width</td><td>460</td></tr>
@@ -204,6 +222,7 @@
 				<thead><tr><th>shortcut</th><th>action</th></tr></thead>
 				<tbody>
 					<tr><td>Escape or CTRL-q</td>		<td>closes SFBrowser</td></tr>
+					<tr><td>CTRL-c</td>					<td>copy the absolute or relative path of the selected file</td></tr>
 					<tr><td>CTRL-f</td>					<td>opens SFBrowser (only after one run)</td></tr>
 					<tr><td>F2</td>						<td>rename selected file</td></tr>
 					<tr><td>Return</td>					<td>choose file and close SFBrowser</td></tr>
@@ -477,7 +496,7 @@ output: JSON {
 
 		</div>
 		<div id="footer"> 
-			<div>© 2008 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
+			<div>© 2008 - 2011 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
 		</div>
 	</body>
 </html>
