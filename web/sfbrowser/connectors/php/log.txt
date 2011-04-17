@@ -5162,3 +5162,1007 @@
 		POST: [a:delete,folder:../data/ImageFolder/blue/,file:Lorenz_groen_thumb_copy0.jpg,]
 		GET:  []
 		FILE: []
+9-4-2011 11:21		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/asdf/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:30		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:30		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:30		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/blue/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:addFolder()		error:
+		POST: [a:addFolder,folder:../data/ImageFolder/blue/,foldername:Nieuwe map,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/blue/Nieuwe map/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Lorenz_blue.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/,file:Lorenz_blue.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:moveFiles(../../../data/ImageFolder/blue/Lorenz_blue_copy0.jpg)		error:
+		POST: [a:moveFiles,folder:../data/ImageFolder/blue/,file:Lorenz_blue_copy0.jpg,nfolder:Nieuwe map,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy0.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy0.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy1.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy1.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy1.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy1.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy2.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy2.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy2.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy2.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy2.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy2.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:31		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy2.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy2.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:39		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:39		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+9-4-2011 11:39		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+9-4-2011 11:45		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/asdf/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:46		ip:127.0.0.1		a:rename(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy1.jpg)		error:
+		POST: [a:rename,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy1.jpg,nfile:aasdf.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:46		ip:127.0.0.1		a:rename(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy2.jpg)		error:
+		POST: [a:rename,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy2.jpg,nfile:aqewr.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/blue/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/blue/Nieuwe map/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:47		ip:127.0.0.1		a:rename(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy0.jpg)		error:
+		POST: [a:rename,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy0.jpg,nfile:Laue_copy0.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:47		ip:127.0.0.1		a:rename(../../../data/ImageFolder/blue/Nieuwe map/Lorenz_blue_copy3.jpg)		error:
+		POST: [a:rename,folder:../data/ImageFolder/blue/Nieuwe map/,file:Lorenz_blue_copy3.jpg,nfile:Lower_copy3.jpg,]
+		GET:  []
+		FILE: []
+9-4-2011 11:47		ip:127.0.0.1		a:read(../../../data/cv.pdf)		error:
+		POST: [a:read,folder:../data/,file:cv.pdf,]
+		GET:  []
+		FILE: []
+9-4-2011 11:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/blue/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/blue/Nieuwe map/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:52		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:52		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+9-4-2011 11:58		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+9-4-2011 11:58		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+9-4-2011 11:58		ip:127.0.0.1		a:read(../../../data/cv.pdf)		error:
+		POST: [a:read,folder:../data/,file:cv.pdf,]
+		GET:  []
+		FILE: []
+9-4-2011 11:59		ip:127.0.0.1		a:read(../../../data/data.rar)		error:
+		POST: [a:read,folder:../data/,file:data.rar,]
+		GET:  []
+		FILE: []
+9-4-2011 11:59		ip:127.0.0.1		a:()		error:
+		POST: []
+		GET:  []
+		FILE: []
+9-4-2011 19:30		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+9-4-2011 19:32		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+10-4-2011 16:25		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+10-4-2011 16:26		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+10-4-2011 16:26		ip:127.0.0.1		a:read(../../../data/ImageFolder/Config.xml)		error:
+		POST: [a:read,folder:../data/ImageFolder/,file:Config.xml,]
+		GET:  []
+		FILE: []
+10-4-2011 17:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:17		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:20		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:21		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:23		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:28		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:35		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:48		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:51		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 00:56		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:01		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:06		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:09		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:12		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:19		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:20		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:20		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:24		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:26		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:27		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:29		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:31		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:33		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:35		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:38		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:39		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:43		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:45		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:48		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:50		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:51		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:52		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:52		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 01:57		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:00		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:02		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:03		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:06		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:07		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:08		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:10		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:17		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:19		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:19		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:21		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:22		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:24		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:26		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:26		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:27		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:28		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 02:29		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 09:57		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 09:57		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 09:57		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 09:59		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 09:59		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:01		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:02		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:03		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:11		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:25		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:25		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:26		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:26		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:27		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:28		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:28		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:33		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:36		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:37		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:38		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:40		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:42		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:43		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:45		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:45		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:47		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:48		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:51		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:51		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:52		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:55		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 10:58		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 11:00		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 11:01		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 11:02		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 11:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 11:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+11-4-2011 11:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+16-4-2011 22:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+16-4-2011 22:34		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/Lorenz_groen_thumb.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/,file:Lorenz_groen_thumb.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 22:34		ip:127.0.0.1		a:delete(../../../data/ImageFolder/Lorenz_groen_thumb_copy0.jpg)		error:
+		POST: [a:delete,folder:../data/ImageFolder/,file:Lorenz_groen_thumb_copy0.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 23:11		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:11		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:11		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/Lorenz_groen_thumb.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/,file:Lorenz_groen_thumb.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 23:12		ip:127.0.0.1		a:delete(../../../data/ImageFolder/Lorenz_groen_thumb_copy0.jpg)		error:
+		POST: [a:delete,folder:../data/ImageFolder/,file:Lorenz_groen_thumb_copy0.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:read(../../../data/DumbEmail.eml)		error:
+		POST: [a:read,folder:../data/,file:DumbEmail.eml,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/asdf/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:duplicate(../../../data/asdf/XXX_2447_Donato_Giancola_Godheads.jpg)		error:
+		POST: [a:duplicate,folder:../data/asdf/,file:XXX_2447_Donato_Giancola_Godheads.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:delete(../../../data/asdf/XXX_2447_Donato_Giancola_Godheads_copy0.jpg)		error:
+		POST: [a:delete,folder:../data/asdf/,file:XXX_2447_Donato_Giancola_Godheads_copy0.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:18		ip:127.0.0.1		a:duplicate(../../../data/ImageFolder/Lorenz_groen_thumb.jpg)		error:
+		POST: [a:duplicate,folder:../data/ImageFolder/,file:Lorenz_groen_thumb.jpg,]
+		GET:  []
+		FILE: []
+16-4-2011 23:40		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:41		ip:127.0.0.1		a:read(../../../data/data.rar)		error:
+		POST: [a:read,folder:../data/,file:data.rar,]
+		GET:  []
+		FILE: []
+16-4-2011 23:41		ip:127.0.0.1		a:read(../../../data/data.rar)		error:
+		POST: [a:read,folder:../data/,file:data.rar,]
+		GET:  []
+		FILE: []
+16-4-2011 23:43		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:44		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+16-4-2011 23:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+16-4-2011 23:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 00:40		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 00:41		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 00:43		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 00:44		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 00:44		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 12:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 12:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 12:54		ip:127.0.0.1		a:read(../../../data/data.rar)		error:
+		POST: [a:read,folder:../data/,file:data.rar,]
+		GET:  []
+		FILE: []
+17-4-2011 12:56		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 12:56		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+17-4-2011 12:56		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+17-4-2011 13:48		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:52		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:55		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:55		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:56		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 13:58		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:00		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:00		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:01		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:01		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:02		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:02		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:02		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:03		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:03		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:03		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:05		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:05		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+17-4-2011 14:05		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+17-4-2011 14:13		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:13		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:15		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:27		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:34		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:35		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:35		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:35		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:36		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:39		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:41		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:41		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:46		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:48		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:49		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:53		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:54		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:56		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:56		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:58		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:58		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:58		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:59		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:59		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 14:59		ip:127.0.0.1		a:read(../../../data/PlainOldText.txt)		error:
+		POST: [a:read,folder:../data/,file:PlainOldText.txt,]
+		GET:  []
+		FILE: []
+17-4-2011 14:59		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 15:01		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 15:04		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/ImageFolder/,]
+		GET:  []
+		FILE: []
+17-4-2011 15:08		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 15:08		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 15:08		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []
+17-4-2011 15:11		ip:127.0.0.1		a:fileList()		error:
+		POST: [a:fileList,folder:../data/,]
+		GET:  []
+		FILE: []
+17-4-2011 15:11		ip:127.0.0.1		a:read(../../../data/Config.xml)		error:
+		POST: [a:read,folder:../data/,file:Config.xml,]
+		GET:  []
+		FILE: []

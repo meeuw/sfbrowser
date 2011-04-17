@@ -1,9 +1,9 @@
 /*!
 * jQuery SFBrowser
 *
-* Version: 3.3.2
+* Version: 3.3.4
 *
-* Copyright (c) 2010 Ron Valstar http://www.sjeiti.com/
+* Copyright (c) 2011 Ron Valstar http://www.sjeiti.com/
 *
 * Dual licensed under the MIT and GPL licenses:
 *   http://www.opensource.org/licenses/mit-license.php
@@ -88,16 +88,14 @@
 *   - new: add mime instead of extension (for mac)
 *
 * in this update:
-*		- tested with jquery-1.5.2.min.js
-*		- replaced deprecated php split
-*		- added CTRL-C to copy a file's absolute or relative path
-*		- refactored trace and added log function
-*		- made a 'clear cookie' button in debug mode
-*		- minor refactoring
+*		- fixed deletion and download bug due to error in jquery 1.4.4
+*		- fixed rename folder bug
+*		- fixed hidden buttons in image resize plugin
+*		- checked with jquery-1.6b1
+*		- minor css/js refactoring
 *
 * in last update:
-*		- added .po files for localisation
-*		- debugged and refactored a bit
+*		- changed the default select function to trace the optional 'selectparams' (just for clarity)
 */
 ;(function($) {
 	// private variables
@@ -107,6 +105,7 @@
 	var iSort = 0;
 	var bHasImgs = false;
 	//
+	var sBase = '';
 	var aPath = [];
 	var oTree = {};
 	//
@@ -156,12 +155,12 @@
 	// default settings
 	$.sfbrowser = {
 		 id: "SFBrowser"
-		,version: "3.3.2"
+		,version: "3.3.4"
 		,copyright: "Copyright (c) 2007 - 2011 Ron Valstar"
 		,uri: "http://sfbrowser.sjeiti.com/"
 		,defaults: {
 			 title:		""						// the title
-			,select:	function(a){trace(a)}	// calback function on choose
+			,select:	function(a,params){trace(a,params)}	// calback function on choose
 			,selectparams: null					// parameter object for select function
 			,selectnum:	0						// number of selectable files (uint) 0==any
 			,file:		""						// selected file
@@ -249,6 +248,10 @@
 			ss.connbase = "connectors/"+ss.connector+"/sfbrowser."+ss.connector;
 			ss.conn = ss.prefx+ss.sfbpath+ss.connbase;
 			//
+			var aBase = String(window.location).split('/');
+			aBase.pop();
+			sBase = aBase.join('/')+'/';
+			//
 			trace("oSettings.conn: ",oSettings,this); // TRACE ### oSettings.conn
 			//
 			// extra vars in debug mode
@@ -317,14 +320,18 @@
 			//
 			//
 			//////////////////////////// file browser
+			trace('ss.browser:',ss.browser); // TRACE ### ss.browser
 			$SFB =		$(ss.browser);
-			$SFBWin =	$SFB.find("#fbwin");
+			$SFBWin =	$SFB.find("#fbwin:first");
 			$TableH =	$SFBWin.find("#fbtable");
 			$Table =	$TableH.find("table");
 			$TbBody =	$Table.find("tbody");
 			$Context =	$SFB.find("#sfbcontext");
+			// sfb classes
+			if ($.browser.msie) $SFB.addClass('msie');
+			if (ss.debug) $SFB.addClass('debug');
 			// top menu
-			$SFB.find("div.sfbheader>h3").html((ss.title==""?gettext("sfb"):ss.title)+(ss.debug?' <span>debug mode</span>':''));
+			$SFB.find("div.sfbheader>h3").html((ss.title==""?gettext("sfb"):ss.title)+'<span class="version">'+$.sfbrowser.version+'</span><span class="jquery">jQuery '+$().jquery+'</span><span class="debug">debug mode</span>');
 			$SFB.find("div#loadbar>span").text(gettext("loading"));
 			$SFB.find("#fileToUpload").change(fileUpload);
 			var $TopA = $SFB.find("ul#sfbtopmenu>li>a");
@@ -337,14 +344,14 @@
 			if (!ss.fixed)	$TopA.filter(".maximizefb").click(maximizeSFB).attr("title",gettext("maximize")||'').find("span").text(gettext("maximize")||'');
 			else			$TopA.filter(".maximizefb").parent().remove();
 			// table headers
-			var mTh = $SFB.find("table#filesDetails>thead>tr>th");
-			mTh.eq(0).text(gettext("name"));
-			mTh.eq(1).text(gettext("type"));
-			mTh.eq(2).text(gettext("size"));
-			mTh.eq(3).text(gettext("date"));
-			mTh.eq(4).text(gettext("dimensions"));
-			if (!bHasImgs) mTh.eq(4).remove();
-			mTh.filter(":not(:last)").each(function(i,o){
+			var $Th = $SFB.find("table#filesDetails>thead>tr>th");
+			$Th.eq(0).text(gettext("name"));
+			$Th.eq(1).text(gettext("type"));
+			$Th.eq(2).text(gettext("size"));
+			$Th.eq(3).text(gettext("date"));
+			$Th.eq(4).text(gettext("dimensions"));
+			if (!bHasImgs) $Th.eq(4).remove();
+			$Th.filter(":not(:last)").each(function(i,o){
 				$(this).click(function(){sortFbTable(i)});
 			}).append("<span>&nbsp;</span>");
 			// preview
@@ -355,10 +362,10 @@
 			$SFB.find("div.cancelfb").click(closeSFB).text(gettext("cancel"));
 			
 			if (ss.debug) {
-				$('<a href="#" class="clearCookie">clear cookie</a>').appendTo($SFBWin).click(function(e){
+				$('<a href="#" class="clearCookie">clear cookie</a>').appendTo($SFBWin.find('div.sfbbotbut')).click(function(e){
 					eraseCookie($.sfbrowser.id);
 					trace("cookie cleared",readCookie($.sfbrowser.id));
-				});
+				}).css({marginLeft:'10px'});
 			}
 
 			$SFB.find("#sfbfooter").html('<a href="'+$.sfbrowser.uri+'">'+$.sfbrowser.id+" "+$.sfbrowser.version+" &nbsp; &nbsp; &nbsp; &nbsp; "+$.sfbrowser.copyright+'</a>');
@@ -435,6 +442,7 @@
 				,listAdd:			listAdd
 				,file:				file
 				,getPath:			getPath
+				,getFilePath:		getFilePath
 				,gettext:			gettext
 				,lang:				lang
 				,resizeWindowDown:	resizeWindowDown
@@ -496,18 +504,6 @@
 			var mUpbut = $SFB.find("form#fileio");
 			var mAUpbut = $SFB.find("#sfbtopmenu a.upload");
 			//
-			// debug
-			//$TbBody.parent().parent().hide();
-			if (ss.debug) mUpbut.css({opacity:".5",filter:"alpha(opacity=50)"});
-			//
-			// IE8 upload css fix $$ IE does not yet render swf upload
-			$.browser.msie&&$.browser.version>=8&&mUpbut.css({
-				 top:		"-15px"
-				,width:		"90px"
-			}).find("input").css({
-				 fontSize:	"12px"
-			});
-			//
 			//////////////////////////// start
 			openDir(sFolder);
 			openSFB();
@@ -542,7 +538,7 @@
 		trace("sfb close");
 		// $$ remove all pending uploads
 		if (ss.cookie) setSfbCookie();
-		$("#sfbrowser #fbbg").fadeOut();
+		$SFB.find('#fbbg').fadeOut();
 		$SFBWin.slideUp("normal",function(){$SFB.remove();});
 		if (bOverlay) $Body.css({overflow:sBodyOverflow}).scrollTop($Body.scrollTop()+1);
 		bIsOpen = false;
@@ -651,14 +647,14 @@
 		});
 	}
 	// copyPath functions
+	var getFilePath = function getFilePath(file,relative) {
+		return cleanUri((relative?'':sBase)+ss.prefx+ss.sfbpath+aPath.join("")+file.file);
+	}
 	var addCopyPath = function addCopyPath() {
 		var $Tr = $TbBody.find("tr.selected:first");
 		if ($Tr.length>0) {
 			var oExists = getPath().contents[$Tr.attr('id')];
-			var aBase = String(window.location).split('/');
-			aBase.pop();
-			var sBase = aBase.join('/')+'/';
-			var sFilePath = cleanUri((ss.copyRelative?'':sBase)+ss.prefx+ss.sfbpath+aPath.join("")+oExists.file);
+			var sFilePath = getFilePath(oExists);//cleanUri((ss.copyRelative?'':sBase)+ss.prefx+ss.sfbpath+aPath.join("")+oExists.file);
 			//
 			trace('sFilePath:',sFilePath); // TRACE ### sFilePath
 			//
@@ -760,7 +756,11 @@
 		var bFolder = obj.mime=="folder";
 		var bUFolder = obj.mime=="folderup";
 		var sMime = bFolder||bUFolder?gettext("folder"):obj.mime;
-		var sTr = "<tr id=\""+obj.file+"\" class=\""+(bFolder||bUFolder?"folder":"file")+"\">";
+		// remove previous version in case we're just updating
+		$(document.getElementById(obj.file)).remove(); // using $("#.. fails due to periods in filename
+		//
+		var $Tr = obj.tr = $('<tr id="'+obj.file+'" class="'+(bFolder||bUFolder?"folder":"file")+'">').prependTo($TbBody);
+		//
 		var iHo = obj.mime.charCodeAt(0)-97;
 		var iVo = obj.mime.charCodeAt(1)-97;
 		switch (obj.mime) {
@@ -772,39 +772,30 @@
 		}
 		iHo *= -16;
 		iVo *= -16;
-		sTr += "<td abbr=\""+obj.file+"\" title=\""+obj.file+"\" class=\"icon\" ><span class=\"icon\" style=\"background-position: "+iHo+"px "+iVo+"px;\" /><span class=\"filename\">"+obj.file+"</span></td>";
-//		sTr += "<td abbr=\""+obj.file+"\" title=\""+obj.file+"\" class=\"icon\" style=\"background-image:url("+ss.sfbpath+"icons/"+(ss.icons.indexOf(obj.mime)!=-1?obj.mime:"default")+".gif);\">"+obj.file+"</td>";
+		//
+		var $TdFile = $('<td abbr="'+obj.file+'" title="'+obj.file+'" class="icon" ><span class="icon" style="background-position: '+iHo+'px '+iVo+'px;" /><span class="filename">'+obj.file+'</span></td>').appendTo($Tr);
 		if (bUpload) {
-			sTr += "<td abbr=\"upload progress\" colspan=\"4\"><div class=\"progress\"><div></div><span>0%</span><div></td>";
-			sTr += "<td><a class=\"sfbbutton cancel\" title=\""+gettext("fileUploadCancel")+"\"><span>"+gettext("fileUploadCancel")+"</span></a></td>";
-		} else {
-			sTr += "<td abbr=\""+obj.mime+"\">"+sMime+"</td>";
-			sTr += "<td abbr=\""+obj.rsize+"\">"+obj.size+"</td>";
-			sTr += "<td abbr=\""+obj.time+"\" title=\""+obj.date+"\">"+obj.date.split(" ")[0]+"</td>";
-			var bVImg = (obj.width*obj.height)>0;
-			sTr += (bHasImgs?("<td"+(bVImg?(" abbr=\""+(obj.width*obj.height)+"\""):"")+">"+(bVImg?(obj.width+"x"+obj.height+"px"):"")+"</td>"):"");
-			sTr += "<td>";
-			if (!(bFolder||bUFolder||bUpload)) sTr += "	<a onclick=\"\" class=\"sfbbutton preview\" title=\""+gettext("view")+"\">&nbsp;<span>"+gettext("view")+"</span></a>";
-			if (!(bUFolder||bUpload)) sTr += "	<a onclick=\"\" class=\"sfbbutton filedelete\" title=\""+gettext("del")+"\">&nbsp;<span>"+gettext("del")+"</span></a>";
-			sTr += "</td>";
-		}
-		sTr += "</tr>";
-		//
-		// remove previous version in case we're just updating
-		$(document.getElementById(obj.file)).remove(); // using $("#.. fails due to periods in filename
-		var $Tr = $(sTr).prependTo($TbBody);
-		//$Tr.draggable({opacity:0.7,helper:'clone'}); // $$ add drop onto folder moves file
-		//
-		//$Tr.find("td").wrapInner("<div></div>");
-		//$("#sfbrowser thead>tr").remove();
-		//
-		obj.tr = $Tr;
-		$Tr.find("a.filedelete").click(deleteFile);
-		$Tr.find("a.preview").click(showFile);
-		$Tr.find("a.cancel").click(function(e){
-				$("#swfUploader").get(0).cancelUpload($(this).parent().parent().attr("id"));
+			var $TdProgress = $('<td abbr="upload progress" colspan="4"><div class="progress"><div></div><span>0%</span><div></td>').appendTo($Tr);
+			var $TdButtons = $('<td />').appendTo($Tr);
+			var $aCancel = $('<a class="sfbbutton cancel" title="'+gettext('fileUploadCancel')+'"><span>'+gettext('fileUploadCancel')+'</span></a>').appendTo($TdButtons).click(function(e){
+				$("#swfUploader").get(0).cancelUpload(obj.file);
 				$Tr.remove();
-			});
+			});;
+		} else {
+			var $TdMime = $('<td abbr="'+obj.mime+'">'+sMime+'</td>').appendTo($Tr);
+			var $TdSize = $('<td abbr="'+obj.rsize+'">'+obj.size+'</td>').appendTo($Tr);
+			var $TdDate = $('<td abbr="'+obj.time+'" title="'+obj.date+'">'+obj.date.split(' ')[0]+'</td>').appendTo($Tr);
+			if (bHasImgs) {
+				var bVImg = (obj.width*obj.height)>0;
+				var $TdDims = $('<td'+(bVImg?(' abbr="'+(obj.width*obj.height)+'"'):'')+'>'+(bVImg?(obj.width+'x'+obj.height+'px'):'')+'</td>').appendTo($Tr);
+			}
+		
+			var $TdButtons = $('<td />').appendTo($Tr);
+			if (!(bFolder||bUFolder||bUpload)) var $APreview = $('<a onclick="" class="sfbbutton preview" title="'+gettext('view')+'">&nbsp;<span>'+gettext('view')+'</span></a>').appendTo($TdButtons).click(showFile);
+			if (!(bUFolder||bUpload)) var $ADelete = $('<a onclick="" class="sfbbutton filedelete" title="'+gettext('del')+'">&nbsp;<span>'+gettext('del')+'</span></a>').appendTo($TdButtons).click(deleteFile);
+				
+		}
+		//
 		//$Tr.find("td:last").css({textAlign:"right"}); // IE fix
 		$Tr.folder = bFolder||bUFolder;
 		if (!bUpload) {
@@ -816,9 +807,7 @@
 				chooseFile($(this));
 			})
 		}
-//			function(e) {
-//				$Tr.mouseup( clickTrUp );
-//			}
+		//
 		$Tr[0].oncontextmenu = function(e) {
 			return false;
 		};
@@ -1327,7 +1316,7 @@
 					trace(lang(data.msg));
 					listAdd(data.data,1).trigger('click').trigger('click');
 					sortFbTable(); // todo: fix scrolltop below because because of
-					$("#sfbrowser #fbtable").scrollTop(0);	// IE and Safari
+					$SFB.find('#fbtable').scrollTop(0);	// IE and Safari
 					$TbBody.scrollTop(0);		// Firefox
 				}
 			}

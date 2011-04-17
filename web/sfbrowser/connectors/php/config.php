@@ -10,7 +10,12 @@ define("FILETIME",			"j-n-Y H:i");		// file time display
 
 define("SFB_ERROR_RETURN",	"<html><head><meta http-equiv=\"Refresh\" content=\"0;URL=http:/\" /></head></html>");
 
-define("SFB_PLUGINS",		"imageresize,filetree,createascii");
+define("SFB_PLUGINS",		"imageresize,filetree,createascii,feather");
 
 define("SFB_DEBUG",			!false);
+
+define("CACHE",	SFB_DEBUG?"?".rand(0,999):"");
+define("MIN",	SFB_DEBUG?"":".min");
+define("T",		SFB_DEBUG?"\t":"");
+define("N",		SFB_DEBUG?"\n":"");
 ?>

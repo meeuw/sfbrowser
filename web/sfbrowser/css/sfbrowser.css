@@ -75,9 +75,21 @@ body, html {
 			cursor: move;
 		}
 			#sfbrowser h3 span {
-				color: #D00;
+				display: none;
+			}
+			#sfbrowser.debug h3 span {
+				display: inline;
 				padding-left: 10px;
 			}
+			#sfbrowser h3 span.jquery {
+				color: #000;
+				font-size: 9px;
+				font-weight: normal;
+			}
+			#sfbrowser h3 span.debug {
+				color: #D00;
+			}
+
 		#sfbrowser #loadbar {
 			display: none;
 			position: absolute;
@@ -125,7 +137,7 @@ body, html {
 				position: absolute;
 				top: 0px;
 				right: 0px;
-				margin-top: 2px;
+				height: 100%;
 				opacity: 0;
 				filter: alpha(opacity=0);
 				cursor: hand;
@@ -133,15 +145,27 @@ body, html {
 				overflow: hidden;
 				z-index: 100;
 			}
-			#sfbrowser form#fileio input {
-				display: block;
-				font-size: 5px;
-				cursor: pointer;
-				cursor: hand;
-				color: "red";
-				background-color: "red";
-				border: 1px solid "red";
+				#sfbrowser form#fileio input {
+					display: block;
+					font-size: 5px;
+					cursor: pointer;
+					cursor: hand;
+				}
+			#sfbrowser.msie form#fileio {
+				margin-top: 0px;
+				right: 5px;
 			}
+				#sfbrowser.msie form#fileio input {
+					font-size: 12px;
+				}
+			#sfbrowser.debug form#fileio {
+				opacity: .5;
+				filter: alpha(opacity=50);
+			}
+				#sfbrowser.debug form#fileio input {
+					background-color: red;
+					border: 1px solid red;
+				}
 
 			/* swf uploader */
 			#sfbrowser #swfUploader {
@@ -287,11 +311,15 @@ body, html {
 	}
 	#sfbrowser div.choose {
 		right: 10px;
-		bottom: 10px;
 	}
 	#sfbrowser div.cancelfb {
 		right: 120px;
+	}
+
+	#sfbrowser div.sfbbotbut {
+		position: absolute;
 		bottom: 10px;
+		right: 7px;
 	}
 
 	/* content */

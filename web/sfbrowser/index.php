@@ -8,7 +8,7 @@
 
 		<!--script type="text/javascript" src="http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js"></script-->
 
-		<script type="text/javascript" src="scripts/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-1.5.2.min.js.js"></script>
 		<?php //include("sfbrowser/connectors/php/init.php"); ?>
 		<?php include("connectors/php/init.php"); ?>
 		<script type="text/javascript">

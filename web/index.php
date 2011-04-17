@@ -7,11 +7,16 @@
 
 		<!--script type="text/javascript" src="http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js"></script-->
 
-		<!--script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script-->
-		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
-		<!--script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script-->
-		<!--script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script-->
+		<!--
+		<script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-1.4.1.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="scripts/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-1.6b1.js"></script>
+		-->
+		<script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script>
+		
 
 		<?php include("sfbrowser/connectors/php/init.php"); ?>
 		<script type="text/javascript">
@@ -31,7 +36,7 @@
 				$("#page tbody>tr").find("td:eq(0)").addClass("property");
 				var mMenu = $("<ul id=\"menu\" />").appendTo("#header>div");
 				$("<li><a href=\"#\">SFBrowser</a></li>").appendTo(mMenu).click(fnTop);
-				$("h2").each(function(i,o){
+				$("#page h2").each(function(i,o){
 					mMenu.append("<li><a href=\"#"+$(this).text()+"\">"+$(this).text()+"</a></li>");
 					$(this).attr("id",$(this).text());
 				});

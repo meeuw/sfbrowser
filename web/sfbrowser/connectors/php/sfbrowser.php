@@ -263,24 +263,17 @@ class SFBrowser extends AbstractSFB {
 						$sNSFile = str_replace($sFile,$sNFile,$this->sSFile);
 						if (@filetype($this->sSFile)=="file"&&$sFileExt!=$sNFileExt) {
 							$this->aReturn['error'] .= "filenameNoext";
-//						} else if (!preg_match("/^\w+(\.\w+)*$/",$sNFile)) {
-						} else if (!preg_match('=^[^/?*;:{}\\\\]+\.[^/?*;:{}\\\\]+$=',$sNFile)) {
-							$this->aReturn['error'] .= "filenamInvalid";
+						} else if (!preg_match('=^[^/?*;:{}\\\\]+'.(is_dir($this->sSFile)?'=':'\.[^/?*;:{}\\\\]+$='),$sNFile)) {
+							$this->aReturn['error'] .= "filenameInvalid";
+						} else if ($sFile==$sNFile) {
+							$this->aReturn['msg'] .= "filenameNochange";
+						} else if ($sNFile=="") {
+							$this->aReturn['error'] .= "filenameNothing";
+						} else if (file_exists($sNSFile)) {
+							$this->aReturn['error'] .= "filenameExists";
 						} else {
-							if ($sFile==$sNFile) {
-								$this->aReturn['msg'] .= "filenameNochange";
-							} else {
-								if ($sNFile=="") {
-									$this->aReturn['error'] .= "filenameNothing";
-								} else {
-									if (file_exists($sNSFile)) {
-										$this->aReturn['error'] .= "filenameExists";
-									} else {
-										if (@rename($this->sSFile,$sNSFile)) $this->aReturn['msg'] .= "filenameSucces";
-										else $this->aReturn['error'] .= "filenameFailed";
-									}
-								}
-							}
+							if (@rename($this->sSFile,$sNSFile)) $this->aReturn['msg'] .= "filenameSucces";
+							else $this->aReturn['error'] .= "filenameFailed";
 						}
 					}
 				break;

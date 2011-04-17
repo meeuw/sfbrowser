@@ -28,6 +28,7 @@
 	// private vars
 	var sConnector;
 	var oFile;
+	var $ImgRszBrws;
 	var mContextItem;
 	//
 	// dragging
@@ -77,7 +78,7 @@
 			sConnector = oSettings.sfbpath+"plugins/imageresize/connectors/"+oSettings.connector+"/imageresize."+oSettings.connector;
 			//
 			//$SFB.find("#fbwin").prepend(oSettings.imageresize);
-			$(oSettings.imageresize).prependTo($SFB.find("#fbwin")).hide();
+			$ImgRszBrws = $(oSettings.imageresize).prependTo($SFB.find("#fbwin")).hide();
 			//
 			// header
 			$SFB.find("#sfbimgresize>div.sfbheader>h3").mousedown(moveWindowDown);
@@ -134,6 +135,10 @@
 			if (oFile) {
 				var iMaxW = $("#fbwin").width()-$("form#sfbsize").width()-20;
 				var iMaxH = $("#fbwin").height()-70;
+				//
+				var $ImgCnt = $ImgRszBrws.find('div.fbcontent');
+				$ImgCnt.height(iHgt-$ImgCnt.position().top);		
+				//
 				fRzsScale = Math.min(1,Math.min(iMaxW/oFile.width,iMaxH/oFile.height));
 				$("div#sfbimgresize>div.fbcontent>span#rszperc").text(Math.round(fRzsScale*100)+"%");
 				$("#sfbimgresize div#org").css({width:(fRzsScale*oFile.width)+"px",height:(fRzsScale*oFile.height)+"px"});
