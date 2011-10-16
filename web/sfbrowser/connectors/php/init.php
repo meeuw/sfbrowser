@@ -1,11 +1,6 @@
 <?php // this file needs to be called in the header of your document because it adds css and js
 
-include("sfbrowser.php");
-
-//CACHE = SFB_DEBUG?"?".rand(0,999):"";
-//MIN = SFB_DEBUG?"":".min";
-//T = SFB_DEBUG?"\t":"";
-//N = SFB_DEBUG?"\n":"";
+include("SFBrowser.php");
 
 // test lang files
 $oSFBrowser->testLatestLang();

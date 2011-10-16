@@ -119,7 +119,7 @@ body, html {
 		/* top menu */
 		#sfbrowser #sfbtopmenu {
 			position: absolute;
-			top: 3px;
+			top: 0px;
 			right: 3px;
 			text-align: right;
 			list-style: none;
@@ -173,6 +173,8 @@ body, html {
 				position: absolute;
 				left: 0px;
 				top: 0px;
+				height: 100%;
+				width: 100%;
 			}
 		
 	/* anchor buttons */
@@ -343,164 +345,176 @@ body, html {
 		box-shadow:				rgba(255,255,255,.6) 2px 2px 2px, rgba(0,0,0,.1) -2px -2px 2px;
 
 	}
-	#sfbrowser table {
-		/*height: 226px;
-		height: 100%;*/
-		width: 100%;
-		border: 0px;
-		overflow: hidden;
-	}
-		/*#sfbrowser tbody, #sfbrowser thead {
-			width: 340px;
+		#dropbox {
+			display: none;
+			background-color: rgba(255,255,255,.7);
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
 		}
-		#sfbrowser thead {
+			#dropbox.hover {
+				background-color: rgba(255,0,164,.4);
+			}
+		#sfbrowser table {
+			/*height: 226px;
+			height: 100%;*/
+			width: 100%;
+			border: 0px;
+			overflow: hidden;
 		}
-			#sfbrowser thead tr	{
-			}*/
-				#sfbrowser thead th {
-					height: 20px;
-					font-family: verdana;
-					text-align: left;
-					border-width: 1px;
-					border-style: solid;
-					border-color: #fff #888 #888 #fff;
-					background: #ddd url(butbg.png) 0px 4px;
-					color: #444;
-					font-size: 10px;
-					line-height: 10px;
-					font-weight: normal;
-					padding: 0px 0px 0px 2px;
+			/*#sfbrowser tbody, #sfbrowser thead {
+				width: 340px;
+			}
+			#sfbrowser thead {
+			}
+				#sfbrowser thead tr	{
+				}*/
+					#sfbrowser thead th {
+						height: 20px;
+						font-family: verdana;
+						text-align: left;
+						border-width: 1px;
+						border-style: solid;
+						border-color: #fff #888 #888 #fff;
+						background: #ddd url(butbg.png) 0px 4px;
+						color: #444;
+						font-size: 10px;
+						line-height: 10px;
+						font-weight: normal;
+						padding: 0px 0px 0px 2px;
+						cursor: hand;
+						cursor: pointer;
+					}
+					#sfbrowser thead th:hover {
+						border-color: #eee #666 #666 #eee;
+						background-position: 0px 2px;
+						color: #000;
+					}
+					#sfbrowser thead th span {
+						padding: 0px 10px 0px 10px;
+						background-image: url(sheet.png);
+						background-repeat: no-repeat;
+						background-position: 300px 0px;
+					}
+					#sfbrowser thead th span.sort {
+						background-position: 10px -192px;
+					}
+					#sfbrowser thead th:hover span.sort {
+						background-position: 10px -224px;
+					}
+					#sfbrowser thead th span.sort.asc {
+						background-position: 10px -256px;
+					}
+					#sfbrowser thead th:hover span.sort.asc {
+						background-position: 10px -288px;
+					}
+			#sfbrowser table>tbody {
+				height: 198px;
+				overflow: auto;
+				overflow-x: hidden;
+			}
+			#sfbrowser table>tbody * {
+				line-height: 26px;
+			}
+				#sfbrowser table tbody tr {
+					height: 26px !important;
 					cursor: hand;
 					cursor: pointer;
+					white-space: nowrap;
 				}
-				#sfbrowser thead th:hover {
-					border-color: #eee #666 #666 #eee;
-					background-position: 0px 2px;
-					color: #000;
+				#sfbrowser table tbody tr.over {
+					background-color: #def;
 				}
-				#sfbrowser thead th span {
-					padding: 0px 10px 0px 10px;
-					background-image: url(sheet.png);
-					background-repeat: no-repeat;
-					background-position: 300px 0px;
+				#sfbrowser table tbody tr.selected {
+					background-color: #adf;
 				}
-				#sfbrowser thead th span.sort {
-					background-position: 10px -192px;
-				}
-				#sfbrowser thead th:hover span.sort {
-					background-position: 10px -224px;
-				}
-				#sfbrowser thead th span.sort.asc {
-					background-position: 10px -256px;
-				}
-				#sfbrowser thead th:hover span.sort.asc {
-					background-position: 10px -288px;
-				}
-		#sfbrowser table>tbody {
-			height: 198px;
-			overflow: auto; 
-			overflow-x: hidden;			
-		}
-		#sfbrowser table>tbody * {
-			line-height: 26px;
-		}
-			#sfbrowser table tbody tr {
-				height: 26px !important;
-				cursor: hand;
-				cursor: pointer;
-				white-space: nowrap;
-			}
-			#sfbrowser table tbody tr.over {
-				background-color: #def;
-			}
-			#sfbrowser table tbody tr.selected {
-				background-color: #adf;
-			}
-				#sfbrowser table tbody tr td {
-					vertical-align: top;/*baseline;*/
-					border-right: 1px solid #def;
-				}
-				#sfbrowser td.loading {
-					height: 194px;
-					background: url(loadingb.gif) center center no-repeat;
-				}
-				#sfbrowser tr td:last-child {
-					padding-right: 20px;
-					text-align:right;
-				}
-				#sfbrowser td.icon {
-						/*position: relative;
-						top: 0px;
-						left: 0px;
-					padding-left: 20px;
-					background-repeat: no-repeat;
-					background-position: 1px 4px;*/
-				}
-					#sfbrowser td.icon span.icon {
-						/*position: absolute;
-						top: 0px;
-						left: 0px;*/
-						float: left;
-						display: block;
-						width: 16px;
-						height: 16px;
-						margin: 4px 3px 0px 1px;
-						background-image: url(fileSheet.png);
+					#sfbrowser table tbody tr td {
+						vertical-align: top;/*baseline;*/
+						border-right: 1px solid #def;
+					}
+					#sfbrowser td.loading {
+						height: 194px;
+						background: url(loadingb.gif) center center no-repeat;
+					}
+					#sfbrowser tr td:last-child {
+						padding-right: 20px;
+						text-align:right;
+					}
+					#sfbrowser td.icon {
+							/*position: relative;
+							top: 0px;
+							left: 0px;
+						padding-left: 20px;
 						background-repeat: no-repeat;
+						background-position: 1px 4px;*/
 					}
-					#sfbrowser td.icon span.filename {
-						display: inline-block;
-						overflow: hidden;
-					}
-					#sfbrowser td input {
-						border: 1px solid #64A5D3;
-						margin: 4px -22px 0px 0px;
-						padding: 0px;
-						line-height: 14px;
-						2width: 80%;
-					}
-							
-			/* uploading */
-			#sfbrowser table tbody tr.uploading {
-				background-color: #D7FF99!important;
-				cursor: default;
-			}
-				#sfbrowser table tbody tr.uploading td {
-					border-bottom: 1px solid #9BE62B;
-				}
-					#sfbrowser table tbody div.progress {
-						position: relative;
-						width: 100%;
-						height: 13px;
-						margin-top: 7px;
-						background-color: #B8ED67;
-						padding: 0px;
-					}
-						#sfbrowser table tbody div.progress div {
-							position: absolute;
-							width: 1px;
-							height: 13px;
-							background-color: #35ADFD;
+						#sfbrowser td.icon span.icon {
+							/*position: absolute;
+							top: 0px;
+							left: 0px;*/
+							float: left;
+							display: block;
+							width: 16px;
+							height: 16px;
+							margin: 4px 3px 0px 1px;
+							background-image: url(fileSheet.png);
+							background-repeat: no-repeat;
 						}
-						#sfbrowser table tbody div.progress span {
-							position: absolute;
-							padding-left: 3px;
-							z-index: 101;
-							font-size: 10px!important;
-							line-height: 12px!important;
-							font-weight: bold;
-							color: white;
+						#sfbrowser td.icon span.filename {
+							display: inline-block;
+							overflow: hidden;
+						}
+						#sfbrowser td input {
+							border: 1px solid #64A5D3;
+							margin: 4px -22px 0px 0px;
+							padding: 0px;
+							line-height: 14px;
+							2width: 80%;
 						}
 
-	/* table drag select */
-	#sfbrowser table#sfbDragSelect {
-		border: 2px solid #9BE62B;
-	}
-		#sfbrowser table#sfbDragSelect, #sfbrowser table#sfbDragSelect * {
-			background-color: #D7FF99;
-			margin: 0;
-			text-align: left;
+				/* uploading */
+				#sfbrowser table tbody tr.uploading {
+					background-color: #D7FF99!important;
+					cursor: default;
+				}
+					#sfbrowser table tbody tr.uploading td {
+						border-bottom: 1px solid #9BE62B;
+					}
+						#sfbrowser table tbody div.progress {
+							position: relative;
+							width: 100%;
+							height: 13px;
+							margin-top: 7px;
+							background-color: #B8ED67;
+							padding: 0px;
+						}
+							#sfbrowser table tbody div.progress div {
+								position: absolute;
+								width: 1px;
+								height: 13px;
+								background-color: #35ADFD;
+							}
+							#sfbrowser table tbody div.progress span {
+								position: absolute;
+								padding-left: 3px;
+								z-index: 101;
+								font-size: 10px!important;
+								line-height: 12px!important;
+								font-weight: bold;
+								color: white;
+							}
+
+		/* table drag select */
+		#sfbrowser table#sfbDragSelect {
+			border: 2px solid #9BE62B;
 		}
+			#sfbrowser table#sfbDragSelect, #sfbrowser table#sfbDragSelect * {
+				background-color: #D7FF99;
+				margin: 0;
+				text-align: left;
+			}
 
 /* preview */
 #sfbrowser div#fbpreview {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>jquery filebrowser</title>
+		<title>SFBrowser</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<link rel="stylesheet" type="text/css" media="screen" href="style/screen.css" />
 
@@ -15,11 +15,12 @@
 		<script type="text/javascript" src="scripts/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="scripts/jquery-1.6b1.js"></script>
 		-->
-		<script type="text/javascript" src="scripts/jquery-1.4.4.min.js"></script>
-		
+		<script type="text/javascript" src="scripts/jquery-1.7b2.js"></script>
+
 
 		<?php include("sfbrowser/connectors/php/init.php"); ?>
 		<script type="text/javascript">
+
 			function addFiles(aFiles) {
 				if ($('#addfiles>ul').length==0) $('#addfiles').html('<ul/>');
 				for (var i=0;i<aFiles.length;i++) $("#addfiles>ul").append("<li><a onclick=\"$.sfb({select:addFiles,plugins:[],file:'"+aFiles[i].file+"'});\">"+aFiles[i].file+"</a> is "+aFiles[i].size+" <a onclick=\"$(this).parent().remove()\">[x]</a></li>");
@@ -40,6 +41,8 @@
 					mMenu.append("<li><a href=\"#"+$(this).text()+"\">"+$(this).text()+"</a></li>");
 					$(this).attr("id",$(this).text());
 				});
+
+				$.sfb({select:addFiles,plugins:['createascii'],swfupload:true,preview:false,bgcolor:'#CEE9F4',bgalpha:.8}); // todo: rem
 			});
 			//$(window).load(function() {
 			//	$.fn.sfbrowser({x:20,y:20,w:700});
@@ -56,7 +59,9 @@
 					t.parentNode.insertBefore(s, t);
 				})();
 			/* ]]> */
+
 		</script>
+		<script src="http://www.sjeiti.com/ga.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<div id="header">
@@ -97,7 +102,7 @@
 			</ul>
 
 			<h3>caution</h3>
-			<p>The initial intentions for this jQuery plugin were for use in a CMS, and those are normally password protected. SFBrowser does try do do things as secure as possible: incoming data is always checked on validity and paths are always compared to the base path set in the server side config file. However: if you intend to use this plugin in an unprotected part of your site you'd do good to doublecheck and test (hack) the server side scripts yourself. You are using this plugin at your own risk.<br/>
+			<p>The initial intentions for this filebrowser were for use in a CMS, and those are normally password protected. SFBrowser does try do do things as secure as possible: incoming data is always checked on validity and paths are always compared to the base path set in the server side config file. However: if you intend to use this plugin in an unprotected part of your site you'd do good to doublecheck and test (hack) the server side scripts yourself. You are using this plugin at your own risk.<br/>
 			Should you find holes, leaks or anything else that can be improved <a href="http://code.google.com/p/sfbrowser/issues">report them here</a>.</p>
 
 
@@ -501,7 +506,7 @@ output: JSON {
 
 		</div>
 		<div id="footer"> 
-			<div>© 2008 - 2011 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
+			<div>ï¿½ 2008 - 2011 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
 		</div>
 	</body>
 </html>

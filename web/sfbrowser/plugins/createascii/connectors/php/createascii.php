@@ -11,10 +11,9 @@ class CreateAscii extends AbstractSFB {
 	
 	// CreateAscii
 	function __construct() {
-		//
 		parent::__construct();
 		//
-		if (isset($_POST["contents"])) $sContents = $_POST["contents"];//$aVldt["contents"];//$_POST["contents"];
+		if (isset($_POST["contents"])) $sContents = $_POST["contents"];
 		//
 		switch ($this->sAction) {
 			case "new":
@@ -41,12 +40,14 @@ class CreateAscii extends AbstractSFB {
 			break;
 			case "cont":
 				$oHnd = fopen($this->sSFile, "r");
-				$sCnt = preg_replace(array("/\n/","/\r/","/\t/"),array("\\n","\\r","\\t"),addslashes(fread($oHnd, max(1,filesize($this->sSFile)) )));
+				$sCnt = //preg_replace(array("/\n/","/\r/","/\t/"),array("\\n","\\r","\\t"),addslashes(fread($oHnd, max(1,filesize($this->sSFile)) )));
+				$sCnt = addslashes(fread($oHnd, max(1,filesize($this->sSFile)) ));
 				fclose($oHnd);
 				$this->aReturn['data']['text'] = $sCnt;
 				$this->aReturn['msg'] .= "contentsSucces";
 			break;
 		}
+		$this->aReturn['fileInfo'] = $this->fileInfo($this->sSFile);
 		$this->returnJSON($this->aReturn);
 	}
 }

@@ -71,3 +71,43 @@ sERR:
 		POST: [a:bar,folder:../../uploads/image/,file:463226253TUKCrS_fs-2.jpg,w:595,h:403,cx:182,cy:37,cw:391,ch:265,]
 		GET:  []
 		FILE: []
+19-4-2011 11:11		ip:127.0.0.1		a:bar(../../../../../data/ImageFolder/Lorenz_groen_thumb_copy0.jpg)		error:
+		POST: [a:bar,folder:../data/ImageFolder/,file:Lorenz_groen_thumb_copy0.jpg,w:160,h:100,cx:0,cy:0,cw:120,ch:100,]
+		GET:  []
+		FILE: []
+19-4-2011 11:11		ip:127.0.0.1		a:bar(../../../../../data/ImageFolder/Lorenz_groen_thumb_copy0.jpg)		error:
+		POST: [a:bar,folder:../data/ImageFolder/,file:Lorenz_groen_thumb_copy0.jpg,w:120,h:100,cx:0,cy:0,cw:24,ch:23,]
+		GET:  []
+		FILE: []
+19-4-2011 11:12		ip:127.0.0.1		a:bar(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:
+		POST: [a:bar,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:318,h:199,cx:0,cy:0,cw:18,ch:11,]
+		GET:  []
+		FILE: []
+19-4-2011 11:17		ip:127.0.0.1		a:bar(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:
+		POST: [a:bar,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:318,h:199,cx:100,cy:0,cw:218,ch:199,]
+		GET:  []
+		FILE: []
+19-4-2011 11:22		ip:127.0.0.1		a:bar(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:action does not exist
+		POST: [a:bar,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:218,h:199,cx:0,cy:0,cw:207,ch:189,]
+		GET:  []
+		FILE: []
+19-4-2011 11:22		ip:127.0.0.1		a:resizeImage(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:
+		POST: [a:resizeImage,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:218,h:199,cx:0,cy:0,cw:211,ch:193,]
+		GET:  []
+		FILE: []
+19-4-2011 11:30		ip:127.0.0.1		a:resizeImage(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:
+		POST: [a:resizeImage,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:211,h:193,cx:0,cy:0,cw:196,ch:179,]
+		GET:  []
+		FILE: []
+19-4-2011 11:35		ip:127.0.0.1		a:resizeImage(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:
+		POST: [a:resizeImage,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:129,h:81,cx:0,cy:0,cw:129,ch:81,]
+		GET:  []
+		FILE: []
+19-4-2011 11:36		ip:127.0.0.1		a:resizeImage(../../../../../data/ImageFolder/Lorenz_groen_copy0.jpg)		error:
+		POST: [a:resizeImage,folder:../data/ImageFolder/,file:Lorenz_groen_copy0.jpg,w:129,h:81,cx:0,cy:0,cw:2,ch:1,]
+		GET:  []
+		FILE: []
+19-4-2011 11:37		ip:127.0.0.1		a:resizeImage(../../../../../data/ImageFolder/atomen_copy0.jpg)		error:
+		POST: [a:resizeImage,folder:../data/ImageFolder/,file:atomen_copy0.jpg,w:254,h:359,cx:25,cy:19,cw:50,ch:124,]
+		GET:  []
+		FILE: []

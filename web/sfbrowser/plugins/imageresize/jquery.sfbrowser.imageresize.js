@@ -57,6 +57,7 @@
 			oTree = p.oTree;
 			oSettings = p.oSettings;
 			addContextItem = p.addContextItem;
+			upDateEntry = p.upDateEntry;
 			file = p.file;
 			lang = p.lang;
 			gettext = p.gettext;
@@ -269,21 +270,18 @@
 			trace("sfb Will not resize to same size.");
 		} else {
 			trace("sfb Sending resize request...");
-			$.ajax({type:"POST", url:sConnector, data:"a=bar&folder="+aPath.join("")+"&file="+oFile.file+"&w="+iW+"&h="+iH+"&cx="+iCX+"&cy="+iCY+"&cw="+iCW+"&ch="+iCH, dataType:"json", success:function(data, status){
+			$.ajax({type:"POST", url:sConnector, data:"a=resizeImage&folder="+aPath.join("")+"&file="+oFile.file+"&w="+iW+"&h="+iH+"&cx="+iCX+"&cy="+iCY+"&cw="+iCW+"&ch="+iCH, dataType:"json", success:function(data, status){
 				if (typeof(data.error)!="undefined") {
 					if (data.error!="") {
 						trace(lang(data.error));
 						alert(lang(data.error));
 					} else {
-						oFile.width  = iCW;
-						oFile.height = iCH;
-//						for (var s in oFile) trace(s+": "+String(oFile[s]).split("\n")[0]);
-						oFile.tr.find("td:eq(4)").attr("abbr",iCW*iCH).text(iCW+" x "+iCH+" px");
+						upDateEntry(oFile.tr,data.fileInfo);
 						// preview
 						var mPrv = $("#fbpreview").clone(true);
 						$("#fbpreview").html("");
 						$("#fbpreview").html(mPrv.children())
-						//
+						// done
 						$("#sfbimgresize").hide();
 						$("#winbrowser").show();
 						resizeWindow();

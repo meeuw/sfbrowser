@@ -48,6 +48,7 @@
 			gettext = p.gettext;
 			onError = p.onError;
 			addContextItem = p.addContextItem;
+			upDateEntry = p.upDateEntry;
 			aPath = p.aPath;
 			oTree = p.oTree;
 			oSettings = p.oSettings;
@@ -104,7 +105,7 @@
 	});
 	$.extend($.sfbrowser.createascii, {
 		resizeWindow: function(iWdt,iHgt) {
-			mCnt.width(iWdt-30).height(iHgt-mCnt.position().top-45);
+			mCnt.width(iWdt-50).height(iHgt-mCnt.position().top-65);
 		}
 		,checkContextItem: function(oFile) {
 			mContextItem.css({display:oSettings.ascii.indexOf(oFile.mime)>=0?"block":"none"});
@@ -125,7 +126,7 @@
 			$.ajax({type:"POST", url:sConnector, data:"a=cont&folder="+aPath.join("")+"&file="+oFile.file, dataType:"json", success:function(data, status){//, error:onError
 				if (typeof(data.error)!="undefined") {
 					if (data.error!="") alert(lang(data.error));
-					else				mCnt.text(data.data.text);
+					else				mCnt.text( data.data.text.replace(/(\\r\\n|\\r|\\n)/gi,"\n") );
 				}
 			}});
 		}
@@ -133,29 +134,16 @@
 		//
 		var oShow = {display:bNewOrEdit?"inline":"none"}
 		$("[for=filename],[for=fileext],[name=filename],[name=fileext]").css(oShow);
-		//mNme.css(oShow);
-		//mExt.css(oShow);
 		//
 		$("#winbrowser").hide();
 		mAsc.show();
 		resizeWindow();
-//		resizeBrowser();
-//		$("#resizer").mousedown().mouseup();
-//			$SFB.resizeBrowser();
-//			$SFB.resizeWindow();
-//		gettext('editascii')
-//		mAsc.show(0,$.sfbrowser.resizeWindow);
-//		mAsc.show(0,resizeWindow);
-//		$.sfbrowser.createascii.resizeWindow();
 	}
 	function closeCreateascii(e) {
 		mAsc.hide();
 		shortcutsDisabled(false);
 		$("#winbrowser").show();
 		resizeWindow();
-//		$("#resizer").mousedown().mouseup();
-//			$SFB.resizeBrowser();
-//			$SFB.resizeWindow();
 	}
 	function submitCreateascii(e) {
 		var sNme = mNme.val();
@@ -183,6 +171,7 @@
 						alert(lang(data.error));
 					} else {
 						if (data.data.file)	listAdd(data.data,1);
+						upDateEntry(oFile.tr,data.fileInfo);
 						closeCreateascii();
 					}
 				}

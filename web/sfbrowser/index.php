@@ -8,11 +8,9 @@
 
 		<!--script type="text/javascript" src="http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js"></script-->
 
-		<script type="text/javascript" src="scripts/jquery-1.5.2.min.js.js"></script>
-		<?php //include("sfbrowser/connectors/php/init.php"); ?>
+		<script type="text/javascript" src="scripts/jquery-1.7b2.js"></script>
 		<?php include("connectors/php/init.php"); ?>
 		<script type="text/javascript">
-			<!--
 			function addFiles(aFiles) {
 				if ($('#addfiles>ul').length==0) $('#addfiles').html('<ul/>');
 				for (var i=0;i<aFiles.length;i++) $("#addfiles>ul").append("<li><a onclick=\"$.sfb({select:addFiles,plugins:[],file:'"+aFiles[i].file+"'});\">"+aFiles[i].file+"</a> is "+aFiles[i].size+" <a onclick=\"$(this).parent().remove()\">[x]</a></li>");
@@ -37,7 +35,6 @@
 			//$(window).load(function() {
 			//	$.fn.sfbrowser({x:20,y:20,w:700});
 			//});
-			-->
 		</script>
 	</head>
 	<body>
@@ -195,7 +192,7 @@
 			
 			<h3>keyboard shortcuts</h3>
 			<p>SFBrowser also comes with a number of keyboard shortcuts to make your life easier:</p>
-			<table id="returnobjects" cellpadding="0" cellspacing="0">
+			<table cellpadding="0" cellspacing="0">
 				<thead><tr><th>shortcut</th><th>action</th></tr></thead>
 				<tbody>
 					<tr><td>Escape or CTRL-q</td>		<td>closes SFBrowser</td></tr>
@@ -219,7 +216,7 @@
 			<h3>swf uploader</h3>
 			<p>The <a onclick="$.sfb({select:addFiles,plugins:[]});">swf uploader</a> allows multiple simultanious uploads but does require the <a href="http://get.adobe.com/shockwave/" target="_blank">Adobe Shockwave plugin</a>.</p>
 			<pre class="example">$.sfb({select:addFiles,plugins:[],swfupload:true});</pre> 
-			<div id="addfiles"></div>
+			<div class="addfiles"></div>
 			
 			<h3>allowing only images</h3>
 			<p>The <span class="property">allow</span> property is set to accept only images. The selected images are added to a div. Note also the title of the SFBrowser is now changed to: <a onclick="$.sfb({folder:'ImageFolder/',title:'Add some images',allow:['jpeg','png','gif','jpg'],resize:[640,480],select:addImages});">Add some images</a>.</p>
@@ -459,7 +456,7 @@ output: JSON {
 
 		</div>
 		<div id="footer"> 
-			<div>© 2008 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
+			<div>ï¿½ 2008 <a href="http://www.sjeiti.com/">Ron Valstar</a></div>
 		</div>
 	</body>
 </html>

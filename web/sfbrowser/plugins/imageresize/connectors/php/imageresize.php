@@ -5,18 +5,15 @@ class ImageResize extends AbstractSFB {
 	
 	protected $sConnBse = "../../../../";
 	protected $aValidate = array(
-		 "bar"=>	array(0,9,0)
+		 "resizeImage"=>	array(0,9,0)
 	);
 	
 	// ImageResize
 	function __construct() {
-		//
 		parent::__construct();
 		//
-//		include($this->sConnBse."connectors/php/config.php");
-		//
 		switch ($this->sAction) {
-			case "bar": // image resize
+			case "resizeImage": // image resize
 				$iScW = intval($_POST["w"]);
 				$iScH = intval($_POST["h"]);
 				$iCrX = intval($_POST["cx"]);
@@ -34,6 +31,9 @@ class ImageResize extends AbstractSFB {
 				imagecopyresampled($oImgN,$oImg, 0,0, $iFrX,$iFrY, $iCrW,$iCrH, $iFrW,$iFrH );
 				if (imagejpeg($oImgN, $this->sSFile)) $this->aReturn['msg'] .= "imgResized";
 				else							$this->aReturn['error'] .= "imgNotresized";
+
+				$this->aReturn['fileInfo'] = $this->fileInfo($this->sSFile);
+
 				$this->returnJSON($this->aReturn);
 			break;
 		}

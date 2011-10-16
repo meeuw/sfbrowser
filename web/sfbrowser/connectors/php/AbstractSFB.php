@@ -24,7 +24,7 @@ abstract class AbstractSFB {
 	//////////////////////////////////////////////////////
 
 	private function validateInput($aGPF) {
-		$sErr = "";
+		$sErr = "";//todo: check inheritance
 		$sAction = "";
 		// check input
 		if (isset($_POST["a"])||isset($_GET["a"])) {
@@ -79,6 +79,7 @@ abstract class AbstractSFB {
 			$sLog .= "ip:".$_SERVER["REMOTE_ADDR"]."\t\t";
 			$sLog .= "a:".$sAction."(".$sSFile.")\t\t";
 			$sLog .= "error:".$sErr;
+//			$sLog .= "msg:".$sMsg;
 			$sLog .= "\n\t\t".$sP."\n\t\t".$sG."\n\t\t".$sF;
 			trace($sLog);
 		}
@@ -250,6 +251,7 @@ abstract class AbstractSFB {
 
 	// getBody
 	public function getBody($path) {
+		$sCnt = '';
 		$oHtBrowser = fopen($path,"r");
 		$sBrowser = fread($oHtBrowser,filesize($path));
 		fclose($oHtBrowser);
